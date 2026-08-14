@@ -1,0 +1,56 @@
+# --- Secrets (never commit these) ---
+credentials.env
+backend/credentials.env
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- Frontend (React/Vite) ---
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.pnp/
+frontend/.pnp.js
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/coverage/
+
+# --- Backend (Python/FastAPI) ---
+backend/__pycache__/
+**/__pycache__/
+backend/.venv/
+backend/venv/
+backend/env/
+*.pyc
+*.pyo
+*.log
+
+# --- Datasets and trained model artifacts ---
+# These are large binary/data files that don't belong in git history.
+# Document how to fetch/regenerate them in backend/ml/data_prep/README.md
+# and backend/README.md instead.
+backend/data/*.csv
+backend/data/*.txt
+!backend/data/.gitkeep
+backend/models_state/*.joblib
+backend/models_state/*.pt
+backend/models_state/*.pkl
+!backend/models_state/.gitkeep
+
+# --- IDE / editor ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
+
+# --- Node (root-level, if applicable) ---
+node_modules/
+.vite/
+backend/**/nltk_data/

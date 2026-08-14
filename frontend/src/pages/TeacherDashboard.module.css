@@ -1,0 +1,98 @@
+/* Color Variables based on your theme */
+:root {
+    --page-bg: #E8E8E8;
+    --page-text: #030303;
+    --box-bg: #030303;
+    --box-text: #E8E8E8;
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --border-subtle: rgba(232, 232, 232, 0.2);
+}
+
+.teacherDashboardPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: var(--page-text);
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    padding: 20px;
+    box-sizing: border-sizing;
+}
+
+.teacherDashboardBox {
+    background-color: var(--box-bg);
+    color: var(--box-text);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: center;
+    max-width: 900px; /* Wider box for overall dashboard content */
+    width: 100%;
+    border: 1px solid var(--border-subtle);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.headerTitle {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-family: "Red Hat Display", sans-serif; /* Apply Red Hat Display */
+}
+
+.pageSubtitle {
+    font-size: 1.1em;
+    color: var(--box-text);
+    margin-bottom: 40px; /* Space below subtitle before form */
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+}
+
+.registrationSection {
+    width: 100%; /* Allow registration form to take full width */
+    margin-bottom: 40px; /* Space below the form before back button */
+}
+
+.backButton {
+    background: none;
+    border: none;
+    color: var(--accent-cyan);
+    font-size: 0.9em;
+    margin-top: 15px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+    align-self: center; /* Center the button */
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+}
+
+.backButton:hover {
+    color: var(--accent-orange);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .teacherDashboardBox {
+        padding: 30px 20px;
+    }
+
+    .headerTitle {
+        font-size: 2.2em;
+    }
+
+    .pageSubtitle {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .headerTitle {
+        font-size: 1.8em;
+    }
+}

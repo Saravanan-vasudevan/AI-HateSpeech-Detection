@@ -1,0 +1,339 @@
+/* frontend/src/pages/TeacherLeaderboard.module.css */
+
+/* Color Variables (Identical to Dashboard Styling) */
+:root {
+    --page-bg: #E8E8E8;
+    --page-text: #030303;
+    --box-bg: #030303;
+    --box-text: #E8E8E8;
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --accent-lime: #c2e812;
+    --border-subtle: rgba(232, 232, 232, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --divider-line: rgba(232, 232, 232, 0.1);
+    --button-text-on-accent: #030303;
+    --table-header-bg: rgba(252, 131, 55, 0.2);
+    --table-row-hover-bg: rgba(252, 131, 55, 0.1);
+    --error-color: #FF6347;
+}
+
+/* Base styles for the page container (reused from dashboard) */
+.dashboardPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: var(--page-text);
+    font-family: "Red Hat Text", sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.dashboardBox { /* Reusing dashboardBox style */
+    background-color: var(--box-bg);
+    color: var(--box-text);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+    border: 1px solid var(--border-subtle);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.dashboardTopBar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--divider-line);
+}
+
+.studentInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--box-text);
+    font-size: 0.9em;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.identityIcon {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    line-height: 1;
+}
+
+.studentText {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.studentName {
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 2px;
+}
+
+.studentNumber {
+    font-size: 0.85em;
+    opacity: 0.7;
+}
+
+.backButton {
+    background: none;
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+    line-height: 1.2;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.backButton:hover {
+    background-color: var(--accent-cyan);
+    color: var(--button-text-on-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.backButton:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.dashboardTitle {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-family: "Red Hat Display", sans-serif;
+}
+
+.dashboardSubtitle {
+    font-size: 1.1em;
+    color: var(--box-text);
+    margin-bottom: 40px;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+/* Specific styles for the leaderboard table */
+.leaderboardContent { /* Changed from studentListContent */
+    width: 100%;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.leaderboardTableContainer { /* Changed from studentTableContainer */
+    background-color: rgba(232, 232, 232, 0.05);
+    border-radius: 8px;
+    padding: 20px;
+    overflow-x: auto;
+    border: 1px solid var(--border-subtle);
+    margin-bottom: 30px;
+}
+
+.leaderboardTable { /* Changed from studentTable */
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.leaderboardTable th,
+.leaderboardTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--divider-line);
+    color: var(--box-text);
+}
+
+.leaderboardTable th {
+    background-color: var(--table-header-bg);
+    color: var(--accent-orange);
+    font-weight: 600;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.leaderboardTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.leaderboardTable tbody tr:hover {
+    background-color: var(--table-row-hover-bg);
+}
+
+/* Empty State Container (reused emptyContainer style) */
+.emptyContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    text-align: center;
+    background-color: rgba(232, 232, 232, 0.05);
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.emptyIcon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    opacity: 0.8;
+    color: var(--accent-cyan);
+}
+
+.emptyTitle {
+    font-size: 2em;
+    color: var(--accent-orange);
+    margin: 0 0 15px 0;
+    font-weight: 600;
+    font-family: "Red Hat Display", sans-serif;
+}
+
+.emptyMessage {
+    font-size: 1.1em;
+    color: var(--box-text);
+    opacity: 0.8;
+    line-height: 1.6;
+    margin: 0;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.emptyMessage br {
+    margin-bottom: 8px;
+}
+
+
+/* Loading state styles (reused from HateSpeechIdentifier) */
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: var(--box-text);
+    font-size: 1.2em;
+    gap: 15px;
+}
+
+.spinner {
+    border: 4px solid rgba(232, 232, 232, 0.3);
+    border-top-color: transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); border-top-color: var(--accent-orange); }
+    20% { border-top-color: var(--accent-cyan); }
+    40% { border-top-color: var(--accent-lime); }
+    60% { border-top-color: var(--box-text); }
+    80% { border-top-color: var(--page-text); }
+    100% { transform: rotate(360deg); border-top-color: var(--accent-orange); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboardBox {
+        padding: 30px 20px;
+    }
+
+    .dashboardTopBar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+    }
+
+    .studentInfo {
+        width: 100%;
+        gap: 8px;
+    }
+
+    .identityIcon {
+        font-size: 2.4em;
+    }
+
+    .backButton {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .dashboardTitle {
+        font-size: 2.2em;
+    }
+
+    .emptyContainer {
+        padding: 40px 25px;
+    }
+
+    .emptyIcon {
+        font-size: 3.5em;
+    }
+
+    .emptyTitle {
+        font-size: 1.6em;
+    }
+
+    .emptyMessage {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboardTitle {
+        font-size: 1.8em;
+    }
+
+    .dashboardSubtitle {
+        font-size: 1em;
+    }
+
+    .backButton {
+        font-size: 0.9em;
+        padding: 10px 18px;
+    }
+
+    .emptyContainer {
+        padding: 30px 20px;
+    }
+
+    .emptyIcon {
+        font-size: 3em;
+    }
+
+    .emptyTitle {
+        font-size: 1.4em;
+    }
+
+    .emptyMessage {
+        font-size: 0.95em;
+    }
+}

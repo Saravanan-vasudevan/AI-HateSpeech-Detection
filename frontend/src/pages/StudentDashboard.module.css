@@ -1,0 +1,366 @@
+/* Color Variables based on your theme */
+:root {
+    /* Main Page Colors (Light Theme Default) */
+    --page-bg: #E8E8E8; /* The very light grey for the overall page background */
+    --page-text: #030303; /* The very dark grey for text directly on the page background */
+
+    /* Dashboard Box Colors (Dark Card on Light Page) */
+    --box-bg: #030303; /* The very dark grey for the dashboard box background */
+    --box-text: #e8e8e8; /* The very light grey for text inside the dashboard box */
+
+    /* Accent Colors */
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --accent-lime: #c1e812;
+
+    /* Derived/Subtle Colors (using palette colors for consistency) */
+    --border-subtle: rgba(232, 232, 232, 0.2); /* E8E8E8 with transparency for borders on dark elements */
+    --shadow-color: rgba(0, 0, 0, 0.4); /* Dark shadow for depth, using 030303 base with transparency */
+    --divider-line: rgba(232, 232, 232, 0.1); /* Light divider line on dark box */
+    --button-text-on-accent: #030303; /* Dark text for labels on accent colored buttons */
+
+    --table-header-bg: rgba(252, 131, 55, 0.2); /* Light transparent orange */
+    --table-row-hover-bg: rgba(252, 131, 55, 0.1); /* Even lighter transparent orange */
+}
+
+/* Base styles for the page container */
+.dashboardPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for better mobile fit */
+    color: var(--page-text); /* Default text color for elements outside the box */
+    font-family: "Tilt Neon", sans-serif; /* Apply Tilt Neon to dashboard page container */
+    padding: 20px; /* Add some padding to the page container */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+/* Style for the main dashboard box/card */
+.dashboardBox {
+    background-color: var(--box-bg); /* Use the dark box background color */
+    color: var(--box-text); /* Default text color for elements inside the box */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: center;
+    max-width: 900px; /* Wider for dashboard content */
+    width: 100%; /* Allow it to fill up to max-width */
+    border: 1px solid var(--border-subtle); /* Subtle border for the dark box */
+    box-sizing: border-box;
+    display: flex; /* Make dashboardBox a flex container */
+    flex-direction: column; /* Stack its children vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+/* Top Bar for Student Info and Total Points */
+.dashboardTopBar {
+    width: 100%; /* Take full width of dashboardBox */
+    display: flex;
+    justify-content: space-between; /* Push items to ends */
+    align-items: center; /* Vertically center items */
+    margin-bottom: 30px; /* Space below the top bar */
+    padding-bottom: 15px; /* Add some internal padding at the bottom */
+    border-bottom: 1px solid var(--divider-line); /* Subtle separator line */
+}
+
+.studentInfo {
+    display: flex; /* Use flexbox for studentInfo to align icon and text */
+    align-items: center; /* Vertically center icon with text block */
+    gap: 10px; /* Space between icon and text */
+    cursor: pointer;
+    color: var(--box-text);
+    font-size: 0.9em;
+    transition: color 0.2s ease;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.studentInfo:hover {
+    color: var(--accent-cyan);
+}
+
+/* Style for the Identity Icon */
+.identityIcon {
+    font-size: 2.8em; /* Adjust size to match combined height of name/number */
+    color: var(--accent-orange); /* Use an accent color for the icon */
+    line-height: 1; /* Helps with precise vertical alignment */
+}
+
+.studentText { /* New container for name and number */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.studentName {
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 2px;
+}
+
+.studentNumber {
+    font-size: 0.85em;
+    opacity: 0.7;
+}
+
+.totalPoints {
+    color: var(--box-text);
+    font-size: 1.1em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.pointsValue {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--accent-lime);
+}
+
+.dashboardTitle {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-family: "Audiowide", sans-serif;
+}
+
+.dashboardSubtitle {
+    font-size: 1.1em;
+    color: var(--box-text);
+    margin-bottom: 40px;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.dashboardActions {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.actionButton {
+    /* Specific styles for action buttons - combined with shared animatedButton class */
+    padding: 25px 35px;
+    font-size: 1.4em;
+    flex: 1;
+    max-width: 380px;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-family: "Tilt Neon", sans-serif;
+}
+
+/* Specific styling for the small span under action buttons */
+.actionButton span {
+    display: block;
+    font-size: 0.7em; /* Ensure this is explicitly set to be smaller */
+    font-weight: 400;
+    margin-top: 8px;
+    color: var(--box-text); /* Initial color of the smaller text */
+    opacity: 0.8;
+    transition: color 0.3s ease, opacity 0.3s ease;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+/* historySection, historyHeader, historyTitle, viewFullHistoryButton, historyTable, historyNote */
+.historySection {
+    margin-top: 50px;
+    width: 100%;
+    text-align: left;
+}
+
+.historyHeader { 
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline; /* Changed from center to baseline for better text alignment */
+    margin-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.historyTitle {
+    font-size: 1.8em;
+    color: var(--accent-orange);
+    margin-bottom: 0;
+    margin-top: 0;
+    font-weight: 600;
+    line-height: 1.2;
+    font-family: "Audiowide", sans-serif;
+}
+
+.viewFullHistoryButton {
+    background: none;
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+    line-height: 1.2;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.viewFullHistoryButton:hover {
+    background-color: var(--accent-cyan);
+    color: var(--button-text-on-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.viewFullHistoryButton:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.historyTableContainer {
+    background-color: rgba(232, 232, 232, 0.05);
+    border-radius: 8px;
+    padding: 20px;
+    overflow-x: auto;
+    border: 1px solid var(--border-subtle);
+}
+
+.historyTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    min-width: 500px;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.historyTable th,
+.historyTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--divider-line);
+    color: var(--box-text);
+}
+
+.historyTable th {
+    background-color: var(--table-header-bg);
+    color: var(--accent-orange);
+    font-weight: 600;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.historyTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.historyTable tbody tr:hover {
+    background-color: var(--table-row-hover-bg);
+}
+
+.historyNote {
+    font-size: 0.85em;
+    color: rgba(232, 232, 232, 0.7);
+    margin-top: 15px;
+    text-align: center;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+/* Responsive adjustments for screens up to 768px (for dashboard layout) */
+@media (max-width: 768px) {
+    .dashboardBox {
+        padding: 30px 20px;
+    }
+
+    .dashboardTopBar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+    }
+
+    .studentInfo {
+        width: 100%;
+        gap: 8px; /* Slightly less gap on mobile */
+    }
+
+    .identityIcon {
+        font-size: 2.4em; /* Slightly smaller icon on mobile */
+    }
+
+    .studentText {
+        /* No specific changes needed here for mobile, flex-direction column on parent handles it */
+    }
+
+    .totalPoints {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .dashboardTitle {
+        font-size: 2.2em;
+    }
+
+    .dashboardActions {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .actionButton {
+        width: 100%;
+        max-width: none;
+        padding: 20px 25px;
+        font-size: 1.2em;
+    }
+
+    .historyTableContainer {
+        padding: 15px;
+    }
+
+    .historyTable th,
+    .historyTable td {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .historyHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .historyTitle {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboardTitle {
+        font-size: 1.8em;
+    }
+
+    .dashboardSubtitle {
+        font-size: 1em;
+    }
+    
+    .actionButton {
+        font-size: 1.1em;
+    }
+
+    .actionButton span {
+        font-size: 0.65em;
+    }
+}

@@ -1,0 +1,323 @@
+/* Color Variables for Teacher Login (Identical to Dashboard Styling) */
+:root {
+    /* Main Page Colors (Light Theme Default) */
+    --page-bg: #E8E8E8; /* The very light grey for the overall page background */
+    --page-text: #030303; /* The very dark grey for text directly on the page background */
+
+    /* Dashboard Box Colors (Dark Card on Light Page) */
+    --box-bg: #030303; /* The very dark grey for the dashboard box background */
+    --box-text: #e8e8e8; /* The very light grey for text inside the dashboard box */
+
+    /* Accent Colors */
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --accent-lime: #c1e812;
+
+    /* Derived/Subtle Colors (using palette colors for consistency) */
+    --border-subtle: rgba(232, 232, 232, 0.2); /* E8E8E8 with transparency for borders on dark elements */
+    --shadow-color: rgba(0, 0, 0, 0.4); /* Dark shadow for depth, using 030303 base with transparency */
+    --divider-line: rgba(232, 232, 232, 0.1); /* Light divider line on dark box */
+    --button-text-on-accent: #030303; /* Dark text for labels on accent colored buttons */
+
+    /* Form specific colors */
+    --input-bg: rgba(232, 232, 232, 0.1);
+    --input-border: rgba(232, 232, 232, 0.3);
+    --input-focus-border: var(--accent-cyan);
+    --input-text: var(--box-text);
+}
+
+/* Base styles for the login page container */
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for better mobile fit */
+    background-color: var(--page-bg);
+    color: var(--page-text); /* Default text color for elements outside the box */
+    font-family: "Tilt Neon", sans-serif; /* Apply Tilt Neon to login page container */
+    padding: 20px; /* Add some padding to the page container */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Floating background bubbles */
+.loginContainer::before,
+.loginContainer::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Large lime bubble - top left */
+.loginContainer::before {
+    width: 200px;
+    height: 200px;
+    background-color: var(--accent-lime);
+    opacity: 0.6;
+    top: -50px;
+    left: -50px;
+}
+
+/* Medium cyan bubble - top right */
+.loginContainer::after {
+    width: 120px;
+    height: 120px;
+    background-color: var(--accent-cyan);
+    opacity: 0.5;
+    top: 150px;
+    right: -30px;
+}
+
+/* Additional bubbles using pseudo elements */
+.loginContainer {
+    background-image: 
+        radial-gradient(circle at 80% 20%, var(--accent-orange) 80px, transparent 81px),
+        radial-gradient(circle at 15% 70%, var(--accent-cyan) 60px, transparent 61px),
+        radial-gradient(circle at 90% 80%, var(--accent-lime) 100px, transparent 101px),
+        radial-gradient(circle at 25% 30%, var(--accent-orange) 40px, transparent 41px),
+        radial-gradient(circle at 70% 90%, var(--accent-cyan) 70px, transparent 71px);
+    background-repeat: no-repeat;
+}
+
+/* Style for the main login box/card */
+.loginBox {
+    background-color: var(--box-bg); /* Use the dark box background color */
+    color: var(--box-text); /* Default text color for elements inside the box */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: center;
+    max-width: 500px; /* Narrower for login form */
+    width: 100%; /* Allow it to fill up to max-width */
+    border: 1px solid var(--border-subtle); /* Subtle border for the dark box */
+    box-sizing: border-box;
+    display: flex; /* Make loginBox a flex container */
+    flex-direction: column; /* Stack its children vertically */
+    align-items: center; /* Center content horizontally */
+    position: relative;
+    z-index: 1; /* Ensure the dark box appears above the background bubbles */
+}
+
+/* Login title styling */
+.loginTitle {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-family: "Audiowide", sans-serif;
+}
+
+/* Login form container */
+.loginForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Form group styling */
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.formLabel {
+    font-size: 1em;
+    color: var(--box-text);
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.formInput {
+    width: 100%;
+    padding: 15px 18px;
+    background-color: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    color: var(--input-text);
+    font-size: 1em;
+    font-family: "Tilt Neon", sans-serif;
+    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+    background-color: rgba(232, 232, 232, 0.15);
+    box-shadow: 0 0 0 3px rgba(31, 191, 207, 0.1);
+}
+
+.formInput::placeholder {
+    color: rgba(232, 232, 232, 0.5);
+    font-family: "Tilt Neon", sans-serif;
+}
+
+/* Login button styling - similar to action buttons */
+.loginButton {
+    padding: 18px 35px;
+    font-size: 1.2em;
+    background-color: var(--accent-cyan);
+    color: var(--button-text-on-accent);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    font-weight: 600;
+    font-family: "Tilt Neon", sans-serif;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.loginButton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    background-color: #17a3b3; /* Slightly darker cyan on hover */
+}
+
+.loginButton:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+/* Back button styling - similar to other back buttons */
+.backButton {
+    background: none;
+    border: 1px solid var(--accent-orange);
+    color: var(--accent-orange);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+    line-height: 1.2;
+    font-family: "Tilt Neon", sans-serif;
+    margin-top: 5px;
+}
+
+.backButton:hover {
+    background-color: var(--accent-orange);
+    color: var(--button-text-on-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.backButton:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Demo credentials styling */
+.demoCredentials {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgba(232, 232, 232, 0.03);
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    text-align: left;
+    font-size: 0.85em;
+    color: var(--box-text);
+    opacity: 0.8;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.demoCredentials p {
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.demoCredentials strong {
+    color: var(--accent-orange);
+    font-weight: 600;
+}
+
+.demoCredentials code {
+    background-color: rgba(232, 232, 232, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    color: var(--accent-cyan);
+    font-size: 0.9em;
+}
+
+/* Responsive adjustments for screens up to 768px */
+@media (max-width: 768px) {
+    .loginBox {
+        padding: 30px 25px;
+        max-width: 400px;
+    }
+
+    .loginTitle {
+        font-size: 2.2em;
+        margin-bottom: 25px;
+    }
+
+    .loginForm {
+        gap: 20px;
+    }
+
+    .formInput {
+        padding: 12px 15px;
+        font-size: 0.95em;
+    }
+
+    .loginButton {
+        padding: 15px 30px;
+        font-size: 1.1em;
+    }
+
+    .backButton {
+        padding: 10px 18px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .loginContainer {
+        padding: 15px;
+    }
+
+    .loginBox {
+        padding: 25px 20px;
+        max-width: none;
+    }
+
+    .loginTitle {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .loginForm {
+        gap: 18px;
+    }
+
+    .formLabel {
+        font-size: 0.95em;
+        margin-bottom: 6px;
+    }
+
+    .formInput {
+        padding: 12px 14px;
+        font-size: 0.9em;
+    }
+
+    .loginButton {
+        padding: 14px 25px;
+        font-size: 1em;
+    }
+
+    .backButton {
+        padding: 10px 16px;
+        font-size: 0.85em;
+    }
+}

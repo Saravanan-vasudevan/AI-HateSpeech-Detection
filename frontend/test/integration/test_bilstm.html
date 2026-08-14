@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiLSTM + GloVe Model Test Interface</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 1em; background-color: #f8f9fa; color: #333; }
+        .container { max-width: 800px; margin: auto; }
+        h1 { text-align: center; color: #343a40; }
+        textarea { width: 100%; box-sizing: border-box; padding: 12px; font-size: 1.1em; border: 1px solid #ced4da; border-radius: 6px; min-height: 120px; margin-bottom: 1em; }
+        button { font-size: 1.2em; font-weight: bold; padding: 12px 24px; cursor: pointer; border-radius: 6px; border: none; background-color: #007bff; color: white; display: block; margin: auto; transition: background-color 0.2s; }
+        button:hover { background-color: #0056b3; }
+        .result-card { background: #fff; padding: 1.5em; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-top: 5px solid #6c757d; margin-top: 2em; }
+        .result-card h3 { margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 0.5em; }
+        .result-card .probability { font-size: 1.8em; font-weight: bold; text-align: center; margin: 0.5em 0; }
+        .result-card .explanation { background-color: #f8f9fa; border-left: 3px solid #6c757d; padding: 1em; margin-top: 1em; font-size: 0.95em; white-space: pre-wrap; word-wrap: break-word; }
+        .is-hate { border-color: #dc3545; }
+        .is-hate .probability { color: #dc3545; }
+        .is-not-hate { border-color: #28a745; }
+        .is-not-hate .probability { color: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BiLSTM + GloVe Model Test</h1>
+        <textarea id="text-input" placeholder="Enter text to analyze here..."></textarea>
+        <button onclick="analyzeText()">Analyze Text with BiLSTM + GloVe</button>
+
+        <div class="results-grid" id="results-container">
+            <div id="bilstm_glove-card" class="result-card">
+                <h3>BiLSTM + GloVe Model</h3>
+                <div id="bilstm_glove-result">Awaiting input...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://127.0.0.1:8000';
+
+        // Helper function to render the result in the card
+        function displayResult(modelId, data) {
+            const card = document.getElementById(`${modelId}-card`);
+            const resultContainer = document.getElementById(`${modelId}-result`);
+            
+            // Check for a successful response
+            if (data.hate_speech_probability !== undefined) {
+                const probabilityPercent = (data.hate_speech_probability * 100).toFixed(1);
+
+                card.className = 'result-card'; // Reset class
+                card.classList.add(data.is_hate_speech ? 'is-hate' : 'is-not-hate');
+
+                resultContainer.innerHTML = `
+                    <div class="probability">${probabilityPercent}%</div>
+                    <p><strong>Is Hate Speech:</strong> ${data.is_hate_speech}</p>
+                    <div class="explanation"><strong>Explanation:</strong><br>${data.explanation}</div>
+                `;
+            } else { // Handle an error
+                card.className = 'result-card is-hate'; // Show error state
+                resultContainer.innerHTML = `<p><strong>Error:</strong><br>${data.error || 'An unknown error occurred.'}</p>`;
+            }
+        }
+
+        async function analyzeText() {
+            const inputText = document.getElementById('text-input').value;
+            if (!inputText.trim()) {
+                alert('Please enter some text to analyze.');
+                return;
+            }
+
+            // Show loading state for the BiLSTM + GloVe card
+            const bilstmCard = document.getElementById('bilstm_glove-card');
+            bilstmCard.className = 'result-card';
+            document.getElementById('bilstm_glove-result').innerHTML = 'Processing...';
+
+            const requestBody = { text: inputText };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/bilstm/predict`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.detail || `Request failed with status ${response.status}`);
+                }
+                
+                displayResult('bilstm_glove', data);
+
+            } catch (error) {
+                displayResult('bilstm_glove', { error: error.toString() });
+            }
+        }
+    </script>
+</body>
+</html>

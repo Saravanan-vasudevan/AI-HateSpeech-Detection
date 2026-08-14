@@ -1,0 +1,28 @@
+# Core Web Framework & Server
+fastapi==0.116.1
+httpx==0.28.1
+uvicorn==0.30.1
+
+# Models & Machine Learning
+joblib==1.5.1
+numpy==2.3.1
+scikit-learn==1.7.1
+torch==2.7.1
+transformers==4.53.2
+google-generativeai==0.8.5 # Essential for Gemini and Feedback models
+
+# Database & Authentication
+pymongo==4.13.2
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0 # Essential for JWT authentication
+
+# Utilities
+python-dotenv==1.1.1
+python-dateutil==2.9.0.post0
+python-multipart==0.0.9
+
+# Optional Text Processing Libraries
+emoji==2.14.1
+langdetect==1.0.9
+nltk==3.9.1
+python-iso639==2025.2.18
