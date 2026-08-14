@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utils Integration Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 1em; }
+        .container { max-width: 600px; margin: auto; }
+        fieldset { margin-bottom: 1em; border: 1px solid #ccc; padding: 1em; }
+        legend { font-weight: bold; }
+        input { width: calc(100% - 10px); margin-bottom: 10px; padding: 5px; }
+        button { padding: 8px 15px; cursor: pointer; }
+        #results { background-color: #f0f0f0; border: 1px solid #ddd; padding: 1em; white-space: pre-wrap; word-wrap: break-word; margin-top: 1em; }
+        #status { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IAM API Integration Test</h1>
+        <div id="status">Status: Not logged in</div>
+
+        <fieldset>
+            <legend>1. Register a New User</legend>
+            <input type="text" id="reg_username" placeholder="Username">
+            <input type="password" id="reg_password" placeholder="Password">
+            <input type="text" id="reg_firstname" placeholder="First Name">
+            <input type="text" id="reg_lastname" placeholder="Last Name">
+            <button onclick="registerUser()">Register</button>
+        </fieldset>
+
+        <fieldset>
+            <legend>2. Login to Get Token</legend>
+            <input type="text" id="login_username" placeholder="Username">
+            <input type="password" id="login_password" placeholder="Password">
+            <button onclick="loginUser()">Login (Get Token)</button>
+        </fieldset>
+
+        <fieldset>
+            <legend>3. Access Protected Endpoints</legend>
+            <button onclick="getMyInfo()">Get My Info (/users/me)</button>
+            <button onclick="getProtectedData()">Get Protected Data</button>
+        </fieldset>
+
+        <h3>API Response:</h3>
+        <pre id="results">Awaiting action...</pre>
+    </div>
+
+    <script>
+        // --- UPDATED ---
+        const API_BASE_URL = 'https://hate-backend-215652629527.europe-west2.run.app';
+        let accessToken = null;
+
+        // Helper to display results
+        function displayResults(data) {
+            document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+        }
+
+        // 1. Register User Function
+        async function registerUser() {
+            const username = document.getElementById('reg_username').value;
+            const password = document.getElementById('reg_password').value;
+            const firstName = document.getElementById('reg_firstname').value;
+            const lastName = document.getElementById('reg_lastname').value;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        first_name: firstName,
+                        last_name: lastName,
+                        admin: false
+                    })
+                });
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                displayResults({ error: error.message });
+            }
+        }
+
+        // 2. Login User Function
+        async function loginUser() {
+            const username = document.getElementById('login_username').value;
+            const password = document.getElementById('login_password').value;
+            
+            // NOTE: OAuth2PasswordRequestForm expects form data, not JSON.
+            const formData = new URLSearchParams();
+            formData.append('username', username);
+            formData.append('password', password);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    accessToken = data.access_token;
+                    document.getElementById('status').textContent = `Status: Logged in as '${username}'. Token received.`;
+                } else {
+                     accessToken = null;
+                     document.getElementById('status').textContent = `Status: Login failed.`;
+                }
+                displayResults(data);
+            } catch (error) {
+                displayResults({ error: error.message });
+            }
+        }
+
+        // 3. Get User Info Function
+        async function getMyInfo() {
+            if (!accessToken) {
+                alert('You must log in first to get a token!');
+                return;
+            }
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/me`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                displayResults({ error: error.message });
+            }
+        }
+
+        // 4. Get Protected Data
+        async function getProtectedData() {
+            if (!accessToken) {
+                alert('You must log in first to get a token!');
+                return;
+            }
+            try {
+                // Assuming there's a generic protected endpoint for testing
+                const response = await fetch(`${API_BASE_URL}/history/`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                displayResults({ error: error.message });
+            }
+        }
+
+    </script>
+</body>
+</html>

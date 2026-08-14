@@ -1,0 +1,283 @@
+/* Color Variables based on your theme */
+:root {
+    --page-bg: #E8E8E8;
+    --page-text: #030303;
+
+    --box-bg: #030303;
+    --box-text: #E8E8E8;
+
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --accent-lime: #c2e812;
+    --border-subtle: rgba(232, 232, 232, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --input-border-focus: var(--accent-cyan);
+    --message-success-color: var(--accent-lime);
+    --message-error-color: var(--accent-orange);
+}
+
+.registrationFormContainer {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(232, 232, 232, 0.05);
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.formTitle {
+    font-size: 1.8em;
+    color: var(--accent-orange);
+    margin-bottom: 25px;
+    font-family: "Red Hat Display", sans-serif; /* Apply Red Hat Display */
+    text-align: center;
+}
+
+.registrationForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup label {
+    font-size: 0.95em;
+    color: var(--box-text);
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+}
+
+.inputField {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    background-color: rgba(232, 232, 232, 0.05);
+    color: var(--box-text);
+    font-size: 1em;
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputField:focus {
+    border-color: var(--input-border-focus);
+    box-shadow: 0 0 0 3px rgba(31, 191, 207, 0.2);
+}
+
+.inputField:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: rgba(232, 232, 232, 0.02);
+}
+
+.checkboxGroup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.checkboxGroup input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--accent-cyan);
+    border-radius: 4px;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkboxGroup input[type="checkbox"]::before {
+    /* Drawn with a rotated border rather than a unicode glyph, so it scales
+       cleanly with the checkbox size instead of depending on font metrics. */
+    content: '';
+    width: 0.35em;
+    height: 0.65em;
+    border: solid var(--page-text);
+    border-width: 0 2px 2px 0;
+    transform: scale(0) rotate(45deg);
+    transition: transform 0.2s ease;
+}
+
+.checkboxGroup input[type="checkbox"]:checked {
+    background-color: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+}
+
+.checkboxGroup input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+.checkboxGroup label {
+    margin-bottom: 0;
+    font-size: 1em;
+    color: var(--box-text);
+    cursor: pointer;
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+}
+
+.submitButton {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    width: auto;
+    align-self: center;
+    margin-top: 20px;
+}
+
+.submitButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.message {
+    text-align: center;
+    font-size: 1em;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+}
+
+.message.success {
+    background-color: rgba(194, 232, 18, 0.15);
+    color: var(--message-success-color);
+    border: 1px solid var(--message-success-color);
+}
+
+.message.error {
+    background-color: rgba(252, 131, 55, 0.15);
+    color: var(--message-error-color);
+    border: 1px solid var(--message-error-color);
+}
+
+
+/* --- Admin Confirmation Modal Styles --- */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's on top of everything */
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent {
+    background-color: var(--box-bg); /* Dark background for modal content */
+    color: var(--box-text);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    border: 1px solid var(--border-subtle);
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Pop-in animation */
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.modalTitle {
+    font-size: 1.8em;
+    color: var(--accent-orange);
+    margin-bottom: 15px;
+    font-family: "Red Hat Display", sans-serif;
+}
+
+.modalText {
+    font-size: 1em;
+    color: rgba(232, 232, 232, 0.8);
+    margin-bottom: 20px;
+}
+
+.modalErrorMessage {
+    color: var(--message-error-color);
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modalConfirmButton {
+    /* Will inherit animatedButtonStyles.animatedButton */
+    padding: 10px 20px;
+    font-size: 1em;
+    background: linear-gradient(135deg, var(--accent-lime), rgba(194, 232, 18, 0.8)); /* Lime for confirm */
+    color: var(--page-text); /* Dark text */
+    border-radius: 8px;
+}
+
+.modalConfirmButton:hover {
+    box-shadow: 0 3px 10px rgba(194, 232, 18, 0.4);
+}
+
+.modalCancelButton {
+    background: none;
+    border: 1px solid var(--accent-orange); /* Orange for cancel button */
+    color: var(--accent-orange);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.modalCancelButton:hover {
+    background-color: var(--accent-orange);
+    color: var(--box-bg); /* Dark background on hover */
+}
+
+/* Animations for modal */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes scaleIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .modalContent {
+        padding: 20px;
+    }
+    .modalTitle {
+        font-size: 1.5em;
+    }
+    .modalText {
+        font-size: 0.9em;
+    }
+    .modalActions {
+        flex-direction: column;
+    }
+    .modalConfirmButton, .modalCancelButton {
+        width: 100%;
+    }
+}

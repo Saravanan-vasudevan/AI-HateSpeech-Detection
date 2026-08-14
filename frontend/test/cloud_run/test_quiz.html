@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz Test</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 1em; background-color: #f4f7f9; color: #333; }
+        .container { max-width: 700px; margin: auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        h1, h3 { text-align: center; }
+        button { font-size: 1.1em; padding: 12px 20px; cursor: pointer; border-radius: 5px; border: none; background-color: #007bff; color: white; display: block; margin: 1em auto; }
+        button:hover { background-color: #0056b3; }
+        #results { background-color: #282c34; color: #abb2bf; border-radius: 5px; padding: 1em; white-space: pre-wrap; word-wrap: break-word; margin-top: 1.5em; font-family: "Fira Code", "Courier New", monospace; }
+        .question-block { border-left: 4px solid #007bff; padding-left: 15px; margin-bottom: 20px; }
+        .question-block p { font-weight: 600; font-size: 1.2em; }
+        .question-block label { margin-right: 20px; display: block; padding: 8px; cursor: pointer; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 5px; }
+        .question-block label:hover { background-color: #f0f8ff; }
+        .question-block input { margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Test</h1>
+        <button id="start-quiz-btn" onclick="startQuiz()">Take the Quiz</button>
+        <div id="quiz-container" style="margin-top: 1.5em;"></div>
+    
+        <h3>API Response Log</h3>
+        <pre id="results">Click "Take the Quiz" to begin.</pre>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://hate-backend-215652629527.europe-west2.run.app'; // Updated URL
+        const DUMMY_USERNAME = 'peterpan';
+        const DUMMY_PASSWORD = 'PeterPan1234!';
+        let accessToken = null;
+
+        function displayResults(data) {
+            document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function getAuthToken() {
+            if (accessToken) return accessToken;
+            const formData = new URLSearchParams({ username: DUMMY_USERNAME, password: DUMMY_PASSWORD });
+            const response = await fetch(`${API_BASE_URL}/token`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error('Automatic login failed');
+            accessToken = data.access_token;
+            return accessToken;
+        }
+
+        async function startQuiz() {
+            try {
+                const token = await getAuthToken();
+                displayResults({ status: "Starting game..." });
+                const gameConfig = { username: DUMMY_USERNAME, hardness: 0, num_questions: 5 };
+                const response = await fetch(`${API_BASE_URL}/quiz/start`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify(gameConfig)
+                });
+                const firstQuestion = await response.json();
+                if (!response.ok) throw new Error(firstQuestion.detail);
+
+                document.getElementById('start-quiz-btn').style.display = 'none';
+                renderQuestion(firstQuestion);
+            } catch (error) {
+                displayResults({ error: error.toString() });
+            }
+        }
+
+        function renderQuestion(questionData) {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-block';
+            
+            const optionsHtml = questionData.options.map((option, index) => `
+                <label>
+                    <input type="radio" name="answer" value="${index}">
+                    ${option}
+                </label>
+            `).join('');
+
+            const buttonHtml = `<button onclick="submitAndGetNext()">Submit Answer</button>`;
+            questionDiv.innerHTML = `<p>${questionData.question_text}</p><div>${optionsHtml}</div>${buttonHtml}`;
+            container.appendChild(questionDiv);
+            displayResults(questionData);
+        }
+
+        async function submitAndGetNext() {
+            const selected = document.querySelector('input[name="answer"]:checked');
+            if (!selected) {
+                alert('Please select an answer.');
+                return;
+            }
+
+            try {
+                // 1. Submit the answer
+                const answerResponse = await fetch(`${API_BASE_URL}/quiz/submit_answer`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ selected_answer_index: parseInt(selected.value) })
+                });
+                const answerResult = await answerResponse.json();
+                displayResults(answerResult); // Show if the answer was correct
+
+                // 2. Check if there are more questions
+                const hasNextResponse = await fetch(`${API_BASE_URL}/quiz/has_question`, {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const hasNextResult = await hasNextResponse.json();
+
+                if (hasNextResult.has_more_questions) {
+                    // 3a. Get the next question if available
+                    const nextQuestionResponse = await fetch(`${API_BASE_URL}/quiz/next_question`, {
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    });
+                    const nextQuestion = await nextQuestionResponse.json();
+                    renderQuestion(nextQuestion);
+                } else {
+                    // 3b. If no more questions, get the final score
+                    getFinalScore();
+                }
+            } catch (error) {
+                displayResults({ error: error.toString() });
+            }
+        }
+
+        async function getFinalScore() {
+            const scoreResponse = await fetch(`${API_BASE_URL}/quiz/score`, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            const scoreResult = await scoreResponse.json();
+            document.getElementById('quiz-container').innerHTML = `<h2>Quiz Complete!</h2>`;
+            displayResults(scoreResult);
+        }
+    </script>
+</body>
+</html>

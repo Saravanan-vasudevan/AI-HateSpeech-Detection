@@ -1,0 +1,651 @@
+[
+    {
+      "text": "What is hate speech?",
+      "options": [
+        "A. A news report",
+        "B. A compliment",
+        "C. Speech that spreads hate or discrimination toward a group",
+        "D. A funny joke"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "Which of the following is an example of hate speech?",
+      "options": [
+        "A. Wishing someone a good day",
+        "B. Insulting someone based on their religion",
+        "C. Asking someone’s name",
+        "D. Telling a story"
+      ],
+      "correct": "B",
+      "level": "e"
+    },
+    {
+      "text": "Hate speech often spreads through:",
+      "options": [
+        "A. Newspapers",
+        "B. Face-to-face only",
+        "C. social media",
+        "D. Textbooks"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "Which group is commonly affected by hate speech?",
+      "options": [
+        "A. Tall people",
+        "B. Musicians",
+        "C. Ethnic minorities",
+        "D. Tourists"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "Why is hate speech harmful?",
+      "options": [
+        "A. It’s boring",
+        "B. It causes laughter",
+        "C. It can cause emotional and physical harm",
+        "D. It’s entertaining"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "Is hate speech legal everywhere?",
+      "options": [
+        "A. Yes",
+        "B. No",
+        "C. Only on weekends",
+        "D. Only in cities"
+      ],
+      "correct": "B",
+      "level": "e"
+    },
+    {
+      "text": "Who can stop hate speech?",
+      "options": [
+        "A. Only police",
+        "B. Everyone, by reporting or standing against it",
+        "C. Only the government",
+        "D. Only teachers"
+      ],
+      "correct": "B",
+      "level": "e"
+    },
+    {
+      "text": "Where can students report hate speech online?",
+      "options": [
+        "A. School canteen",
+        "B. Social media reporting tools",
+        "C. Sports club",
+        "D. Cafeteria"
+      ],
+      "correct": "B",
+      "level": "e"
+    },
+    {
+      "text": "Is it okay to stay silent if you witness hate speech?",
+      "options": [
+        "A. Yes, always",
+        "B. No, we should try to report or support the victim",
+        "C. Only if it’s online",
+        "D. Only if it’s serious"
+      ],
+      "correct": "B",
+      "level": "e"
+    },
+    {
+      "text": "Which of the following is a respectful disagreement?",
+      "options": [
+        "A. You're dumb for thinking that!",
+        "B. I disagree, but I see your point",
+        "C. Your opinion is trash",
+        "D. Nobody cares what you think."
+      ],
+      "correct": "B",
+      "level": "e"
+    },
+    {
+      "text": "Hate speech in social media includes:",
+      "options": [
+        "A. Dance performances",
+        "B. Disrespectful memes targeting a group",
+        "C. Watching movies",
+        "D. Drinking coffee"
+      ],
+      "correct": "B",
+      "level": "e"
+    },
+    {
+      "text": "How can you help reduce hate speech?",
+      "options": [
+        "A. Share it more",
+        "B. Ignore everything",
+        "C. Call it out and educate others",
+        "D. Make jokes"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "Which word describes hate speech best?",
+      "options": [
+        "A. Respectful",
+        "B. Encouraging",
+        "C. Discriminatory",
+        "D. Motivating"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "What’s a healthy way to disagree with someone?",
+      "options": [
+        "A. Insult their religion",
+        "B. Use hate speech",
+        "C. Respectfully express your views",
+        "D. Walk away angrily"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "Are jokes about race or religion always funny?",
+      "options": [
+        "A. Yes",
+        "B. Only in school",
+        "C. No, they can be harmful",
+        "D. Yes, if popular"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "What should schools teach about hate speech?",
+      "options": [
+        "A. How to make it",
+        "B. Why it’s okay",
+        "C. How to prevent and respond to it",
+        "D. How to ignore it"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "Why is it important to understand hate speech?",
+      "options": [
+        "A. To make more jokes",
+        "B. To hurt others back",
+        "C. To prevent and stop it",
+        "D. To ignore "
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "What is NOT a hate speech action?",
+      "options": [
+        "A. Respecting different opinions",
+        "B. Mocking someone’s religion",
+        "C. Targeting someone for their gender",
+        "D. Making racist jokes"
+      ],
+      "correct": "A",
+      "level": "e"
+    },
+    {
+      "text": "What should you do if a friend is targeted by hate speech?",
+      "options": [
+        "A. Laugh with others",
+        "B. Ignore it",
+        "C. Support them and report it",
+        "D. Share it more"
+      ],
+      "correct": "C",
+      "level": "e"
+    },
+    {
+      "text": "What does respectful online behavior include?",
+      "options": [
+        "A. Threatening others",
+        "B. Spreading kindness",
+        "C. Using slurs",
+        "D. Posting offensive memes"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "Who is responsible for reducing hate speech?",
+      "options": [
+        "A. Only adults",
+        "B. Only police",
+        "C. Everyone",
+        "D. Only teacher"
+      ],
+      "correct": "C",
+      "level": "m"
+    },
+    {
+      "text": "What is “dog-whistle politics” in the context of hate speech?",
+      "options": [
+        "A. Loud public hate speech",
+        "B.  Indirect coded language to incite bias",
+        "C. Memes targeting politicians",
+        "D. Whistleblowing online abuse"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "Which is an example of indirect hate speech?",
+      "options": [
+        "A. Giving compliments",
+        "B. Telling a joke that stereotypes a group",
+        "C. Sharing news",
+        "D. Talking about hobbies"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "Which global organization often addresses hate speech in reports and education?",
+      "options": [
+        "A. FIFA",
+        "B. WHO",
+        "C. UNICEF",
+        "D. NASA"
+      ],
+      "correct": "C",
+      "level": "m"
+    },
+    {
+      "text": "Which type of hate speech often targets people with different sexual orientations?",
+      "options": [
+        "A. Xenophobia",
+        "B. Homophobia",
+        "C. Ageism",
+        "D. Ableism"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "What role do schools play in preventing hate speech?",
+      "options": [
+        "A. Ignoring it",
+        "B. Encouraging discussion and awareness",
+        "C. Letting students sort it out",
+        "D. Banning all social media"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "What is the legal limit of hate speech in most democratic countries?",
+      "options": [
+        "A. All speech is free",
+        "B. Speech is free, but not if it causes harm",
+        "C. Hate speech is always allowed",
+        "D. There’s no legal control"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "Which method can help reduce hate speech in school environments?",
+      "options": [
+        "A. Expelling all students",
+        "B. Introducing diversity education",
+        "C. Banning debates",
+        "D. Avoiding group work"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "What is algorithmic bias in the context of hate speech?",
+      "options": [
+        "A. A math error",
+        "B. AI ignoring hate",
+        "C. When online systems accidentally spread hateful content",
+        "D. A computer crash"
+      ],
+      "correct": "C",
+      "level": "m"
+    },
+    {
+      "text": "What is a hate crime?",
+      "options": [
+        "A. Any minor joke",
+        "B. A crime motivated by hatred towards a group",
+        "C. Traffic violation",
+        "D. Skipping homework"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "Why is hate speech more dangerous online?",
+      "options": [
+        "A. It's colourful",
+        "B. It spreads faster and widely",
+        "C. It's expensive",
+        "D. It's easily deleted"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "Which is a responsible reaction to seeing hate speech online?",
+      "options": [
+        "A. Forwarding it",
+        "B. Reporting the post",
+        "C. Saving it",
+        "D. Ignoring forever"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "What is a stereotype?",
+      "options": [
+        "A. An award",
+        "B. A broad and often wrong idea about a group",
+        "C. A style of music",
+        "D. A news app"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "How does hate speech affect mental health?",
+      "options": [
+        "A. Improves confidence",
+        "B. Causes sadness, anxiety, and fear",
+        "C. Makes people stronger",
+        "D. No effect"
+      ],
+      "correct": "B",
+      "level": "m"
+    },
+    {
+      "text": "What is the difference between bullying and hate speech?",
+      "options": [
+        "A. Bullying is often personal, while hate speech targets group identity",
+        "B. Bullying and hate speech are always the same",
+        "C. Hate speech is always physical, bullying is always verbal",
+        "D. Bullying only happens at school, hate speech only happens online"
+      ],
+      "correct": "A",
+      "level": "m"
+    },
+    {
+      "text": "Which action by a bystander helps fight hate speech?",
+      "options": [
+        "A. Joining in",
+        "B. Posting memes",
+        "C. Supporting the victim and informing adults",
+        "D. Taking a video secretly"
+      ],
+      "correct": "C",
+      "level": "m"
+    },
+    {
+      "text": "What’s the main purpose of counterspeech?",
+      "options": [
+        "A. Encourage trolls",
+        "B. Escalate online fights",
+        "C. Respond to hate with facts or empathy",
+        "D. Block all comments"
+      ],
+      "correct": "C",
+      "level": "m"
+    },
+    {
+      "text": "What is one effect of unchecked hate speech in society?",
+      "options": [
+        "A. Stronger friendships",
+        "B. Less violence",
+        "C. More discrimination and division",
+        "D. Better humor"
+      ],
+      "correct": "C",
+      "level": "m"
+    },
+    {
+      "text": "Why is media literacy important in tackling hate speech?",
+      "options": [
+        "A. Helps people dance",
+        "B. Teaches cooking",
+        "C. Helps identify harmful content and respond correctly",
+        "D. Blocks internet"
+      ],
+      "correct": "C",
+      "level": "m"
+    },
+    {
+      "text": "What year did the United Nations launch its official strategy to combat hate speech?",
+      "options": [
+        "A. 2015",
+        "B. 2019",
+        "C. 2021",
+        "D. 2013"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "Which article of the Universal Declaration of Human Rights protects freedom of expression while allowing limits on hate speech?",
+      "options": [
+        "A. Article 12",
+        "B. Article 19",
+        "C. Article 24",
+        "D. Article 3"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "What percentage of LGBTQ+ youth report experiencing hate speech online. according to global surveys?",
+      "options": [
+        "A. 15%",
+        "B. 28%",
+        "C. 40%",
+        "D. 62%"
+      ],
+      "correct": "D",
+      "level": "h"
+    },
+    {
+      "text": "Which country’s legal system distinguishes sharply between hate speech and free speech by requiring proof of incitement?",
+      "options": [
+        "A. USA",
+        "B. France",
+        "C. Sweden",
+        "D. Brazil"
+      ],
+      "correct": "A",
+      "level": "h"
+    },
+    {
+      "text": "What is “doxxing” in the context of online hate speech?",
+      "options": [
+        "A. Sharing someone's private info to harass them",
+        "B. Posting neutral content",
+        "C. Deleting old messages",
+        "D. Sending anonymous gifts"
+      ],
+      "correct": "A",
+      "level": "h"
+    },
+    {
+      "text": "Which social media platform was sued in 2020 for allegedly allowing hate speech to spread against Rohingya people?",
+      "options": [
+        "A. YouTube",
+        "B. Facebook",
+        "C. Snapchat",
+        "D. Reddit"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "What is the term for online communities that organize to spread coordinated hate speech?",
+      "options": [
+        "A. Meme clubs",
+        "B. Hate farms",
+        "C. Link rings",
+        "D. Echo circles"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "Which international body monitors hate speech as part of its counter-terrorism strategy?",
+      "options": [
+        "A. NATO",
+        "B. IMF",
+        "C. United Nations Office of Counter-Terrorism",
+        "D. UNESCO"
+      ],
+      "correct": "C",
+      "level": "h"
+    },
+    {
+      "text": "In which year did Germany introduce the NetzDG law requiring social media companies to remove hate speech quickly?",
+      "options": [
+        "A. 2015",
+        "B. 2017",
+        "C. 2019",
+        "D. 2020"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "What is the “chilling effect” related to hate speech laws?",
+      "options": [
+        "A. When people enjoy free speech",
+        "B. When vague laws discourage even legal speech ",
+        "C. Cold climate stopping activism",
+        "D. A meme trend online"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "Which term describes hate speech masked as sarcasm or irony?",
+      "options": [
+        "A. Passive hate",
+        "B. Dog-whistle language",
+        "C. Soft rage",
+        "D. Echo hate"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "Which Indian law addresses hate speech in public settings?",
+      "options": [
+        "A. Article 21A",
+        "B. Section 295A of the IPC",
+        "C. RTI Act",
+        "D. IT Rules 2016"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "What role do content moderators play in combating hate speech?",
+      "options": [
+        "A. Promote trends",
+        "B. Block trolls only",
+        "C. Review and remove harmful content",
+        "D. Manage ads"
+      ],
+      "correct": "C",
+      "level": "h"
+    },
+    {
+      "text": "What’s a key criticism of AI moderation in hate speech control?",
+      "options": [
+        "A. Too slow",
+        "B. Biased training data causes unfair flagging",
+        "C. It never works",
+        "D. It can’t be hacked"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "Which education program focuses on online digital safety. including hate speech prevention. in schools globally?",
+      "options": [
+        "A. Eco Schools",
+        "B. Digital Citizenship",
+        "C. Model UN",
+        "D. HealthEd+"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "What is counterspeech?",
+      "options": [
+        "A. Replying with more hate",
+        "B. Staying silent",
+        "C. Responding with positive messages or facts to reduce hate",
+        "D. Disabling comments"
+      ],
+      "correct": "C",
+      "level": "h"
+    },
+    {
+      "text": "What does “intersectionality” mean in the context of hate speech?",
+      "options": [
+        "A. A traffic rule",
+        "B. The way multiple identities (e.g. race + gender) influence discrimination",
+        "C. Mixing religions",
+        "D. School debate topic"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "What strategy is used to train students to recognize hate speech in text?",
+      "options": [
+        "A. Writing poems",
+        "B. Critical reading exercises",
+        "C. Sports",
+        "D. Typing drills"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "Which document by the UN provides global guidelines against hate speech?",
+      "options": [
+        "A. Human Rights Watch",
+        "B. UN Strategy and Plan of Action on Hate Speech",
+        "C. Digital India Handbook",
+        "D. Net Safe Report"
+      ],
+      "correct": "B",
+      "level": "h"
+    },
+    {
+      "text": "What is a limitation of banning hate speech online?",
+      "options": [
+        "A. Too expensive",
+        "B. It limits memes",
+        "C. Hate speech can move to encrypted/private platforms",
+        "D. Stops all content"
+      ],
+      "correct": "C",
+      "level": "h"
+    }
+  ]

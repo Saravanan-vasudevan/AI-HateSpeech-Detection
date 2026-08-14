@@ -1,0 +1,317 @@
+/* Color Variables for Student History (Identical to Dashboard Styling) */
+:root {
+    /* Main Page Colors (Light Theme Default) */
+    --page-bg: #E8E8E8; /* The very light grey for the overall page background */
+    --page-text: #030303; /* The very dark grey for text directly on the page background */
+
+    /* Dashboard Box Colors (Dark Card on Light Page) */
+    --box-bg: #030303; /* The very dark grey for the dashboard box background */
+    --box-text: #e8e8e8; /* The very light grey for text inside the dashboard box */
+
+    /* Accent Colors */
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --accent-lime: #c1e812;
+
+    /* Derived/Subtle Colors (using palette colors for consistency) */
+    --border-subtle: rgba(232, 232, 232, 0.2); /* E8E8E8 with transparency for borders on dark elements */
+    --shadow-color: rgba(0, 0, 0, 0.4); /* Dark shadow for depth, using 030303 base with transparency */
+    --divider-line: rgba(232, 232, 232, 0.1); /* Light divider line on dark box */
+    --button-text-on-accent: #030303; /* Dark text for labels on accent colored buttons */
+
+    --table-header-bg: rgba(252, 131, 55, 0.2); /* Light transparent orange */
+    --table-row-hover-bg: rgba(252, 131, 55, 0.1); /* Even lighter transparent orange */
+}
+
+/* Base styles for the page container */
+.dashboardPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for better mobile fit */
+    background-color: var(--page-bg);
+    color: var(--page-text); /* Default text color for elements outside the box */
+    font-family: "Tilt Neon", sans-serif; /* Apply Tilt Neon to dashboard page container */
+    padding: 20px; /* Add some padding to the page container */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Floating background bubbles */
+.dashboardPageContainer::before,
+.dashboardPageContainer::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Large lime bubble - top left */
+.dashboardPageContainer::before {
+    width: 200px;
+    height: 200px;
+    background-color: var(--accent-lime);
+    opacity: 0.6;
+    top: -50px;
+    left: -50px;
+}
+
+/* Medium cyan bubble - top right */
+.dashboardPageContainer::after {
+    width: 120px;
+    height: 120px;
+    background-color: var(--accent-cyan);
+    opacity: 0.5;
+    top: 150px;
+    right: -30px;
+}
+
+/* Additional bubbles using pseudo elements on body or additional CSS */
+.dashboardPageContainer {
+    background-image: 
+        radial-gradient(circle at 80% 20%, var(--accent-orange) 80px, transparent 81px),
+        radial-gradient(circle at 15% 70%, var(--accent-cyan) 60px, transparent 61px),
+        radial-gradient(circle at 90% 80%, var(--accent-lime) 100px, transparent 101px),
+        radial-gradient(circle at 25% 30%, var(--accent-orange) 40px, transparent 41px),
+        radial-gradient(circle at 70% 90%, var(--accent-cyan) 70px, transparent 71px);
+    background-repeat: no-repeat;
+}
+
+/* Style for the main dashboard box/card */
+.dashboardBox {
+    background-color: var(--box-bg); /* Use the dark box background color */
+    color: var(--box-text); /* Default text color for elements inside the box */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: center;
+    max-width: 900px; /* Wider for dashboard content */
+    width: 100%; /* Allow it to fill up to max-width */
+    border: 1px solid var(--border-subtle); /* Subtle border for the dark box */
+    box-sizing: border-box;
+    display: flex; /* Make dashboardBox a flex container */
+    flex-direction: column; /* Stack its children vertically */
+    align-items: center; /* Center content horizontally */
+    position: relative;
+    z-index: 1; /* Ensure the dark box appears above the background bubbles */
+}
+
+/* Top Bar for Student History Info and Back Button */
+.dashboardTopBar {
+    width: 100%; /* Take full width of dashboardBox */
+    display: flex;
+    justify-content: space-between; /* Push items to ends */
+    align-items: center; /* Vertically center items */
+    margin-bottom: 30px; /* Space below the top bar */
+    padding-bottom: 15px; /* Add some internal padding at the bottom */
+    border-bottom: 1px solid var(--divider-line); /* Subtle separator line */
+}
+
+.studentInfo {
+    display: flex; /* Use flexbox for studentInfo to align icon and text */
+    align-items: center; /* Vertically center icon with text block */
+    gap: 10px; /* Space between icon and text */
+    cursor: pointer;
+    color: var(--box-text);
+    font-size: 0.9em;
+    transition: color 0.2s ease;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.studentInfo:hover {
+    color: var(--accent-cyan);
+}
+
+/* Style for the Identity Icon */
+.identityIcon {
+    font-size: 2.8em; /* Adjust size to match combined height of name/number */
+    color: var(--accent-orange); /* Use an accent color for the icon */
+    line-height: 1; /* Helps with precise vertical alignment */
+}
+
+.studentText { /* Container for name and subtitle */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.studentName {
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 2px;
+}
+
+.studentNumber {
+    font-size: 0.85em;
+    opacity: 0.7;
+}
+
+.backButton {
+    background: none;
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+    line-height: 1.2;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.backButton:hover {
+    background-color: var(--accent-cyan);
+    color: var(--button-text-on-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.backButton:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.dashboardTitle {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-family: "Audiowide", sans-serif;
+}
+
+.dashboardSubtitle {
+    font-size: 1.1em;
+    color: var(--box-text);
+    margin-bottom: 40px;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+/* Empty State Container */
+.emptyContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    text-align: center;
+    background-color: rgba(232, 232, 232, 0.05);
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.emptyIcon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.emptyTitle {
+    font-size: 2em;
+    color: var(--accent-orange);
+    margin: 0 0 15px 0;
+    font-weight: 600;
+    font-family: "Audiowide", sans-serif;
+}
+
+.emptyMessage {
+    font-size: 1.1em;
+    color: var(--box-text);
+    opacity: 0.8;
+    line-height: 1.6;
+    margin: 0;
+    font-family: "Tilt Neon", sans-serif;
+}
+
+.emptyMessage br {
+    margin-bottom: 8px;
+}
+
+/* Responsive adjustments for screens up to 768px */
+@media (max-width: 768px) {
+    .dashboardBox {
+        padding: 30px 20px;
+    }
+
+    .dashboardTopBar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+    }
+
+    .studentInfo {
+        width: 100%;
+        gap: 8px;
+    }
+
+    .identityIcon {
+        font-size: 2.4em;
+    }
+
+    .backButton {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .dashboardTitle {
+        font-size: 2.2em;
+    }
+
+    .emptyContainer {
+        padding: 40px 25px;
+    }
+
+    .emptyIcon {
+        font-size: 3.5em;
+    }
+
+    .emptyTitle {
+        font-size: 1.6em;
+    }
+
+    .emptyMessage {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboardTitle {
+        font-size: 1.8em;
+    }
+
+    .dashboardSubtitle {
+        font-size: 1em;
+    }
+
+    .backButton {
+        font-size: 0.9em;
+        padding: 10px 18px;
+    }
+
+    .emptyContainer {
+        padding: 30px 20px;
+    }
+
+    .emptyIcon {
+        font-size: 3em;
+    }
+
+    .emptyTitle {
+        font-size: 1.4em;
+    }
+
+    .emptyMessage {
+        font-size: 0.95em;
+    }
+}

@@ -1,0 +1,90 @@
+/* frontend/src/styles/AnimatedButton.module.css */
+
+/* Color Variables (from your project's palette) */
+:root {
+    --page-bg: #E8E8E8;
+    --page-text: #030303; /* Used for dark text */
+    --box-bg: #030303; /* Used for dark elements */
+    --box-text: #E8E8E8; /* Used for light text */
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --accent-lime: #c2e812;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    
+    /* New specific colors for this button style, mapped to our palette */
+    --button-gradient-start: var(--accent-orange); /* Starting color for gradient */
+    --button-gradient-end: var(--box-bg); /* Darker end color for gradient (almost black) */
+    --button-text-color: var(--box-text); /* Light text color */
+    --button-border-color: var(--accent-lime); /* Accent lime for border/highlights */
+    --button-shine-color: rgba(255, 255, 255, 0.2); /* White shine, with transparency */
+    --button-hover-shadow-color: rgba(255, 98, 0, 0.4); /* Orange-based shadow on hover */
+}
+
+.animatedButton {
+    /* Core button layout and initial styling */
+    padding: 15px 30px; /* Default padding, can be overridden */
+    font-size: 1.1em; /* Default font size, can be overridden */
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px; /* Default border-radius, can be overridden */
+    box-sizing: border-box;
+
+    /* Base colors and gradients for the primary button style */
+    background: linear-gradient(90deg, var(--button-gradient-start) 0%, var(--button-gradient-end) 100%);
+    color: var(--button-text-color);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4); /* General shadow from palette */
+    
+    /* Font from our standard */
+    font-family: "Red Hat Text", sans-serif;
+
+    /* Essential for shine animation */
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+
+    /* Base transitions */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* The shine effect pseudo-element */
+.animatedButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Start off-screen to the left */
+    width: 100%;
+    height: 100%;
+    /* Gradient for the shine effect - from transparent to white and back */
+    background: linear-gradient(90deg, transparent, var(--button-shine-color), transparent);
+    transition: left 0.6s ease-out; /* Animation for the shine */
+    z-index: -1; /* Place behind button content */
+}
+
+/* Hover state for the button */
+.animatedButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--button-hover-shadow-color); /* Enhanced shadow on hover */
+    color: var(--button-text-color); /* Keep text light */
+}
+
+/* Shine animation on hover */
+.animatedButton:hover::before {
+    left: 100%; /* Make the shine slide across */
+}
+
+/* Active state for button press */
+.animatedButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4); /* Revert shadow on click */
+}
+
+/* Styling for any span elements inside the button (like descriptive text) */
+.animatedButton span {
+    transition: color 0.3s ease, opacity 0.3s ease; /* Smooth transition for text color and opacity */
+}
+
+.animatedButton:hover span {
+    color: var(--button-text-color); /* Keep text light on hover */
+    opacity: 1;
+}

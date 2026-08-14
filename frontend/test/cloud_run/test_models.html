@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Models Test Interface</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 1em; background-color: #f8f9fa; color: #333; }
+        .container { max-width: 960px; margin: auto; }
+        h1 { text-align: center; color: #343a40; }
+        textarea { width: 100%; box-sizing: border-box; padding: 12px; font-size: 1.1em; border: 1px solid #ced4da; border-radius: 6px; min-height: 120px; margin-bottom: 1em; }
+        button { font-size: 1.2em; font-weight: bold; padding: 12px 24px; cursor: pointer; border-radius: 6px; border: none; background-color: #007bff; color: white; display: block; margin: auto; transition: background-color 0.2s; }
+        button:hover { background-color: #0056b3; }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5em; margin-top: 2em; }
+        .result-card { background: #fff; padding: 1.5em; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-top: 5px solid #6c757d; }
+        .result-card h3 { margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 0.5em; }
+        .result-card .probability { font-size: 1.8em; font-weight: bold; text-align: center; margin: 0.5em 0; }
+        .result-card .explanation { background-color: #f8f9fa; border-left: 3px solid #6c757d; padding: 1em; margin-top: 1em; font-size: 0.95em; white-space: pre-wrap; word-wrap: break-word; }
+        .is-hate { border-color: #dc3545; }
+        .is-hate .probability { color: #dc3545; }
+        .is-not-hate { border-color: #28a745; }
+        .is-not-hate .probability { color: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Models Test Interface</h1>
+        <textarea id="text-input" placeholder="Enter text to analyze here..."></textarea>
+        <button onclick="analyzeText()">Analyze Text</button>
+
+        <div class="results-grid" id="results-container">
+            <div id="sklearn-card" class="result-card">
+                <h3>Scikit-learn</h3>
+                <div id="sklearn-result">Awaiting input...</div>
+            </div>
+            <div id="hf-card" class="result-card">
+                <h3>HuggingFace</h3>
+                <div id="hf-result">Awaiting input...</div>
+            </div>
+            <div id="gemini-card" class="result-card">
+                <h3>Gemini</h3>
+                <div id="gemini-result">Awaiting input...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // UPDATED: This now points to your Google Cloud Run service URL
+        const API_BASE_URL = 'https://hate-backend-215652629527.europe-west2.run.app';
+
+        // Helper function to render the result in a card
+        function displayResult(modelId, data) {
+            const card = document.getElementById(`${modelId}-card`);
+            const resultContainer = document.getElementById(`${modelId}-result`);
+            
+            if (data.status === 'fulfilled') {
+                const result = data.value;
+                const probabilityPercent = (result.hate_speech_probability * 100).toFixed(1);
+
+                card.className = 'result-card'; // Reset class
+                card.classList.add(result.is_hate_speech ? 'is-hate' : 'is-not-hate');
+
+                resultContainer.innerHTML = `
+                    <div class="probability">${probabilityPercent}%</div>
+                    <p><strong>Is Hate Speech:</strong> ${result.is_hate_speech}</p>
+                    <div class="explanation"><strong>Explanation:</strong><br>${result.explanation}</div>
+                `;
+            } else {
+                card.className = 'result-card is-hate'; // Show error state
+                resultContainer.innerHTML = `<p><strong>Error:</strong><br>${data.reason}</p>`;
+            }
+        }
+
+        async function analyzeText() {
+            const inputText = document.getElementById('text-input').value;
+            if (!inputText.trim()) {
+                alert('Please enter some text to analyze.');
+                return;
+            }
+
+            const models = ['sklearn', 'hf_generative', 'gemini'];
+            
+            // Show loading state
+            models.forEach(model => {
+                const modelId = model.split('_')[0]; // sklearn, hf, gemini
+                const card = document.getElementById(`${modelId}-card`);
+                card.className = 'result-card';
+                document.getElementById(`${modelId}-result`).innerHTML = 'Processing...';
+            });
+
+            // Create the request body
+            const requestBody = { text: inputText };
+
+            // Define the fetch promises for each model endpoint
+            const promises = models.map(modelName => 
+                fetch(`${API_BASE_URL}/${modelName}/predict`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                }).then(async response => {
+                    const data = await response.json();
+                    if (!response.ok) {
+                        // Throw an error with the detail from the API response
+                        throw new Error(data.detail || 'Request failed');
+                    }
+                    return data;
+                })
+            );
+
+            // Use Promise.allSettled to wait for all requests to complete, even if some fail
+            const results = await Promise.allSettled(promises);
+            
+            // Display the results
+            displayResult('sklearn', results[0]);
+            displayResult('hf', results[1]);
+            displayResult('gemini', results[2]);
+        }
+    </script>
+</body>
+</html>

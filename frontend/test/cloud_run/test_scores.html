@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scores & Leaderboard Test</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 1em; background-color: #f8f9fa; }
+        .container { max-width: 800px; margin: auto; }
+        fieldset { margin-bottom: 1.5em; border: 1px solid #dee2e6; padding: 1.5em; border-radius: 6px; background-color: #fff; }
+        legend { font-weight: 600; font-size: 1.2em; padding: 0 0.5em; color: #28a745; }
+        input[type="text"] { width: calc(100% - 16px); margin-bottom: 10px; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; }
+        button { font-size: 1em; padding: 10px 18px; cursor: pointer; border-radius: 5px; border: none; background-color: #28a745; color: white; transition: background-color 0.2s; }
+        button:hover { background-color: #218838; }
+        #results { background-color: #282c34; color: #abb2bf; border-radius: 5px; padding: 1em; white-space: pre-wrap; word-wrap: break-word; margin-top: 1em; font-family: "Fira Code", "Courier New", monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scores & Leaderboard Test</h1>
+
+        <fieldset>
+            <legend>1. Retrieve Leaderboard (GET /v1/scores/leaderboard)</legend>
+            <p>Click the button to get the full, sorted leaderboard.</p>
+            <button onclick="getLeaderboard()">Get Leaderboard</button>
+        </fieldset>
+        
+        <fieldset>
+            <legend>2. Retrieve a User's Score (GET /v1/scores/users/{username}/score)</legend>
+            <input type="text" id="username_input" placeholder="Enter username (e.g., peterpan)">
+            <button onclick="getUserScore()">Get User Score</button>
+        </fieldset>
+
+        <h3>API Response</h3>
+        <pre id="results">Awaiting action...</pre>
+    </div>
+
+    <script>
+        // Define the base URL for your API, including the prefix.
+        const API_BASE_URL = 'https://hate-backend-215652629527.europe-west2.run.app/scores'; // Updated URL
+
+        // Helper function to display JSON data in the results panel.
+        function displayResults(data) {
+            document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+        }
+
+        // --- Scores & Leaderboard Endpoints ---
+
+        async function getLeaderboard() {
+            // Clear previous results.
+            document.getElementById('results').textContent = 'Fetching leaderboard...';
+            
+            try {
+                // Make the GET request to the /leaderboard endpoint.
+                const response = await fetch(`${API_BASE_URL}/leaderboard`);
+                const data = await response.json();
+                
+                // If the response is not OK, throw an error to be caught below.
+                if (!response.ok) throw new Error(data.detail || 'Failed to fetch leaderboard');
+                
+                // Display the successful response.
+                displayResults(data);
+
+            } catch (error) {
+                // Display any errors that occurred during the fetch.
+                displayResults({ error: error.toString() });
+            }
+        }
+
+        async function getUserScore() {
+            const username = document.getElementById('username_input').value;
+            
+            // Basic validation to ensure a username was entered.
+            if (!username) {
+                alert('Please enter a username.');
+                return;
+            }
+            
+            // Clear previous results.
+            document.getElementById('results').textContent = `Fetching score for '${username}'...`;
+
+            try {
+                // Make the GET request to the /users/{username}/score endpoint.
+                const response = await fetch(`${API_BASE_URL}/users/${username}/score`);
+                const data = await response.json();
+                
+                if (!response.ok) throw new Error(data.detail || `Failed to fetch score for ${username}`);
+                
+                displayResults(data);
+
+            } catch (error) {
+                displayResults({ error: error.toString() });
+            }
+        }
+    </script>
+</body>
+</html>

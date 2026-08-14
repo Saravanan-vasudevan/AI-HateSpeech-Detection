@@ -1,0 +1,234 @@
+/* Color Variables based on your theme */
+:root {
+    /* Main Page Colors (Light Theme Default) */
+    --page-bg: #E8E8E8;
+    --page-text: #030303;
+
+    /* Dashboard Box Colors (Dark Card on Light Page) */
+    --box-bg: #030303;
+    --box-text: #E8E8E8;
+
+    /* Accent Colors */
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --accent-lime: #c2e812;
+
+    /* Derived/Subtle Colors (using palette colors for consistency) */
+    --border-subtle: rgba(232, 232, 232, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --divider-line: rgba(232, 232, 232, 0.1);
+    --error-color: #FF6347;
+    --table-header-bg: rgba(252, 131, 55, 0.2);
+    --table-row-hover-bg: rgba(252, 131, 55, 0.1);
+}
+
+/* Base styles for the page container */
+.historyPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: var(--page-text);
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    padding: 20px;
+    box-sizing: border-box;
+    /* Removed background/pseudo-elements if they were here to prevent clash with global canvas */
+}
+
+/* Style for the main history box/card */
+.historyBox {
+    background-color: var(--box-bg);
+    color: var(--box-text);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+    border: 1px solid var(--border-subtle);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1; /* Ensure it's above global canvas */
+}
+
+.headerTitle {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-family: "Red Hat Display", sans-serif; /* Apply Red Hat Display */
+}
+
+.pageSubtitle {
+    font-size: 1.1em;
+    color: var(--box-text);
+    margin-bottom: 40px;
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+}
+
+.errorMessage {
+    color: var(--error-color);
+    font-size: 1em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Loading state styles (reused from HateSpeechIdentifier) */
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: var(--box-text);
+    font-size: 1.2em;
+    gap: 15px;
+}
+
+.spinner {
+    border: 4px solid rgba(232, 232, 232, 0.3);
+    border-top-color: transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); border-top-color: var(--accent-orange); }
+    20% { border-top-color: var(--accent-cyan); }
+    40% { border-top-color: var(--accent-lime); }
+    60% { border-top-color: var(--box-text); }
+    80% { border-top-color: var(--page-text); }
+    100% { transform: rotate(360deg); border-top-color: var(--accent-orange); }
+}
+
+.historyContent {
+    width: 100%;
+    text-align: left;
+}
+
+/* History View (Table and No Activity) styles */
+.noActivity {
+    text-align: center;
+    padding: 50px 20px;
+    border: 1px dashed var(--border-subtle);
+    border-radius: 8px;
+    background-color: rgba(232, 232, 232, 0.05);
+    margin-bottom: 30px;
+    color: var(--box-text);
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.noActivityIcon {
+    font-size: 3em;
+    margin-bottom: 10px;
+    color: rgba(232, 232, 232, 0.6);
+}
+
+.noActivityMessage {
+    font-size: 1.2em;
+    color: rgba(232, 232, 232, 0.8);
+}
+
+.historyTableContainer {
+    background-color: rgba(232, 232, 232, 0.05);
+    border-radius: 8px;
+    padding: 20px;
+    overflow-x: auto;
+    border: 1px solid var(--border-subtle);
+    margin-bottom: 30px;
+}
+
+.historyTable {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 500px;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.historyTable th,
+.historyTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--divider-line);
+    color: var(--box-text);
+}
+
+.historyTable th {
+    background-color: var(--table-header-bg);
+    color: var(--accent-orange);
+    font-weight: 600;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.historyTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.historyTable tbody tr:hover {
+    background-color: var(--table-row-hover-bg);
+}
+
+/* BackButton styling */
+.backButton {
+    background: none;
+    border: none;
+    color: var(--accent-cyan);
+    font-size: 0.9em;
+    margin-top: 15px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+    align-self: center;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.backButton:hover {
+    color: var(--accent-orange);
+    background-color: rgba(0,0,0,0.1);
+}
+
+.backButton:active {
+    transform: translateY(0);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .historyBox {
+        padding: 30px 20px;
+    }
+
+    .headerTitle {
+        font-size: 2.2em;
+    }
+
+    .pageSubtitle {
+        font-size: 1em;
+    }
+
+    .historyTableContainer {
+        padding: 15px;
+    }
+
+    .historyTable th,
+    .historyTable td {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .headerTitle {
+        font-size: 1.8em;
+    }
+}

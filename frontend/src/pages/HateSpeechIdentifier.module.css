@@ -1,0 +1,359 @@
+/* Color Variables based on your theme */
+:root {
+    /* Main Page Colors (Light Theme Default) */
+    --page-bg: #E8E8E8; /* The very light grey for the overall page background */
+    --page-text: #030303; /* The very dark grey for text directly on the page background */
+
+    /* Content Box Colors (Dark Card on Light Page) */
+    --box-bg: #030303; /* The very dark grey for the content box background */
+    --box-text: #E8E8E8; /* The very light grey for text inside the content box */
+
+    /* Accent Colors */
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --accent-lime: #c2e812;
+
+    /* Derived/Subtle Colors (using palette colors for consistency) */
+    --border-subtle: rgba(232, 232, 232, 0.2); /* E8E8E8 with transparency for borders on dark elements */
+    --shadow-color: rgba(0, 0, 0, 0.4); /* Dark shadow for depth, using 030303 base with transparency */
+    --input-border-focus: var(--accent-cyan);
+    --button-text-on-accent: #030303;
+
+    --positive-color: var(--accent-lime); /* For "No, it's not hate speech" / positive classifications */
+    --negative-color: var(--accent-orange); /* For "Yes, it's hate speech" / negative classifications */
+}
+
+/* Base styles for the page container (similar to dashboard/login) */
+.identifierPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: var(--page-text);
+    font-family: "Tilt Neon", sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Style for the main content box/card */
+.identifierBox {
+    background-color: var(--box-bg);
+    color: var(--box-text);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: center;
+    max-width: 800px; /* Wider box for text input */
+    width: 100%;
+    border: 1px solid var(--border-subtle);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.headerTitle {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-family: "Audiowide", sans-serif;
+}
+
+.pageSubtitle {
+    font-size: 1.1em;
+    color: var(--box-text);
+    margin-bottom: 40px;
+}
+
+.analysisForm {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    text-align: left;
+    width: 100%;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 1.05em;
+    color: var(--box-text);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.textAreaInput {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    background-color: rgba(232, 232, 232, 0.05);
+    color: var(--box-text);
+    font-size: 1em;
+    font-family: "Tilt Neon", sans-serif;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.textAreaInput:focus {
+    border-color: var(--input-border-focus);
+    box-shadow: 0 0 0 3px rgba(31, 191, 207, 0.2);
+}
+
+.radioGroup {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1em;
+    color: var(--box-text);
+    padding: 8px 0;
+}
+
+.radioInput {
+    margin-right: 10px;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--accent-cyan);
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.radioInput::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--accent-cyan);
+    transform: scale(0);
+    transition: transform 0.2s ease;
+}
+
+.radioInput:checked::before {
+    transform: scale(1);
+}
+
+.radioInput:checked {
+    background-color: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+}
+
+.radioInput:focus {
+    outline: 2px solid var(--input-border-focus);
+    outline-offset: 2px;
+}
+
+.submitButton {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    width: auto;
+    margin-top: 15px;
+    align-self: center;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    color: var(--accent-cyan);
+    font-size: 0.9em;
+    margin-top: 15px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+    align-self: center;
+}
+
+.backButton:hover {
+    color: var(--accent-orange);
+}
+
+/* Styles for Loading State */
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: var(--box-text);
+    font-size: 1.2em;
+    gap: 15px;
+}
+
+.spinner {
+    border: 4px solid rgba(232, 232, 232, 0.3); /* Base border color, now transparent enough */
+    border-top-color: transparent; /* Ensure animation takes full control */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 0.5s linear infinite; /* Animation duration for the cycle */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+        border-top-color: var(--accent-orange); /* Orange */
+    }
+    20% {
+        border-top-color: var(--accent-cyan); /* Blue */
+    }
+    40% {
+        border-top-color: var(--accent-lime); /* Lime */
+    }
+    60% {
+        border-top-color: var(--box-text); /* White */
+    }
+    80% {
+        border-top-color: var(--page-text); /* Black */
+    }
+    100% {
+        transform: rotate(360deg);
+        border-top-color: var(--accent-orange); /* Back to Orange, completing the cycle */
+    }
+}
+
+
+/* Styles for Results Section */
+.resultsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    text-align: left;
+    width: 100%;
+}
+
+.resultGroup {
+    background-color: rgba(232, 232, 232, 0.05);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+}
+
+.resultTitle {
+    font-size: 1.5em;
+    color: var(--accent-orange);
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-family: "Audiowide", sans-serif;
+}
+
+.resultTextAnalyzed {
+    background-color: rgba(31, 191, 207, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-style: italic;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--box-text);
+    border: 1px dashed var(--accent-cyan);
+}
+
+.comparisonGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.studentColumn,
+.aiColumn {
+    background-color: rgba(232, 232, 232, 0.05);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+}
+
+.comparisonGrid p {
+    margin-bottom: 10px;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.comparisonGrid p strong {
+    color: var(--accent-lime);
+}
+
+.reasoningText {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 0.95em;
+    color: rgba(232, 232, 232, 0.8);
+    line-height: 1.4;
+}
+
+.hateSpeechClass {
+    color: var(--negative-color);
+    font-weight: 700;
+}
+
+.notHateSpeechClass {
+    color: var(--positive-color);
+    font-weight: 700;
+}
+
+.feedbackSection {
+    background-color: rgba(252, 131, 55, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--accent-orange);
+    margin-top: 15px;
+}
+
+.feedbackMessage {
+    font-size: 1.1em;
+    color: var(--box-text);
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .identifierBox {
+        padding: 30px 20px;
+    }
+
+    .headerTitle {
+        font-size: 2.2em;
+    }
+
+    .pageSubtitle {
+        font-size: 1em;
+    }
+
+    .radioGroup {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .submitButton, .backButton {
+        width: 100%;
+    }
+
+    .comparisonGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .headerTitle {
+        font-size: 1.8em;
+    }
+}

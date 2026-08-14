@@ -1,0 +1,246 @@
+/* Color Variables based on your theme */
+:root {
+    --page-bg: #E8E8E8;
+    --page-text: #030303;
+    --box-bg: #030303;
+    --box-text: #E8E8E8;
+    --accent-orange: #FC8337;
+    --accent-cyan: #1FBFCF;
+    --accent-lime: #c2e812;
+    --border-subtle: rgba(232, 232, 232, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --divider-line: rgba(232, 232, 232, 0.1);
+    --button-text-on-accent: #030303;
+}
+
+.dashboardPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: var(--page-text);
+    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.dashboardBox {
+    background-color: var(--box-bg);
+    color: var(--box-text);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+    border: 1px solid var(--border-subtle);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashboardTopBar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--divider-line);
+}
+
+.studentInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--box-text);
+    font-size: 0.9em;
+    transition: color 0.2s ease;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.studentInfo:hover {
+    color: var(--accent-cyan);
+}
+
+.identityIcon {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    line-height: 1;
+}
+
+.studentText {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.studentName {
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 2px;
+}
+
+.studentNumber {
+    font-size: 0.85em;
+    opacity: 0.7;
+}
+
+.totalPoints {
+    color: var(--box-text);
+    font-size: 1.1em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.pointsValue {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--accent-lime);
+}
+
+.dashboardTitle {
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-family: "Red Hat Display", sans-serif;
+}
+
+.dashboardSubtitle {
+    font-size: 1.1em;
+    color: var(--box-text);
+    margin-bottom: 40px;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.dashboardActions {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.actionButton {
+    padding: 25px 35px;
+    font-size: 1.4em;
+    flex: 1;
+    max-width: 380px;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.actionButtonTitle {
+    font-weight: 600;
+    font-size: 1em;
+    color: var(--box-text);
+    margin-bottom: 5px;
+}
+
+.actionButtonDescription {
+    font-size: 0.7em;
+    font-weight: 400;
+    color: var(--box-text);
+    opacity: 0.8;
+}
+
+.backButton { /* Adjusted from global styles for specific placement here */
+    background: none;
+    border: none;
+    color: var(--accent-cyan);
+    font-size: 0.9em;
+    margin-top: 15px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+    align-self: center;
+    font-family: "Red Hat Text", sans-serif;
+}
+
+.backButton:hover {
+    color: var(--accent-orange);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboardBox {
+        padding: 30px 20px;
+    }
+
+    .dashboardTopBar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+    }
+
+    .studentInfo {
+        width: 100%;
+        gap: 8px;
+    }
+
+    .identityIcon {
+        font-size: 2.4em;
+    }
+
+    .studentText {
+        /* No specific changes needed here for mobile */
+    }
+
+    .totalPoints {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .dashboardTitle {
+        font-size: 2.2em;
+    }
+
+    .dashboardActions {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .actionButton {
+        width: 100%;
+        max-width: none;
+        padding: 20px 25px;
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboardTitle {
+        font-size: 1.8em;
+    }
+
+    .dashboardSubtitle {
+        font-size: 1em;
+    }
+    
+    .actionButton {
+        font-size: 1.1em;
+    }
+
+    .actionButtonDescription {
+        font-size: 0.65em;
+    }
+}
