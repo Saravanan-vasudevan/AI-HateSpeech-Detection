@@ -5,87 +5,185 @@
 ![React](https://img.shields.io/badge/frontend-React%2019-61DAFB)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A full-stack platform for detecting and explaining hate speech in text,
-combining multiple machine learning backends (a classical TF-IDF/Logistic
-Regression model, a fine-tuned Hugging Face classifier, and cloud LLMs via
-Gemini and Ollama) behind a single FastAPI service, with a React frontend
-that includes a gamified quiz for learning to recognize harmful content and
-a leaderboard to track progress.
+Multi-model hate speech detection API with a React frontend, built for a
+university project. Online discourse has grown more polarized while human
+moderation resources at major platforms have shrunk, and most existing
+AI moderation tools are opaque about *why* they flag content and are
+trained almost entirely on English-language data. This project explores
+how different ML approaches (classical, fine-tuned transformer, cloud LLM)
+compare on the same classification task, and pairs the predictions with a
+plain-language explanation, aiming at a lightweight, explainable assistant
+for moderators rather than an opaque black box.
 
-## Description
+The MVP was scoped and built within a four-week window, prioritizing
+usability, explainability, and cost-efficiency over exhaustive model
+coverage.
 
-The backend exposes independent endpoints for each detection model so
-predictions can be compared side by side, along with supporting services for
-user accounts, prediction history, a points/leaderboard system, and an
-LLM-generated feedback explainer that describes *why* a piece of text was
-flagged. The frontend is a Vite + React single-page app with dedicated
-student and teacher views: students can run text through the models, take a
-gamified quiz, and review their prediction history; teachers can register
-students, review class-wide activity, and manage the leaderboard.
+## What this is
 
-Models are trained against a combination of public hate speech datasets
-(Davidson, Jigsaw, HateSpeech18, ToxiGen, TweetEval, Ethos, Dynabench, and
-others) with per-dataset cleaning scripts and DistilBERT fine-tuning scripts
-included under `backend/ml/`.
+![Main UI](assets/Screenshot%202026-08-16%20153826.png)
 
-## Features
+A FastAPI backend that exposes independent `/predict` endpoints for four
+models — TF-IDF + Logistic Regression, a fine-tuned DistilBERT classifier
+(via HuggingFace), Google Gemini, and a self-hosted Ollama/Llama 3 instance.
+A fifth endpoint uses Gemini to generate natural-language feedback explaining
+*why* text got flagged, which is the pedagogical angle of the project.
 
-- Multi-model prediction comparison (Logistic Regression, Hugging Face
-  classifier, Gemini, Ollama/Llama 3) behind a unified API
-- LLM-generated natural-language explanations for why text was flagged
-- User authentication and role-based access (student vs. teacher)
-- Prediction history per user, with teacher visibility into any student's
-  history
-- Gamified quiz mode with a points system and class leaderboard
-- Dataset preparation and DistilBERT fine-tuning scripts for six public hate
-  speech datasets
-- Dockerized backend, ready for Cloud Run deployment
+The frontend is a Vite + React SPA with student and teacher roles. Students
+submit text, compare model outputs side-by-side, take a quiz on recognising
+hate speech, and accumulate points. Teachers register students, view
+class-wide prediction history, and check a leaderboard.
 
-## Installation
+The stack was deliberately chosen over a simpler Python-only UI: an initial
+Streamlit-based plan was dropped in favor of Vite + React because Streamlit
+proved too restrictive for the interactive, component-heavy dashboards and
+analysis tools the project needed, and React's component structure allowed
+building a scalable, genuinely usable app within the four-week timeline.
+The visual design follows WCAG accessibility guidelines to keep the
+platform usable for a wider audience, using Red Hat Display and Red Hat
+Text for improved readability.
 
-### Prerequisites
-- Python 3.11+
-- Node.js 18+
-- A MongoDB instance (Atlas or self-hosted)
-- API keys for Gemini (and optionally a hosted Ollama endpoint)
+Training data comes from Davidson, Jigsaw, HateSpeech18, ToxiGen, TweetEval,
+and a few others. Per-dataset cleaning scripts and the DistilBERT fine-tuning
+script live under `backend/ml/`.
 
-### Backend
+## Architecture
 
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-python download_nltk.py         # fetches required NLTK corpora
-cp .env.example credentials.env # then fill in your own DB/API credentials
-uvicorn app.main:app --reload
+```
+frontend/          Vite + React 19 SPA
+backend/
+  app/
+    main.py        FastAPI entrypoint, lifespan, CORS, router wiring
+    models/        Model wrappers (sklearn, HF, Gemini, Ollama) + shared API router
+    utils/         DB helpers, NLP preprocessing, auth (JWT + bcrypt)
+    history/       Prediction logging and retrieval
+    quiz/          Quiz game logic + question bank (JSON)
+    points/        Scoring + leaderboard
+  ml/
+    data_prep/     Dataset download and cleaning scripts
+    train/         Training scripts (TF-IDF, DistilBERT, BiLSTM)
+    evaluate/      Evaluation scripts per model
+  Dockerfile       Multi-stage build for Cloud Run
 ```
 
-### Frontend
+## How to Run
+
+The fastest path from clone to running app:
 
 ```bash
+# 1. Install everything
+make install
+
+# 2. Set up credentials (MongoDB, Gemini key, Ollama URL, JWT secret)
+cp backend/.env.example backend/credentials.env
+# ... edit credentials.env with your values
+
+# 3. Start the backend (default port 8000)
+make run-backend
+
+# 4. In another terminal, start the frontend (port 5173)
+make run-frontend
+```
+
+Or do it manually without the Makefile:
+
+```bash
+# Backend
+cd backend
+python -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+pip install "bcrypt<4.0.0" # Required for passlib compatibility
+python download_nltk.py
+cp backend/.env.example backend/.env
+uvicorn app.main:app --reload
+
+# Frontend
 cd frontend
 npm install
 npm run dev
 ```
 
-The frontend expects the backend at the URL configured in
-`frontend/src/config.js`; update it if you're not running both locally on
-default ports.
+The frontend hits the backend URL set in `frontend/src/config.js` — update it
+if you changed the port or are running on a remote host.
+
+### Docker
+
+```bash
+cd backend
+docker build -t hate-backend .
+docker run -p 8080:8080 --env-file credentials.env hate-backend
+```
+
+See `backend/deployment.md` for Cloud Run deploy commands.
+
+### Prerequisites
+
+- Python 3.11+, Node 18+
+- A MongoDB instance (Atlas free tier works)
+- Gemini API key (free tier: https://ai.google.dev)
+- An Ollama endpoint if you want the Llama 3 model (otherwise the other three still work)
+
+## Model Performance & Metrics
+
+![Main UI](assets/Screenshot%202026-08-16%20155709.png)
+
+Formal benchmarking (accuracy, precision, recall, F1) across the four
+production models hasn't been run yet — see `backend/ml/evaluate/` to
+produce it. The TF-IDF + Logistic Regression model is the fastest at
+inference (~2ms/request). A fifth model, a BiLSTM + GloVe classifier, is
+trained with evaluation scripts available but has not yet been
+benchmarked head-to-head against the other four (see Future Work).
+
+## DistilBERT Training Setup
+
+- **Base model:** `facebook/roberta-hate-speech-dynabench-r4-target`
+- **Framework:** HuggingFace Transformers + PyTorch
+
+The fine-tuning script is at `backend/ml/train/train_distilbert.py`.
+The generative explanation model (GPT-Neo 125M) is downloaded separately via
+`python -m app.models.download_hf_generative`.
 
 ## Usage
 
-1. Start the backend and frontend as above.
-2. Register a student or teacher account through the app's login flow.
-3. From the student dashboard, submit text to the "Hate Speech Identifier"
-   page to get predictions and explanations from all available models, or
-   launch the gamified quiz to earn points.
-4. Teachers can view the class leaderboard and drill into any individual
-   student's prediction history from the teacher menu.
+1. Start backend + frontend (see above).
+2. Register a student or teacher account through the login page.
+3. Students: submit text on the "Hate Speech Identifier" page to get
+   predictions from all models, or take the quiz to earn points.
+4. Teachers: view the class leaderboard, drill into any student's history.
+5. Creating the First Admin: Because a new database is empty, you must create the initial Teacher account via the backend API. Go to http://localhost:8000/docs, find the POST /register endpoint and execute a request with "role": "admin" to seed your first user.
 
-To train or re-evaluate a model against the bundled datasets, see the
-scripts in `backend/ml/train/` and `backend/ml/evaluate/`.
+To retrain or evaluate a model, see the scripts under `backend/ml/train/`
+and `backend/ml/evaluate/`.
+
+## Known Limitations
+
+- Single-classroom only; there's no multi-tenancy for separate classes.
+- The Teacher Dashboard supports adding users and viewing student
+  histories, but doesn't yet have full CRUD (update/delete) for user
+  management.
+- English-language only, which limits applicability to the platform's
+  broader goal of addressing global moderation challenges.
+
+## Future Work
+
+- **BiLSTM + GloVe integration.** A BiLSTM classifier using GloVe 300d
+  embeddings is trained and has evaluation scripts (`backend/ml/train/train_bilstm_glove.py`,
+  `backend/ml/evaluate/Evaluate_BiLSTM_Glove.py`), but it hasn't been
+  benchmarked head-to-head against the other four models yet. The model
+  wrapper exists at `backend/app/models/bilstm_glove_model.py` — wiring it
+  into the API is straightforward once the benchmarks justify adding a fifth
+  prediction card to the frontend.
+- Multi-tenancy to support multiple, distinct classrooms.
+- Full CRUD functionality for user management in the Teacher Dashboard.
+- Multilingual support for the AI models.
+- A more immersive "tell-tale" style, turn-based scenario game to simulate
+  real-life moderation challenges more accurately.
+- Batch prediction endpoint for bulk CSV analysis.
+- Confidence calibration across models (Platt scaling or similar).
+- Frontend accessibility audit.
+- User testing with local schools to validate the feature set and surface
+  new use cases.
 
 ## License
 
-Released under the MIT License. See `LICENSE` for details.
+MIT. See `LICENSE`.

@@ -54,3 +54,11 @@ Thumbs.db
 node_modules/
 .vite/
 backend/**/nltk_data/
+credentials.env
+.env
+venv/
+__pycache__/
+*.bin
+*.safetensors
+checkpoint-*/
+*.parquet
