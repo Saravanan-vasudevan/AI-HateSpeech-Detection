@@ -44,7 +44,7 @@ platform usable for a wider audience, using Red Hat Display and Red Hat
 Text for improved readability.
 
 Training data comes from Davidson, Jigsaw, HateSpeech18, ToxiGen, TweetEval,
-and a few others. Per-dataset cleaning scripts and the DistilBERT fine-tuning
+and a few others. Per-dataset cleaning scripts and the Hugging Face RoBERTa classifier
 script live under `backend/ml/`.
 
 ## Architecture
@@ -134,12 +134,12 @@ inference (~2ms/request). A fifth model, a BiLSTM + GloVe classifier, is
 trained with evaluation scripts available but has not yet been
 benchmarked head-to-head against the other four (see Future Work).
 
-## DistilBERT Training Setup
+## RoBERTa Training Setup
 
 - **Base model:** `facebook/roberta-hate-speech-dynabench-r4-target`
 - **Framework:** HuggingFace Transformers + PyTorch
 
-The fine-tuning script is at `backend/ml/train/train_distilbert.py`.
+The fine-tuning script is at `backend/ml/train/train_RoBERTa.py`.
 The generative explanation model (GPT-Neo 125M) is downloaded separately via
 `python -m app.models.download_hf_generative`.
 
