@@ -127,13 +127,6 @@ See `backend/deployment.md` for Cloud Run deploy commands.
 
 ![Main UI](assets/Screenshot%202026-08-16%20155709.png)
 
-Formal benchmarking (accuracy, precision, recall, F1) across the four
-production models hasn't been run yet — see `backend/ml/evaluate/` to
-produce it. The TF-IDF + Logistic Regression model is the fastest at
-inference (~2ms/request). A fifth model, a BiLSTM + GloVe classifier, is
-trained with evaluation scripts available but has not yet been
-benchmarked head-to-head against the other four (see Future Work).
-
 ## RoBERTa Training Setup
 
 - **Base model:** `facebook/roberta-hate-speech-dynabench-r4-target`
