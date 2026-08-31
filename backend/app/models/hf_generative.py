@@ -36,7 +36,8 @@ class HuggingFaceGenerative(BaseModel):
         """Return local path if it exists, otherwise fall back to the Hub name."""
         if self.use_local_models:
             local = os.path.join(self.local_models_dir, kind)
-            if os.path.exists(local):
+            weight_files = ('model.safetensors', 'pytorch_model.bin')
+            if os.path.isdir(local) and any(os.path.isfile(os.path.join(local, f)) for f in weight_files):
                 print(f"Using local {kind} model: {local}")
                 return local
             print(f"Local {kind} not found at {local}, falling back to Hub")

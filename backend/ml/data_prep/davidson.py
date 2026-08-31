@@ -1,4 +1,4 @@
-!pip install --upgrade --force-reinstall transformers datasets scikit-learn torch pandas matplotlib seaborn
+# Install the project requirements before running this script.
 
 import pandas as pd
 import torch

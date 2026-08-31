@@ -91,29 +91,33 @@ async def lifespan(app: FastAPI):
 
         # Load models -- sklearn is the fast/cheap baseline, then the heavier ones.
         sklearn_model_path = 'models_state/LR_English_TFIDF_TM_20250629.joblib'
-        sklearn_model = SklearnModel(name='Logistic Regression')
-        sklearn_model.load(model_path=sklearn_model_path)
-        load_model('sklearn', sklearn_model)
-        print(f"Loaded sklearn from {sklearn_model_path}")
+        if os.path.isfile(sklearn_model_path):
+            sklearn_model = SklearnModel(name='Logistic Regression')
+            sklearn_model.load(model_path=sklearn_model_path)
+            load_model('sklearn', sklearn_model)
+            logger.info("Loaded the local sklearn model")
+        else:
+            logger.warning("Sklearn artifact not found; /sklearn/predict will return 503")
 
         hf_model = HuggingFaceGenerative(use_local_models=True, local_models_dir='./models_state')
         load_model('huggingface', hf_model)
         print(f"Loaded HuggingFace model: {hf_model.name}")
 
         gemini_api_key = os.getenv('GEMINI_API_KEY')
-        if not gemini_api_key:
-            raise ValueError("GEMINI_API_KEY missing from env")
-        gemini_model = GeminiHateSpeechModel(name='gemini-1.5-flash', api_key=gemini_api_key)
-        load_model('gemini', gemini_model)
+        if gemini_api_key:
+            gemini_model = GeminiHateSpeechModel(name='gemini-1.5-flash', api_key=gemini_api_key)
+            load_model('gemini', gemini_model)
+            feedback_gen = FeedbackGenerator(name='feedback_generator', api_key=gemini_api_key)
+            load_model('feedback', feedback_gen)
+        else:
+            logger.warning("GEMINI_API_KEY is not set; Gemini endpoints will return 503")
 
         ollama_api_url = os.getenv('OLLAMA_API_URL')
-        if not ollama_api_url:
-            raise ValueError("OLLAMA_API_URL missing from env")
-        ollama_model = OllamaModel(name='ollama-llama3', api_url=ollama_api_url)
-        load_model('ollama', ollama_model)
-
-        feedback_gen = FeedbackGenerator(name='feedback_generator', api_key=gemini_api_key)
-        load_model('feedback', feedback_gen)
+        if ollama_api_url:
+            ollama_model = OllamaModel(name='ollama-llama3', api_url=ollama_api_url)
+            load_model('ollama', ollama_model)
+        else:
+            logger.warning("OLLAMA_API_URL is not set; Ollama endpoint will return 503")
 
         # Dependency overrides so routers get the live instances.
         app.dependency_overrides[get_leaderboard_service] = lambda: leaderboard_service
@@ -167,8 +171,6 @@ app.add_middleware(
 
 # --- Routers ---
 app.include_router(iam_router, tags=['IAM Authentication'])
-app.include_router(history_router, tags=['Predictions History'])
-
 app.include_router(sklearn_router,        prefix='/sklearn',       tags=['Sklearn Model'])
 app.include_router(hf_generative_router,  prefix='/hf_generative', tags=['HuggingFace Generative Model'])
 app.include_router(gemini_router,         prefix='/gemini',        tags=['Gemini Model'])

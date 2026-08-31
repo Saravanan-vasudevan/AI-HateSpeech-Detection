@@ -23,9 +23,9 @@ coverage.
 
 ![Main UI](assets/Screenshot%202026-08-16%20153826.png)
 
-A FastAPI backend that exposes independent `/predict` endpoints for four
-models — TF-IDF + Logistic Regression, a fine-tuned DistilBERT classifier
-(via HuggingFace), Google Gemini, and a self-hosted Ollama/Llama 3 instance.
+A FastAPI backend with independent `/predict` endpoints for four approaches:
+TF-IDF + Logistic Regression, a RoBERTa hate-speech classifier with a local
+explanation model, Google Gemini, and a self-hosted Ollama/Llama 3 instance.
 A fifth endpoint uses Gemini to generate natural-language feedback explaining
 *why* text got flagged, which is the pedagogical angle of the project.
 
@@ -34,14 +34,10 @@ submit text, compare model outputs side-by-side, take a quiz on recognising
 hate speech, and accumulate points. Teachers register students, view
 class-wide prediction history, and check a leaderboard.
 
-The stack was deliberately chosen over a simpler Python-only UI: an initial
-Streamlit-based plan was dropped in favor of Vite + React because Streamlit
-proved too restrictive for the interactive, component-heavy dashboards and
-analysis tools the project needed, and React's component structure allowed
-building a scalable, genuinely usable app within the four-week timeline.
-The visual design follows WCAG accessibility guidelines to keep the
-platform usable for a wider audience, using Red Hat Display and Red Hat
-Text for improved readability.
+An early Streamlit version was replaced with Vite and React because the
+student and teacher screens needed more control over navigation and state.
+The interface uses readable type, clear labels and keyboard-friendly native
+controls, but it has not had a formal WCAG audit.
 
 Training data comes from Davidson, Jigsaw, HateSpeech18, ToxiGen, TweetEval,
 and a few others. Per-dataset cleaning scripts and the Hugging Face RoBERTa classifier
@@ -61,7 +57,7 @@ backend/
     points/        Scoring + leaderboard
   ml/
     data_prep/     Dataset download and cleaning scripts
-    train/         Training scripts (TF-IDF, DistilBERT, BiLSTM)
+    train/         Experimental transformer and BiLSTM training scripts
     evaluate/      Evaluation scripts per model
   Dockerfile       Multi-stage build for Cloud Run
 ```
@@ -94,7 +90,7 @@ python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 pip install "bcrypt<4.0.0" # Required for passlib compatibility
 python download_nltk.py
-cp backend/.env.example backend/.env
+cp .env.example credentials.env
 uvicorn app.main:app --reload
 
 # Frontend
@@ -121,20 +117,23 @@ See `backend/deployment.md` for Cloud Run deploy commands.
 - Python 3.11+, Node 18+
 - A MongoDB instance (Atlas free tier works)
 - Gemini API key (free tier: https://ai.google.dev)
-- An Ollama endpoint if you want the Llama 3 model (otherwise the other three still work)
+- A local sklearn artifact if you want the Logistic Regression endpoint; model binaries are not stored in Git
+- Gemini and Ollama are optional. Their endpoints return 503 when the related configuration is absent
 
 ## Model Performance & Metrics
 
 ![Main UI](assets/Screenshot%202026-08-16%20155709.png)
 
-## RoBERTa Training Setup
+## Hugging Face model setup
 
 - **Base model:** `facebook/roberta-hate-speech-dynabench-r4-target`
 - **Framework:** HuggingFace Transformers + PyTorch
 
-The fine-tuning script is at `backend/ml/train/train_RoBERTa.py`.
-The generative explanation model (GPT-Neo 125M) is downloaded separately via
-`python -m app.models.download_hf_generative`.
+The application uses `facebook/roberta-hate-speech-dynabench-r4-target` as
+the classifier. The repository contains experimental per-dataset DistilBERT
+training scripts, but it does not claim that those scripts produced the
+application's RoBERTa checkpoint. Download the application models with
+`python -m app.models.download_hf_generative` from the `backend` directory.
 
 ## Usage
 
@@ -154,8 +153,9 @@ and `backend/ml/evaluate/`.
 - The Teacher Dashboard supports adding users and viewing student
   histories, but doesn't yet have full CRUD (update/delete) for user
   management.
-- English-language only, which limits applicability to the platform's
-  broader goal of addressing global moderation challenges.
+- English-language only.
+- Model binaries and the full training datasets are not committed, so model
+  training and the application setup are separate steps.
 
 ## Future Work
 

@@ -31,8 +31,10 @@ def download_and_save_hf_models(classifier_model_name: str, generative_model_nam
 
     # Check - Does the classifier file exists?
     # - If not, saving the model
-    if not os.path.exists(classifier_path):
-        os.makedirs(classifier_path)
+    classifier_ready = any(os.path.isfile(os.path.join(classifier_path, name))
+                           for name in ("model.safetensors", "pytorch_model.bin"))
+    if not classifier_ready:
+        os.makedirs(classifier_path, exist_ok=True)
         print(f"Downloading and saving classifier model '{classifier_model_name}' to {classifier_path}...")
         try:
             # For classification, we typically save the model and tokenizer separately
@@ -56,10 +58,12 @@ def download_and_save_hf_models(classifier_model_name: str, generative_model_nam
 
     # Check - Has the generative model already been saved?
     generative_path = os.path.join(save_directory, "generative")
-    if not os.path.exists(generative_path):
+    generative_ready = any(os.path.isfile(os.path.join(generative_path, name))
+                           for name in ("model.safetensors", "pytorch_model.bin"))
+    if not generative_ready:
 
         # ... If not, creating the path and loading model
-        os.makedirs(generative_path)
+        os.makedirs(generative_path, exist_ok=True)
         print(f"Downloading and saving generative model '{generative_model_name}' to {generative_path}...")
         try:
             # Load the model and tokenizer directly, with no quantization
