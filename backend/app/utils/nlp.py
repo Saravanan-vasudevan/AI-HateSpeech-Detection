@@ -183,10 +183,8 @@ def preprocess_for_basic_nlp(text : str) -> str:
    # Performing existing processing (which is done on all text)
    text = preprocess_for_hate_speech(text = text)
 
-   # Putting the text in lower case
    text = text.lower()
 
-   # Tokenizing the words 
    words = nltk.tokenize.word_tokenize(text)
 
    # Establishing the English stop words
@@ -195,23 +193,10 @@ def preprocess_for_basic_nlp(text : str) -> str:
    # Filtering out the stop-words
    words = [word for word in words if word not in stop_english]
 
-   # Creating a port lemmetizer
    stemmer = nltk.stem.PorterStemmer()
 
-   # Stemming words
    words = [stemmer.stem(word) for word in words]
 
    # Creating the sentence
    sentence = ' '.join(words)
    return sentence
-
-if __name__ == '__main__':
-   
-  sent = 'They should all be sent back to where they came from, this country is for us.'
-  print(preprocess_for_basic_nlp(text = sent))
-
-
-
-
-
-

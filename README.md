@@ -13,7 +13,7 @@ trained almost entirely on English-language data. This project explores
 how different ML approaches (classical, fine-tuned transformer, cloud LLM)
 compare on the same classification task, and pairs the predictions with a
 plain-language explanation, aiming at a lightweight, explainable assistant
-for moderators rather than an opaque black box.
+for moderators and shows a short reason with each result.
 
 The MVP was scoped and built within a four-week window, prioritizing
 usability, explainability, and cost-efficiency over exhaustive model
