@@ -2,11 +2,10 @@ import pymongo
 import pymongo.errors
 from pymongo.read_concern import ReadConcern
 
-import os
-from dotenv import load_dotenv
-from pathlib import Path
-
 import math
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Database:
     '''
@@ -19,8 +18,7 @@ class Database:
         and the name of the database to connect to.
 
         Args:
-        - connection_string (str): The MongoDB Atlas connection string.
-                                     (e.g., "mongodb+srv://username:<db_password>@cluster.example.mongodb.net/")
+        - connection_string (str): The MongoDB connection string.
         - db_name           (str): The name of the database to connect to within the cluster.
         '''
         self.connection_string = connection_string
@@ -60,21 +58,21 @@ class Database:
 
         # Exception 1:
         except pymongo.errors.ConnectionFailure as e:
-            print(f"MongoDB connection failed: {e}")
+            logger.error("MongoDB connection failed: %s", e)
 
             self.client = None
             self.db     = None
         
         #Exception 2: 
         except pymongo.errors.OperationFailure as e:
-            print(f"MongoDB operation failed (e.g., authentication): {e}")
+            logger.error("MongoDB operation failed: %s", e)
 
             self.client = None
             self.db     = None
         
         # Exception 3: 
         except Exception as e:
-            print(f"An unexpected error occurred during connection: {e}")
+            logger.exception("MongoDB connection failed")
             
             self.client = None
             self.db     = None
@@ -88,7 +86,7 @@ class Database:
         '''
 
         if self.db is None:
-            print('Database not connected. Please call .connect() first.')
+            logger.warning('Database is not connected')
         return self.db
 
     def close_connection(self) -> None:
@@ -118,7 +116,6 @@ class Database:
         Returns:
         - pymongo.collection.Collection or None: The collection object, or None if not connected/invalid name.
         '''
-        # Check 1
         if self.db is None:
             return None
         
@@ -144,14 +141,13 @@ class Database:
             result = collection.insert_one(record)
             return result.inserted_id
         
-        # Errror 1
         except pymongo.errors.PyMongoError as e:
-            print(f"Error adding record to '{collection_name}': {e}")
+            logger.error("Could not add record to %s: %s", collection_name, e)
             return None
 
         # Error 2 
         except Exception as e:
-            print(f"An unexpected error occurred while adding record: {e}")
+            logger.exception("Could not add record to %s", collection_name)
             return None
         
     def add_records(self, collection_name: str, records: list, batch_size: int = 100) -> list:
@@ -173,14 +169,12 @@ class Database:
         '''
         collection = self._get_collection(collection_name)
 
-        # Check 1 
         if collection is None:
-            print(f"Error: Could not get collection '{collection_name}'. Database might not be connected.")
+            logger.warning("Collection %s is unavailable", collection_name)
             return None
 
-        # Check 2 
         if not records:
-            print(f"No records provided to add to '{collection_name}'.")
+            logger.info("No records supplied for %s", collection_name)
             return []
 
         all_inserted_ids = []
@@ -202,15 +196,13 @@ class Database:
                 all_inserted_ids.extend(result.inserted_ids)
             
             except pymongo.errors.BulkWriteError as bwe:
-                print(f"  Batch with records {id} completed with write errors. Details:")
-                print(f"    Inserted count: {bwe.details.get('nInserted', 0)}")
-                print(f"    Write errors: {bwe.details.get('writeErrors', [])}")
+                logger.error("Batch write failed for %s: %s", collection_name, bwe.details)
 
             except pymongo.errors.PyMongoError as e:
-                print(f"  Error adding batch with record {i} to '{collection_name}': {e}")
+                logger.error("Batch starting at %s failed for %s: %s", i, collection_name, e)
 
             except Exception as e:
-                print(f"  An unexpected error occurred while adding batch with record {i}: {e}")
+                logger.exception("Batch starting at %s failed for %s", i, collection_name)
 
         # Returning record
         return all_inserted_ids
@@ -239,16 +231,16 @@ class Database:
             record = collection.find_one(query)
 
             if record is None:
-                print(f"No record found in '{collection_name}' matching query: {query}")
+                logger.debug("No record found in %s", collection_name)
             
             return record
         
         except pymongo.errors.PyMongoError as e:
-            print(f"Error getting record from '{collection_name}' with query {query}: {e}")
+            logger.error("Could not read from %s: %s", collection_name, e)
             return None
         
         except Exception as e:
-            print(f"An unexpected error occurred while getting record: {e}")
+            logger.exception("Could not read from %s", collection_name)
             return None
 
     def get_records(self, collection_name: str, query: dict = None,
@@ -289,45 +281,10 @@ class Database:
             return list(cursor)
         
         except pymongo.errors.PyMongoError as e:
-            print(f"Error getting records from '{collection_name}' with query {query}: {e}")
+            logger.error("Could not read records from %s: %s", collection_name, e)
             return []
         
         except Exception as e:
-            print(f"An unexpected error occurred while getting records: {e}")
+            logger.exception("Could not read records from %s", collection_name)
             return []
         
-if __name__ == '__main__':
-
-    project_root = Path(__file__).resolve().parents[1]
-
-    dotenv_path = project_root / 'credentials.env'
-
-    load_dotenv(dotenv_path = dotenv_path)
-
-    # Retrieving properties of username
-    db_password = os.getenv('DB_PASSWORD')
-    db_string   = os.getenv('DB_STRING')
-
-    # Putting the password in the string
-    db_string = db_string.replace('<db_password>', db_password)
-
-    db_name = 'Hate_App'
-    
-    db = Database(connection_string = db_string, db_name = db_name)
-
-    # Dummy user record
-    user_record = {
-        'email'    : 'test@gmail.com',
-        'password' : 'hello1234'
-    }
-    # Adding user
-    db.add_record(collection_name = 'users', record = user_record)
-
-    # Records of text
-    texts = [
-        {'text' : 'Hello, how are you?', 'label' : 1, 'datset' : 'Dynabench'},
-        {'text' : 'Hello, how are you?', 'label' : 0, 'datset' : 'Dynabench'},
-        {'text' : 'Hello, how are you?', 'label' : 0, 'datset' : 'Dynabench'}
-    ]
-    db.add_records(collection_name = 'text', records = texts, batch_size = 2)
-
