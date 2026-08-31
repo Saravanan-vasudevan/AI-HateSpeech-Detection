@@ -32,7 +32,7 @@ class Database:
     def __connect(self) -> None:
         '''
         Establishes a connection to the MongoDB Atlas cluster.
-        It has appropiate error handlin to mitigate the effect
+        It has appropriate error handling to reduce the effect
         of credential / authentication issues
 
         Input args:

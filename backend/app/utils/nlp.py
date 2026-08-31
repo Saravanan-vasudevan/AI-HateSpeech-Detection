@@ -1,20 +1,11 @@
-# Importing emoji library
-# - We are using this functionality because emoji's have sematic relevance
-#   and therefore, we should try and keep it for detection
 import emoji
 
-# Import regular expressions
-# - This is needed to allow us to correct for certain techniques
-#   like twitter handles and repeated characters
 import re
 
-# Importing ability to detect languages
 import langdetect
 
-# Importing language classification system
 import iso639
 
-# Importing nltk (and os to locate the data)
 import nltk
 import os
 
