@@ -125,14 +125,7 @@ const TeacherLogin = () => {
             <FaArrowLeft /> Back to Main Login
           </button>
         </form>
-        
-        {/* Demo credentials helper */}
-        <div className={styles.demoCredentials}>
-          <p><strong>Demo Credentials:</strong></p>
-          <p>Username: <code>Admin1234</code> | Password: <code>Admin1234!</code> (Ensure this user is registered as admin in your DB)</p>
-        </div>
-      </div>
-    </div>
+</div>
   );
 };
 
