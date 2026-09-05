@@ -119,7 +119,8 @@ const TeacherLogin = () => {
             <FaArrowLeft /> Back to Main Login
           </button>
         </form>
-</div>
+      </div>
+    </div>
   );
 };
 
