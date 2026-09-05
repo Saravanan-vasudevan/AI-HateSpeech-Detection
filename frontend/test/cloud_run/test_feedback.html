@@ -28,7 +28,7 @@
     <div class="container">
         <div class="input-section">
             <h1>Interactive Feedback</h1>
-            
+
             <h2>1. Analyze the Text</h2>
             <textarea id="text-input" placeholder="Enter text to analyze here..." rows="5"></textarea>
 
@@ -38,7 +38,7 @@
                 <option value="true">This IS hate speech</option>
             </select>
             <textarea id="human-explanation" placeholder="Explain your reasoning here..." rows="3"></textarea>
-            
+
             <button id="submit-btn" onclick="submitForAnalysis()">Submit for Feedback</button>
         </div>
 
@@ -51,12 +51,9 @@
     </div>
 
     <script>
-        // UPDATED: This now points to your Google Cloud Run service URL
         const API_BASE_URL = 'https://hate-backend-215652629527.europe-west2.run.app';
-        // This will hold the AI's prediction data to be reused
         let aiPredictionData = null;
 
-        // Shows a loading spinner in a given container
         function showSpinner(container) {
             container.innerHTML = '<div class="spinner"></div>';
         }
@@ -72,7 +69,6 @@
                 return;
             }
 
-            // Disable button and show loading states
             submitBtn.disabled = true;
             submitBtn.textContent = 'Processing...';
             document.getElementById('results-container').style.display = 'block';
@@ -82,24 +78,21 @@
             showSpinner(feedbackCard);
 
             try {
-                // --- Step 1: Get the Gemini model's prediction ---
                 const geminiResponse = await fetch(`${API_BASE_URL}/gemini/predict`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ text: textInput })
                 });
                 if (!geminiResponse.ok) throw new Error('Failed to get AI prediction.');
-                
+
                 aiPredictionData = await geminiResponse.json();
-                
-                // Display the AI's prediction
+
                 aiCard.innerHTML = `
                     <h3>AI Analysis (Gemini)</h3>
                     <p><strong>Is Hate Speech:</strong> ${aiPredictionData.is_hate_speech}</p>
                     <div class="explanation"><strong>Explanation:</strong><br>${aiPredictionData.explanation}</div>
                 `;
 
-                // --- Step 2: Get the initial feedback based on the comparison ---
                 const feedbackResponse = await fetch(`${API_BASE_URL}/feedback/generate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -114,7 +107,6 @@
 
                 const feedbackData = await feedbackResponse.json();
 
-                // Display the initial feedback and the "Extra Feedback" button
                 feedbackCard.innerHTML = `
                     <h3>Personalized Feedback</h3>
                     <div class="explanation">${feedbackData.feedback_text}</div>
@@ -125,7 +117,6 @@
                 aiCard.innerHTML = `<h3>Error</h3><p>${error.message}</p>`;
                 feedbackCard.innerHTML = '';
             } finally {
-                // Re-enable the submit button
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Submit for Feedback';
             }
@@ -136,39 +127,35 @@
             extraFeedbackCard.style.display = 'block';
             showSpinner(extraFeedbackCard);
 
-            // This function relies on the `aiPredictionData` being stored from the first call
             if (!aiPredictionData) {
                 extraFeedbackCard.innerHTML = `<h3>Error</h3><p>No AI prediction data available.</p>`;
                 return;
             }
 
-            // --- Step 3: Create a new, more detailed prompt for a final analysis ---
             const humanExplanation = document.getElementById('human-explanation').value;
             const extraPrompt = `
-                Analyze the following situation and provide a final, detailed summary. 
-                A user and an AI analyzed a piece of text for hate speech. 
-                
+                Analyze the following situation and provide a final, detailed summary.
+                A user and an AI analyzed a piece of text for hate speech.
+
                 Original Text: "${aiPredictionData.input_text}"
-                
+
                 User's Analysis: "${humanExplanation}"
-                
+
                 AI's Initial Analysis: "${aiPredictionData.explanation}"
-                
+
                 Based on all this information, give a comprehensive explanation that clarifies any misconceptions and provides a definitive analysis of the original text.
             `;
 
             try {
-                // We can reuse the Gemini endpoint for this advanced query
                 const response = await fetch(`${API_BASE_URL}/gemini/predict`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ text: extraPrompt })
                 });
                 if (!response.ok) throw new Error('Failed to get extra feedback.');
-                
+
                 const data = await response.json();
 
-                // Display the extra, deeper feedback
                 extraFeedbackCard.innerHTML = `
                     <h3>Extra Feedback</h3>
                     <div class="explanation">${data.explanation}</div>

@@ -1,13 +1,9 @@
-# backend/utils/test_logger.py
 
-# Importing unittest for testing framework
 import unittest
 
-# Importing ObjectId for querying by MongoDB document _id
 from bson import ObjectId
 
-# Importing the PredictionLogger class to test
-from backend.utils.prediction_logger import PredictionLogger
+from app.utils.prediction_logger import PredictionLogger
 
 class TestPredictionLogger(unittest.TestCase):
     '''
@@ -38,26 +34,22 @@ class TestPredictionLogger(unittest.TestCase):
         - A document is successfully inserted (i.e., returns an ObjectId)
         - The inserted document matches the expected field values
         '''
-        # Log the test prediction to the database
         inserted_id = self.logger.log_prediction(
             input_text=self.test_input,
-            label=self.test_ai_label,               # Fixed: was incorrectly called self.test_label
+            label=self.test_ai_label,
             human_label=self.test_human_label,
             reason=self.test_reason,
             username="test_user"
         )
 
-        # Ensure a valid ID was returned
         self.assertIsNotNone(inserted_id)
 
-        # Query the MongoDB collection to verify the inserted document
         result = self.logger.collection.find_one({"_id": ObjectId(inserted_id)})
 
-        # Assertions to check if the document exists and contains correct values
         self.assertIsNotNone(result)
         self.assertEqual(result["input_text"], self.test_input)
         self.assertEqual(result["AI_label"], self.test_ai_label)
-        self.assertEqual(result["Human_label"], self.test_human_label)  # Ensure case matches logger
+        self.assertEqual(result["Human_label"], self.test_human_label)
         self.assertEqual(result["reason"], self.test_reason)
 
     def tearDown(self):
@@ -68,8 +60,7 @@ class TestPredictionLogger(unittest.TestCase):
         - Closes the database connection
         '''
         self.logger.collection.delete_many({"input_text": self.test_input})
-        self.logger.db.close_connection()  
+        self.logger.db.close_connection()
 
-# Entry point for running the unit test directly via terminal
 if __name__ == "__main__":
     unittest.main()

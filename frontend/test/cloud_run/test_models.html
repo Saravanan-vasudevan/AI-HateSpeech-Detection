@@ -45,19 +45,17 @@
     </div>
 
     <script>
-        // UPDATED: This now points to your Google Cloud Run service URL
         const API_BASE_URL = 'https://hate-backend-215652629527.europe-west2.run.app';
 
-        // Helper function to render the result in a card
         function displayResult(modelId, data) {
             const card = document.getElementById(`${modelId}-card`);
             const resultContainer = document.getElementById(`${modelId}-result`);
-            
+
             if (data.status === 'fulfilled') {
                 const result = data.value;
                 const probabilityPercent = (result.hate_speech_probability * 100).toFixed(1);
 
-                card.className = 'result-card'; // Reset class
+                card.className = 'result-card';
                 card.classList.add(result.is_hate_speech ? 'is-hate' : 'is-not-hate');
 
                 resultContainer.innerHTML = `
@@ -66,7 +64,7 @@
                     <div class="explanation"><strong>Explanation:</strong><br>${result.explanation}</div>
                 `;
             } else {
-                card.className = 'result-card is-hate'; // Show error state
+                card.className = 'result-card is-hate';
                 resultContainer.innerHTML = `<p><strong>Error:</strong><br>${data.reason}</p>`;
             }
         }
@@ -79,20 +77,17 @@
             }
 
             const models = ['sklearn', 'hf_generative', 'gemini'];
-            
-            // Show loading state
+
             models.forEach(model => {
-                const modelId = model.split('_')[0]; // sklearn, hf, gemini
+                const modelId = model.split('_')[0];
                 const card = document.getElementById(`${modelId}-card`);
                 card.className = 'result-card';
                 document.getElementById(`${modelId}-result`).innerHTML = 'Processing...';
             });
 
-            // Create the request body
             const requestBody = { text: inputText };
 
-            // Define the fetch promises for each model endpoint
-            const promises = models.map(modelName => 
+            const promises = models.map(modelName =>
                 fetch(`${API_BASE_URL}/${modelName}/predict`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -100,17 +95,14 @@
                 }).then(async response => {
                     const data = await response.json();
                     if (!response.ok) {
-                        // Throw an error with the detail from the API response
                         throw new Error(data.detail || 'Request failed');
                     }
                     return data;
                 })
             );
 
-            // Use Promise.allSettled to wait for all requests to complete, even if some fail
             const results = await Promise.allSettled(promises);
-            
-            // Display the results
+
             displayResult('sklearn', results[0]);
             displayResult('hf', results[1]);
             displayResult('gemini', results[2]);

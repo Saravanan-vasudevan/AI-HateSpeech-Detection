@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './HateSpeechIdentifier.module.css';
-import animatedButtonStyles from '../styles/AnimatedButton.module.css';
+import animatedButtonStyles from '../Styles/AnimatedButton.module.css';
 import config from '../config';
 import { FaArrowLeft } from 'react-icons/fa';
 
@@ -12,7 +12,7 @@ const HateSpeechIdentifier = () => {
     );
     const [isHateSpeech, setIsHateSpeech] = useState(null);
     const [reasoning, setReasoning] = useState('');
-    
+
     const [showResults, setShowResults] = useState(false);
     const [aiClassification, setAiClassification] = useState(null);
     const [aiExplanation, setAiExplanation] = useState('');
@@ -43,10 +43,9 @@ const handleSubmit = async (e) => {
             return;
         }
 
-        // --- Step 1: Get the initial AI prediction ---
         const predictionResponse = await fetch(`${config.API_BASE_URL}/gemini/predict`, {
             method: 'POST',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`
             },
@@ -58,10 +57,9 @@ const handleSubmit = async (e) => {
             throw new Error(predictionData.detail || 'Failed to get a prediction from the AI model.');
         }
 
-        // --- Step 2: Get personalized feedback based on the prediction ---
         const feedbackResponse = await fetch(`${config.API_BASE_URL}/feedback/generate`, {
             method: 'POST',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`
             },
@@ -78,10 +76,9 @@ const handleSubmit = async (e) => {
             throw new Error(feedbackData.detail || 'Failed to generate feedback.');
         }
 
-        // --- Step 3: Log the complete interaction to history ---
         await fetch(`${config.API_BASE_URL}/history/`, {
             method: 'POST',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`
             },
@@ -95,10 +92,9 @@ const handleSubmit = async (e) => {
             })
         });
 
-        // --- Step 4: Update the UI with all the new data ---
         setAiClassification(predictionData.is_hate_speech ? 'yes' : 'no');
         setAiExplanation(predictionData.explanation);
-        setFeedbackMessage(feedbackData.feedback_text); // Use the new feedback from the API
+        setFeedbackMessage(feedbackData.feedback_text);
         setShowResults(true);
 
     } catch (error) {
@@ -166,14 +162,14 @@ const handleSubmit = async (e) => {
                                 <p className={styles.reasoningText}>{aiExplanation}</p>
                             </div>
                         </div>
-                        
+
                         <div className={styles.feedbackSection}>
                             <h3 className={styles.resultTitle}>Feedback:</h3>
                             <p className={styles.feedbackMessage}>{feedbackMessage}</p>
                         </div>
 
-                        <button 
-                            className={`${styles.submitButton} ${animatedButtonStyles.animatedButton}`} 
+                        <button
+                            className={`${styles.submitButton} ${animatedButtonStyles.animatedButton}`}
                             onClick={handleAnalyzeAnother}
                         >
                             Analyze Another Text

@@ -8,7 +8,6 @@ from app.models.ollama_generative import OllamaModel
 from app.models.gemini_feedback import FeedbackGenerator
 
 
-# ---- Request / Response schemas (shared across all model endpoints) ----
 
 class PredictionRequest(BaseModel):
     """Input payload for any /predict endpoint."""
@@ -30,7 +29,6 @@ class FeedbackResponse(BaseModel):
     feedback_text: str
 
 
-# ---- Model registry ----
 
 _loaded_models: Dict[str, BaseModel] = {}
 
@@ -50,7 +48,6 @@ def get_model_dependency(model_name: str) -> callable:
     return _get
 
 
-# ---- HuggingFace (RoBERTa classifier + GPT-Neo explanation) ----
 
 hf_generative_router = APIRouter()
 
@@ -67,7 +64,6 @@ async def predict_hf_generative(
         hate_score = model.predict(input_text)
         full_text  = model.predict_text(input_text)
 
-        # The generative model prepends "Prediction: ... Contextual Explanation: ..."
         explanation = 'Explanation not available.'
         if 'Contextual Explanation:' in full_text:
             explanation = full_text.split('Contextual Explanation:', 1)[1].strip()
@@ -82,7 +78,6 @@ async def predict_hf_generative(
         raise HTTPException(500, detail=f"HuggingFace prediction failed: {e}")
 
 
-# ---- Sklearn (TF-IDF + Logistic Regression) ----
 
 sklearn_router = APIRouter()
 
@@ -105,7 +100,6 @@ async def predict_sklearn(
         raise HTTPException(500, detail=f"Sklearn prediction error: {e}")
 
 
-# ---- Gemini (cloud LLM) ----
 
 gemini_router = APIRouter()
 
@@ -132,7 +126,6 @@ async def predict_gemini(
     )
 
 
-# ---- Ollama (self-hosted Llama 3) ----
 
 ollama_router = APIRouter()
 
@@ -160,7 +153,6 @@ async def predict_ollama(
     )
 
 
-# ---- Feedback generator (Gemini-backed pedagogical feedback) ----
 
 feedback_router = APIRouter()
 

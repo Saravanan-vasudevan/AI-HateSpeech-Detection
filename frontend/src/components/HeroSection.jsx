@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './HeroSection.module.css';
-import illustration from '../assets/Online-Social-Media-Interaction-Illustration.svg'; // Make sure illustration.svg is in your assets folder
+import styles from './herosection.module.css';
+import illustration from '../assets/Online-Social-Media-Interaction-Illustration.svg';
 
 const HeroSection = () => (
   <section className={styles.heroWrap}>

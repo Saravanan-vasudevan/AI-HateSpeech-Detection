@@ -30,8 +30,8 @@ const StudentPointsHistory = () => {
                     const data = await response.json();
                     const formattedHistory = data.map(item => ({
                         activity: item.type === 'quiz' ? 'Quiz Completed' : `Text Analysis: "${item.text.substring(0, 30)}..."`,
-                        pointsEarned: item.score || 0, // Corrected: use 'score'
-                        date: new Date(item.datetime).toLocaleDateString() // Corrected: use 'datetime'
+                        pointsEarned: item.score || 0,
+                        date: new Date(item.datetime).toLocaleDateString()
                     }));
                     setHistoryData(formattedHistory.reverse());
                 } else {
@@ -50,7 +50,7 @@ const StudentPointsHistory = () => {
     }, []);
 
     const handleGoBack = () => {
-        navigate('/dashboard'); 
+        navigate('/dashboard');
     };
 
     return (

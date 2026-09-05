@@ -1,18 +1,18 @@
-/* Basic reset to remove default browser padding/margin */
+
 html, body, #root {
   margin: 0;
   padding: 0;
-  /* Use dynamic viewport height for optimal mobile browser fit */
-  min-height: 100vh;   /* Fallback for browsers not supporting dvh */
-  min-height: 100dvh;  /* Dynamic viewport height */
-  width: 100%; /* Ensure full width */
-  box-sizing: border-box; /* Crucial for consistent sizing including padding/border */
-  overflow-x: hidden; /* Prevents horizontal scrollbars and the 'white box' issue from root */
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-/* Apply border-box to all elements for consistent sizing */
+
 *, *::before, *::after {
-  box-sizing: inherit; /* Elements will inherit the box-sizing model */
+  box-sizing: inherit;
 }
 
 body {

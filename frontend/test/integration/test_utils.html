@@ -50,12 +50,10 @@
         const API_BASE_URL = 'http://127.0.0.1:8000';
         let accessToken = null;
 
-        // Helper to display results
         function displayResults(data) {
             document.getElementById('results').textContent = JSON.stringify(data, null, 2);
         }
 
-        // 1. Register User Function
         async function registerUser() {
             const username = document.getElementById('reg_username').value;
             const password = document.getElementById('reg_password').value;
@@ -81,12 +79,10 @@
             }
         }
 
-        // 2. Login User Function
         async function loginUser() {
             const username = document.getElementById('login_username').value;
             const password = document.getElementById('login_password').value;
-            
-            // NOTE: OAuth2PasswordRequestForm expects form data, not JSON.
+
             const formData = new URLSearchParams();
             formData.append('username', username);
             formData.append('password', password);
@@ -111,7 +107,6 @@
             }
         }
 
-        // 3. Get User Info Function
         async function getMyInfo() {
             if (!accessToken) {
                 alert('You must log in first to get a token!');
@@ -129,7 +124,6 @@
             }
         }
 
-        // 4. Get Protected Data
         async function getProtectedData() {
             if (!accessToken) {
                 alert('You must log in first to get a token!');

@@ -29,13 +29,11 @@ const TeacherStudentList = () => {
         }
 
         const data = await response.json();
-        
-        // --- UPDATED: Sorting by Quiz Score primarily ---
+
         data.sort((a, b) => (b.quiz_score || 0) - (a.quiz_score || 0));
 
         const topThree = data.slice(0, 3);
 
-        // --- UPDATED: State format, removed totalScore ---
         const formattedList = topThree.map((user, index) => ({
             rank: index + 1,
             username: user.username,
@@ -100,7 +98,7 @@ const TeacherStudentList = () => {
             ) : (
               <div className={styles.studentTableContainer}>
                 <table className={styles.studentTable}>
-                  {/* --- UPDATED: Table headers as requested --- */}
+
                   <thead>
                     <tr>
                       <th>Rank</th>
@@ -109,7 +107,7 @@ const TeacherStudentList = () => {
                       <th>Quiz Score</th>
                     </tr>
                   </thead>
-                  {/* --- UPDATED: Table body to show separate scores --- */}
+
                   <tbody>
                     {leaderboardData.map((student) => (
                       <tr key={student.rank}>

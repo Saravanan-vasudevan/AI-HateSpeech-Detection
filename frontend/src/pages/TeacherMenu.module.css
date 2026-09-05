@@ -1,4 +1,4 @@
-/* Color Variables based on your theme */
+
 :root {
     --page-bg: #E8E8E8;
     --page-text: #030303;
@@ -20,7 +20,7 @@
     min-height: 100vh;
     min-height: 100dvh;
     color: var(--page-text);
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
     padding: 20px;
     box-sizing: border-box;
 }
@@ -159,7 +159,7 @@
     opacity: 0.8;
 }
 
-.backButton { /* Adjusted from global styles for specific placement here */
+.backButton {
     background: none;
     border: none;
     color: var(--accent-cyan);
@@ -177,7 +177,7 @@
 }
 
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .dashboardBox {
         padding: 30px 20px;
@@ -201,7 +201,7 @@
     }
 
     .studentText {
-        /* No specific changes needed here for mobile */
+
     }
 
     .totalPoints {
@@ -235,7 +235,7 @@
     .dashboardSubtitle {
         font-size: 1em;
     }
-    
+
     .actionButton {
         font-size: 1.1em;
     }

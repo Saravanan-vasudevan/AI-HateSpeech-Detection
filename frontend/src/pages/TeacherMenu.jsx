@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './TeacherMenu.module.css';
-import animatedButtonStyles from '../styles/AnimatedButton.module.css';
+import animatedButtonStyles from '../Styles/AnimatedButton.module.css';
 import config from '../config';
 import { FaSignOutAlt } from 'react-icons/fa';
 
@@ -54,11 +54,11 @@ const TeacherMenu = () => {
     }, [navigate]);
 
     const handleRegisterUser = () => {
-        navigate('/teacher-dashboard'); // This is where the registration form is
+        navigate('/teacher-dashboard');
     };
 
     const handleViewStudentHistory = () => {
-        navigate('/teacher-students'); // <--- UPDATED: Navigate to the new TeacherStudentList page
+        navigate('/teacher-students');
     };
 
     const handleLogout = () => {
@@ -90,15 +90,15 @@ const TeacherMenu = () => {
                 <p className={styles.dashboardSubtitle}>Manage users and monitor educational progress.</p>
 
                 <div className={styles.dashboardActions}>
-                    <button 
-                        className={`${styles.actionButton} ${animatedButtonStyles.animatedButton}`} 
+                    <button
+                        className={`${styles.actionButton} ${animatedButtonStyles.animatedButton}`}
                         onClick={handleRegisterUser}
                     >
                         <div className={styles.actionButtonTitle}>Register New Students</div>
                         <div className={styles.actionButtonDescription}>Create new accounts for students.</div>
                     </button>
-                    <button 
-                        className={`${styles.actionButton} ${animatedButtonStyles.animatedButton}`} 
+                    <button
+                        className={`${styles.actionButton} ${animatedButtonStyles.animatedButton}`}
                         onClick={handleViewStudentHistory}
                     >
                         <div className={styles.actionButtonTitle}>View All Students</div>

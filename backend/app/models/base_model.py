@@ -9,7 +9,7 @@ class BaseModel(ABC):
 
     def __init__(self, name: str) -> None:
         self.name  = name
-        self.model = None   # populated by subclass
+        self.model = None
 
     @abstractmethod
     def preprocess(self, text: str):

@@ -52,7 +52,6 @@ class OllamaModel(BaseModel):
                 cleaned = content.strip().replace('```json', '').replace('```', '')
                 self._last_response = json.loads(cleaned)
             except json.JSONDecodeError:
-                # Probably a safety refusal or free-text answer.
                 self._last_response = {
                     'hate_speech_probability': 0.0,
                     'explanation': f"Model returned non-JSON: {content[:200]}"
@@ -75,7 +74,7 @@ class OllamaModel(BaseModel):
         return result.get('explanation', 'No explanation available.')
 
     def load(self, model_path: str) -> None:
-        pass  # remote API
+        pass
 
     def save(self, model_path: str):
         pass

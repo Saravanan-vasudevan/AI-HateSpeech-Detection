@@ -1,17 +1,17 @@
-/* In frontend/src/App.css */
 
-/* Global App Container */
+
+
 .App {
-  position: relative; /* This is correct */
+  position: relative;
   min-height: 100vh;
   min-height: 100dvh;
-  overflow: hidden; /* This is good practice */
-  /* The display: flex and flex-direction properties have been removed. */
+  overflow: hidden;
+
 }
 
-/* Global Canvas Styling */
+
 .global-canvas {
-  position: absolute; /* MUST be absolute, not fixed */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;

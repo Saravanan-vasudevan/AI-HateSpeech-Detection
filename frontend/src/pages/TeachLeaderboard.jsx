@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './TeacherLeaderboard.module.css'; // This component's specific CSS
-import config from '../config'; // Import config for API_BASE_URL
+import styles from './TeachLeaderboard.module.css';
+import config from '../config';
 import { FaArrowLeft, FaTrophy } from 'react-icons/fa';
 
-const TeacherLeaderboard = () => { // Renamed component from TeacherStudentList
+const TeacherLeaderboard = () => {
   const navigate = useNavigate();
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,11 +23,10 @@ const TeacherLeaderboard = () => { // Renamed component from TeacherStudentList
           return;
         }
 
-        const response = await fetch(`${config.API_BASE_URL}/scores/leaderboard`, { // Fetch from leaderboard endpoint
+        const response = await fetch(`${config.API_BASE_URL}/scores/leaderboard`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
-            // 'Authorization': `Bearer ${accessToken}`, // Leaderboard API might not require auth, check backend
           },
         });
 
@@ -37,37 +36,34 @@ const TeacherLeaderboard = () => { // Renamed component from TeacherStudentList
         }
 
         const data = await response.json();
-        // Assuming data is an array of objects: [{username, score}, ...]
         setLeaderboardData(data);
 
       } catch (error) {
         setErrorMessage(`Error loading leaderboard: ${error.message}.`);
         console.error('Error fetching leaderboard:', error);
-        setLeaderboardData([]); // Clear list on error
+        setLeaderboardData([]);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchLeaderboard();
-  }, []); // Run once on mount
+  }, []);
 
-  // No handleViewStudentHistory as this page is now pure leaderboard
-  // If you need to click on a username here to view *their* history, we'd add that.
 
   const handleGoBack = () => {
-    navigate('/teacher-menu'); // Go back to the Teacher Menu
+    navigate('/teacher-menu');
   };
 
   return (
     <div className={styles.dashboardPageContainer}>
       <div className={styles.dashboardBox}>
         <div className={styles.dashboardTopBar}>
-          <div className={styles.studentInfo}> {/* Reusing studentInfo styles */}
-            <span className={`material-icons ${styles.identityIcon}`}>leaderboard</span> {/* Icon for leaderboard */}
+          <div className={styles.studentInfo}>
+            <span className={`material-icons ${styles.identityIcon}`}>leaderboard</span>
             <div className={styles.studentText}>
-              <span className={styles.studentName}>Global Leaderboard</span> {/* Changed text */}
-              <span className={styles.studentNumber}>Top Student Scores</span> {/* Changed text */}
+              <span className={styles.studentName}>Global Leaderboard</span>
+              <span className={styles.studentNumber}>Top Student Scores</span>
             </div>
           </div>
           <button onClick={handleGoBack} className={styles.backButton}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './RSSCards.module.css';
+import styles from './rsscards.module.css';
 import { FaArrowRight } from 'react-icons/fa';
 
 const cardImages = [

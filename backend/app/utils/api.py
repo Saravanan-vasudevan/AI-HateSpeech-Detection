@@ -10,13 +10,8 @@ from jose import JWTError, jwt
 from app.utils.iam import IAM
 from app.utils.user import User
 
-# JWT_SECRET must be set via environment/credentials.env in every environment.
-# There is no fallback default on purpose -- an app that silently signs
-# tokens with a guessable default secret is worse than one that refuses to
-# start without a real one.
-JWT_SECRET = os.getenv('JWT_SECRET')
 JWT_ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 12  # 12 hours
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 12
 
 
 class UserCreateRequest(BaseModel):
@@ -50,12 +45,17 @@ def get_iam(iam: IAM = Depends(lambda: None)) -> IAM:
     return iam
 
 
+def _get_jwt_secret() -> str:
+    secret = os.getenv('JWT_SECRET')
+    if not secret:
+        raise RuntimeError('JWT_SECRET is not set -- cannot handle tokens.')
+    return secret
+
+
 def _create_access_token(username: str) -> str:
-    if not JWT_SECRET:
-        raise RuntimeError('JWT_SECRET is not set -- cannot issue tokens.')
     expires_at = datetime.datetime.utcnow() + datetime.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     payload = {'sub': username, 'exp': expires_at}
-    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+    return jwt.encode(payload, _get_jwt_secret(), algorithm=JWT_ALGORITHM)
 
 
 @router.post('/token', response_model=Token)
@@ -72,7 +72,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
     user = iam.get_user(username=username)
     if not user:
-        # check_user passed but get_user failed -- a DB inconsistency, not a bad login.
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail='User found during verification but not during login. Internal error.',
@@ -82,8 +81,39 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return {'access_token': access_token, 'token_type': 'bearer'}
 
 
+async def get_current_user(token: str = Depends(oauth2_scheme), iam: IAM = Depends(get_iam)) -> User:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail='Could not validate credentials',
+        headers={'WWW-Authenticate': 'Bearer'},
+    )
+
+    try:
+        payload = jwt.decode(token, _get_jwt_secret(), algorithms=[JWT_ALGORITHM])
+        username = payload.get('sub')
+        if username is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+
+    user = iam.get_user(username=username)
+    if not user:
+        raise credentials_exception
+    return user
+
+
 @router.post('/register', response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-async def register_user(user_data: UserCreateRequest, iam: IAM = Depends(get_iam)):
+async def register_user(
+    user_data: UserCreateRequest,
+    iam: IAM = Depends(get_iam),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user.is_admin():
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail='Admin access required',
+        )
+
     is_suitable, message = iam.is_suitable(user_data.username, user_data.password)
     if not is_suitable:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=message)
@@ -108,31 +138,6 @@ async def register_user(user_data: UserCreateRequest, iam: IAM = Depends(get_iam
             detail='User registered but could not be retrieved post-registration. Internal error.',
         )
     return new_user.to_dict()
-
-
-async def get_current_user(token: str = Depends(oauth2_scheme), iam: IAM = Depends(get_iam)) -> User:
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail='Could not validate credentials',
-        headers={'WWW-Authenticate': 'Bearer'},
-    )
-
-    if not JWT_SECRET:
-        raise RuntimeError('JWT_SECRET is not set -- cannot verify tokens.')
-
-    try:
-        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-        username = payload.get('sub')
-        if username is None:
-            raise credentials_exception
-    except JWTError:
-        # Covers expired, malformed, or tampered tokens -- all treated as unauthenticated.
-        raise credentials_exception
-
-    user = iam.get_user(username=username)
-    if not user:
-        raise credentials_exception
-    return user
 
 
 @router.get('/users/me', response_model=UserResponse)

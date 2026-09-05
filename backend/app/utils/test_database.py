@@ -1,12 +1,9 @@
-# ----------------------------- Imports ----------------------------- #
 
-# Testing framework
-import pytest  # Main testing library
-from unittest.mock import patch, MagicMock  # For mocking MongoDB client and simulating behavior
-import pymongo.errors  # To simulate common MongoDB exceptions
+import pytest
+from unittest.mock import patch, MagicMock
+import pymongo.errors
 
-# Import the database wrapper and its related custom exceptions for validation
-from backend.utils.database import (
+from app.utils.database import (
     Database,
     DatabaseConnectionError,
     DataInsertionError,
@@ -14,7 +11,6 @@ from backend.utils.database import (
     CollectionAccessError
 )
 
-# ----------------------------- Global Fixture ----------------------------- #
 
 @pytest.fixture(autouse=True)
 def mock_env(monkeypatch):
@@ -26,17 +22,16 @@ def mock_env(monkeypatch):
     monkeypatch.setenv("DB_NAME", "mockdb")
     monkeypatch.setenv("DB_PASSWORD", "mockpass")
 
-# ----------------------------- Unit Tests ----------------------------- #
 
 def test_successful_connection():
     """Simulate a successful DB connection by mocking MongoClient.ping."""
     with patch("pymongo.MongoClient") as mock_client:
         mock_instance = MagicMock()
-        mock_instance.admin.command.return_value = {"ok": 1}  # Simulate success ping
+        mock_instance.admin.command.return_value = {"ok": 1}
         mock_client.return_value = mock_instance
 
-        db = Database()  # Trigger connection logic
-        assert db.db is not None  # Confirm the DB was set
+        db = Database()
+        assert db.db is not None
 
 def test_failed_authentication():
     """Simulate authentication failure using OperationFailure and expect custom exception."""
@@ -46,19 +41,18 @@ def test_failed_authentication():
         mock_client.return_value = mock_instance
 
         with pytest.raises(DatabaseConnectionError):
-            Database()  # Should raise our custom connection error
+            Database()
 
 def test_add_record_success():
     """Test that a document is successfully inserted and the correct ID is returned."""
     with patch("pymongo.MongoClient") as mock_client:
         mock_db = MagicMock()
         mock_collection = MagicMock()
-        mock_collection.insert_one.return_value.inserted_id = "1234"  # Simulate insert return
+        mock_collection.insert_one.return_value.inserted_id = "1234"
 
-        # Connect collection to DB mock
         mock_db.__getitem__.return_value = mock_collection
         mock_client.return_value.__getitem__.return_value = mock_db
-        mock_client.return_value.admin.command.return_value = {"ok": 1}  # Simulate ping
+        mock_client.return_value.admin.command.return_value = {"ok": 1}
 
         db = Database()
         result = db.add_record("users", {"name": "Amutheshwar"})
@@ -69,7 +63,7 @@ def test_get_record_not_found():
     with patch("pymongo.MongoClient") as mock_client:
         mock_db = MagicMock()
         mock_collection = MagicMock()
-        mock_collection.find_one.return_value = None  # Simulate no match
+        mock_collection.find_one.return_value = None
 
         mock_db.__getitem__.return_value = mock_collection
         mock_client.return_value.__getitem__.return_value = mock_db
@@ -77,7 +71,7 @@ def test_get_record_not_found():
 
         db = Database()
         result = db.get_record("users", {"username": "ghost"})
-        assert result is None  # Should return None gracefully
+        assert result is None
 
 def test_add_records_with_batching():
     """Ensure batched inserts are performed and all returned IDs are combined."""
@@ -85,7 +79,6 @@ def test_add_records_with_batching():
         mock_db = MagicMock()
         mock_collection = MagicMock()
 
-        # Simulate two batches returning separate insert IDs
         mock_collection.insert_many.side_effect = [
             MagicMock(inserted_ids=["a"]),
             MagicMock(inserted_ids=["b"])
@@ -96,7 +89,7 @@ def test_add_records_with_batching():
         mock_client.return_value.admin.command.return_value = {"ok": 1}
 
         db = Database()
-        docs = [{"n": 1}, {"n": 2}]  # Two docs to force batching
+        docs = [{"n": 1}, {"n": 2}]
         result = db.add_records("batch", docs, batch_size=1)
         assert result == ["a", "b"]
 
@@ -105,7 +98,6 @@ def test_get_records_with_limit_sort():
     with patch("pymongo.MongoClient") as mock_client:
         mock_cursor = MagicMock()
 
-        # Make chained calls return same mock (sort -> limit -> iterable)
         mock_cursor.sort.return_value = mock_cursor
         mock_cursor.limit.return_value = mock_cursor
         mock_cursor.__iter__.return_value = iter([{"x": 1}, {"x": 2}])
@@ -131,7 +123,7 @@ def test_server_selection_timeout():
         mock_client.return_value = mock_instance
 
         with pytest.raises(DatabaseConnectionError):
-            Database()  # Should raise after retries fail
+            Database()
 
 def test_logging_warning_on_missing_db(caplog):
     """Check that a warning is logged if get_database is called when not connected."""
@@ -141,7 +133,7 @@ def test_logging_warning_on_missing_db(caplog):
         mock_client.return_value = mock_instance
 
         db = Database()
-        db.db = None  # Simulate disconnect
+        db.db = None
 
         _ = db.get_database()
         assert "Database not connected" in caplog.text
@@ -159,4 +151,3 @@ def test_close_connection():
         assert db.client is None
         assert db.db is None
 
-        

@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './StudentDashboard.module.css';
-import animatedButtonStyles from '../styles/AnimatedButton.module.css';
+import animatedButtonStyles from '../Styles/AnimatedButton.module.css';
 import config from '../config';
 
 const StudentDashboard = () => {
@@ -24,7 +24,6 @@ const StudentDashboard = () => {
                     return;
                 }
 
-                // --- Fetch Recent History (limit=3) ---
                 const historyResponse = await fetch(`${config.API_BASE_URL}/history/?limit=3`, {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
@@ -32,15 +31,14 @@ const StudentDashboard = () => {
                     const historyData = await historyResponse.json();
                     const formattedHistory = historyData.map(item => ({
                         activity: item.type === 'quiz' ? 'Quiz Completed' : `Text Analysis: "${item.text.substring(0, 25)}..."`,
-                        pointsEarned: item.score || 0, // Corrected: use 'score'
-                        date: new Date(item.datetime).toLocaleDateString() // Corrected: use 'datetime'
+                        pointsEarned: item.score || 0,
+                        date: new Date(item.datetime).toLocaleDateString()
                     }));
                     setRecentHistory(formattedHistory);
                 } else {
                     setHistoryError('Failed to load recent history.');
                 }
 
-                // --- Fetch Total Score ---
                 const scoreResponse = await fetch(`${config.API_BASE_URL}/scores/users/me/score`, {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
@@ -67,7 +65,7 @@ const StudentDashboard = () => {
     const handleViewFullHistory = () => navigate('/history');
     const handleLogout = () => {
         alert("Logging out!");
-        navigate('/'); 
+        navigate('/');
     };
 
     return (
@@ -102,7 +100,7 @@ const StudentDashboard = () => {
                     </button>
                 </div>
                 <div className={styles.historySection}>
-                    <div className={styles.historyHeader}> 
+                    <div className={styles.historyHeader}>
                         <h2 className={styles.historyTitle}>Your Activity History</h2>
                         <button className={styles.viewFullHistoryButton} onClick={handleViewFullHistory}>
                             View Full History

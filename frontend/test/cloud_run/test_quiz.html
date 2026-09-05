@@ -23,15 +23,15 @@
         <h1>Quiz Test</h1>
         <button id="start-quiz-btn" onclick="startQuiz()">Take the Quiz</button>
         <div id="quiz-container" style="margin-top: 1.5em;"></div>
-    
+
         <h3>API Response Log</h3>
         <pre id="results">Click "Take the Quiz" to begin.</pre>
     </div>
 
     <script>
-        const API_BASE_URL = 'https://hate-backend-215652629527.europe-west2.run.app'; // Updated URL
-        const DUMMY_USERNAME = 'peterpan';
-        const DUMMY_PASSWORD = 'PeterPan1234!';
+        const API_BASE_URL = 'https://hate-backend-215652629527.europe-west2.run.app';
+        const DUMMY_USERNAME = '';
+        const DUMMY_PASSWORD = '';
         let accessToken = null;
 
         function displayResults(data) {
@@ -75,10 +75,10 @@
         function renderQuestion(questionData) {
             const container = document.getElementById('quiz-container');
             container.innerHTML = '';
-            
+
             const questionDiv = document.createElement('div');
             questionDiv.className = 'question-block';
-            
+
             const optionsHtml = questionData.options.map((option, index) => `
                 <label>
                     <input type="radio" name="answer" value="${index}">
@@ -100,30 +100,26 @@
             }
 
             try {
-                // 1. Submit the answer
                 const answerResponse = await fetch(`${API_BASE_URL}/quiz/submit_answer`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify({ selected_answer_index: parseInt(selected.value) })
                 });
                 const answerResult = await answerResponse.json();
-                displayResults(answerResult); // Show if the answer was correct
+                displayResults(answerResult);
 
-                // 2. Check if there are more questions
                 const hasNextResponse = await fetch(`${API_BASE_URL}/quiz/has_question`, {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
                 const hasNextResult = await hasNextResponse.json();
 
                 if (hasNextResult.has_more_questions) {
-                    // 3a. Get the next question if available
                     const nextQuestionResponse = await fetch(`${API_BASE_URL}/quiz/next_question`, {
                         headers: { 'Authorization': `Bearer ${accessToken}` }
                     });
                     const nextQuestion = await nextQuestionResponse.json();
                     renderQuestion(nextQuestion);
                 } else {
-                    // 3b. If no more questions, get the final score
                     getFinalScore();
                 }
             } catch (error) {

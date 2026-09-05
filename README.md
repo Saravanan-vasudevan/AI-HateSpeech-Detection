@@ -11,9 +11,8 @@ moderation resources at major platforms have shrunk, and most existing
 AI moderation tools are opaque about *why* they flag content and are
 trained almost entirely on English-language data. This project explores
 how different ML approaches (classical, fine-tuned transformer, cloud LLM)
-compare on the same classification task, and pairs the predictions with a
-plain-language explanation, aiming at a lightweight, explainable assistant
-for moderators and shows a short reason with each result.
+compare on the same classification task. Each result includes a short,
+plain-language explanation to help moderators understand why it was flagged.
 
 The MVP was scoped and built within a four-week window, prioritizing
 usability, explainability, and cost-efficiency over exhaustive model
@@ -99,8 +98,9 @@ npm install
 npm run dev
 ```
 
-The frontend hits the backend URL set in `frontend/src/config.js` — update it
-if you changed the port or are running on a remote host.
+The frontend uses `http://127.0.0.1:8000` by default. For another backend,
+copy `frontend/.env.example` to `frontend/.env` and change
+`VITE_API_BASE_URL`.
 
 ### Docker
 
@@ -142,7 +142,10 @@ application's RoBERTa checkpoint. Download the application models with
 3. Students: submit text on the "Hate Speech Identifier" page to get
    predictions from all models, or take the quiz to earn points.
 4. Teachers: view the class leaderboard, drill into any student's history.
-5. Creating the First Admin: Because a new database is empty, you must create the initial Teacher account via the backend API. Go to http://localhost:8000/docs, find the POST /register endpoint and execute a request with "role": "admin" to seed your first user.
+5. Create the first teacher account with `python create_admin.py` from the
+   `backend` directory. The script reads `DB_STRING`, `DB_PASSWORD`,
+   `ADMIN_USERNAME`, and `ADMIN_PASSWORD` from the environment. After that,
+   signed-in teachers can create student or teacher accounts from the UI.
 
 To retrain or evaluate a model, see the scripts under `backend/ml/train/`
 and `backend/ml/evaluate/`.
@@ -164,8 +167,8 @@ and `backend/ml/evaluate/`.
   `backend/ml/evaluate/Evaluate_BiLSTM_Glove.py`), but it hasn't been
   benchmarked head-to-head against the other four models yet. The model
   wrapper exists at `backend/app/models/bilstm_glove_model.py` — wiring it
-  into the API is straightforward once the benchmarks justify adding a fifth
-  prediction card to the frontend.
+  into the API is planned once the benchmarks justify adding a fifth prediction
+  card to the frontend.
 - Multi-tenancy to support multiple, distinct classrooms.
 - Full CRUD functionality for user management in the Teacher Dashboard.
 - Multilingual support for the AI models.

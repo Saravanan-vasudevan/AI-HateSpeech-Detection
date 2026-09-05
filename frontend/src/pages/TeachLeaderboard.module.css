@@ -1,6 +1,6 @@
-/* frontend/src/pages/TeacherLeaderboard.module.css */
 
-/* Color Variables (Identical to Dashboard Styling) */
+
+
 :root {
     --page-bg: #E8E8E8;
     --page-text: #030303;
@@ -18,7 +18,7 @@
     --error-color: #FF6347;
 }
 
-/* Base styles for the page container (reused from dashboard) */
+
 .dashboardPageContainer {
     display: flex;
     justify-content: center;
@@ -31,7 +31,7 @@
     box-sizing: border-box;
 }
 
-.dashboardBox { /* Reusing dashboardBox style */
+.dashboardBox {
     background-color: var(--box-bg);
     color: var(--box-text);
     padding: 40px;
@@ -134,14 +134,14 @@
     font-family: "Red Hat Text", sans-serif;
 }
 
-/* Specific styles for the leaderboard table */
-.leaderboardContent { /* Changed from studentListContent */
+
+.leaderboardContent {
     width: 100%;
     text-align: left;
     margin-top: 20px;
 }
 
-.leaderboardTableContainer { /* Changed from studentTableContainer */
+.leaderboardTableContainer {
     background-color: rgba(232, 232, 232, 0.05);
     border-radius: 8px;
     padding: 20px;
@@ -150,7 +150,7 @@
     margin-bottom: 30px;
 }
 
-.leaderboardTable { /* Changed from studentTable */
+.leaderboardTable {
     width: 100%;
     border-collapse: collapse;
     min-width: 600px;
@@ -182,7 +182,7 @@
     background-color: var(--table-row-hover-bg);
 }
 
-/* Empty State Container (reused emptyContainer style) */
+
 .emptyContainer {
     display: flex;
     flex-direction: column;
@@ -227,7 +227,7 @@
 }
 
 
-/* Loading state styles (reused from HateSpeechIdentifier) */
+
 .loadingState {
     display: flex;
     flex-direction: column;
@@ -257,7 +257,7 @@
     100% { transform: rotate(360deg); border-top-color: var(--accent-orange); }
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .dashboardBox {
         padding: 30px 20px;

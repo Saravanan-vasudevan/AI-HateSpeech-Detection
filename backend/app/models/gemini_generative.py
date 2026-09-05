@@ -58,7 +58,6 @@ Text to analyze:
         return self._get_prediction_from_api(preprocessed_input).get(
             'explanation', 'No explanation available.')
 
-    # Cloud model -- nothing to save/load.
     def load(self, model_path: str) -> None:
         pass
 

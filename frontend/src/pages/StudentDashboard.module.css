@@ -1,73 +1,73 @@
-/* Color Variables based on your theme */
+
 :root {
-    /* Main Page Colors (Light Theme Default) */
-    --page-bg: #E8E8E8; /* The very light grey for the overall page background */
-    --page-text: #030303; /* The very dark grey for text directly on the page background */
 
-    /* Dashboard Box Colors (Dark Card on Light Page) */
-    --box-bg: #030303; /* The very dark grey for the dashboard box background */
-    --box-text: #e8e8e8; /* The very light grey for text inside the dashboard box */
+    --page-bg: #E8E8E8;
+    --page-text: #030303;
 
-    /* Accent Colors */
+
+    --box-bg: #030303;
+    --box-text: #e8e8e8;
+
+
     --accent-orange: #FC8337;
     --accent-cyan: #1FBFCF;
     --accent-lime: #c1e812;
 
-    /* Derived/Subtle Colors (using palette colors for consistency) */
-    --border-subtle: rgba(232, 232, 232, 0.2); /* E8E8E8 with transparency for borders on dark elements */
-    --shadow-color: rgba(0, 0, 0, 0.4); /* Dark shadow for depth, using 030303 base with transparency */
-    --divider-line: rgba(232, 232, 232, 0.1); /* Light divider line on dark box */
-    --button-text-on-accent: #030303; /* Dark text for labels on accent colored buttons */
 
-    --table-header-bg: rgba(252, 131, 55, 0.2); /* Light transparent orange */
-    --table-row-hover-bg: rgba(252, 131, 55, 0.1); /* Even lighter transparent orange */
+    --border-subtle: rgba(232, 232, 232, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --divider-line: rgba(232, 232, 232, 0.1);
+    --button-text-on-accent: #030303;
+
+    --table-header-bg: rgba(252, 131, 55, 0.2);
+    --table-row-hover-bg: rgba(252, 131, 55, 0.1);
 }
 
-/* Base styles for the page container */
+
 .dashboardPageContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    min-height: 100dvh; /* Dynamic viewport height for better mobile fit */
-    color: var(--page-text); /* Default text color for elements outside the box */
-    font-family: "Tilt Neon", sans-serif; /* Apply Tilt Neon to dashboard page container */
-    padding: 20px; /* Add some padding to the page container */
-    box-sizing: border-box; /* Include padding in element's total width and height */
+    min-height: 100dvh;
+    color: var(--page-text);
+    font-family: "Tilt Neon", sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* Style for the main dashboard box/card */
+
 .dashboardBox {
-    background-color: var(--box-bg); /* Use the dark box background color */
-    color: var(--box-text); /* Default text color for elements inside the box */
+    background-color: var(--box-bg);
+    color: var(--box-text);
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 10px 30px var(--shadow-color);
     text-align: center;
-    max-width: 900px; /* Wider for dashboard content */
-    width: 100%; /* Allow it to fill up to max-width */
-    border: 1px solid var(--border-subtle); /* Subtle border for the dark box */
+    max-width: 900px;
+    width: 100%;
+    border: 1px solid var(--border-subtle);
     box-sizing: border-box;
-    display: flex; /* Make dashboardBox a flex container */
-    flex-direction: column; /* Stack its children vertically */
-    align-items: center; /* Center content horizontally */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Top Bar for Student Info and Total Points */
+
 .dashboardTopBar {
-    width: 100%; /* Take full width of dashboardBox */
+    width: 100%;
     display: flex;
-    justify-content: space-between; /* Push items to ends */
-    align-items: center; /* Vertically center items */
-    margin-bottom: 30px; /* Space below the top bar */
-    padding-bottom: 15px; /* Add some internal padding at the bottom */
-    border-bottom: 1px solid var(--divider-line); /* Subtle separator line */
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--divider-line);
 }
 
 .studentInfo {
-    display: flex; /* Use flexbox for studentInfo to align icon and text */
-    align-items: center; /* Vertically center icon with text block */
-    gap: 10px; /* Space between icon and text */
+    display: flex;
+    align-items: center;
+    gap: 10px;
     cursor: pointer;
     color: var(--box-text);
     font-size: 0.9em;
@@ -79,14 +79,14 @@
     color: var(--accent-cyan);
 }
 
-/* Style for the Identity Icon */
+
 .identityIcon {
-    font-size: 2.8em; /* Adjust size to match combined height of name/number */
-    color: var(--accent-orange); /* Use an accent color for the icon */
-    line-height: 1; /* Helps with precise vertical alignment */
+    font-size: 2.8em;
+    color: var(--accent-orange);
+    line-height: 1;
 }
 
-.studentText { /* New container for name and number */
+.studentText {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -145,7 +145,7 @@
 }
 
 .actionButton {
-    /* Specific styles for action buttons - combined with shared animatedButton class */
+
     padding: 25px 35px;
     font-size: 1.4em;
     flex: 1;
@@ -160,29 +160,29 @@
     font-family: "Tilt Neon", sans-serif;
 }
 
-/* Specific styling for the small span under action buttons */
+
 .actionButton span {
     display: block;
-    font-size: 0.7em; /* Ensure this is explicitly set to be smaller */
+    font-size: 0.7em;
     font-weight: 400;
     margin-top: 8px;
-    color: var(--box-text); /* Initial color of the smaller text */
+    color: var(--box-text);
     opacity: 0.8;
     transition: color 0.3s ease, opacity 0.3s ease;
     font-family: "Tilt Neon", sans-serif;
 }
 
-/* historySection, historyHeader, historyTitle, viewFullHistoryButton, historyTable, historyNote */
+
 .historySection {
     margin-top: 50px;
     width: 100%;
     text-align: left;
 }
 
-.historyHeader { 
+.historyHeader {
     display: flex;
     justify-content: space-between;
-    align-items: baseline; /* Changed from center to baseline for better text alignment */
+    align-items: baseline;
     margin-bottom: 20px;
     padding-right: 10px;
     padding-left: 10px;
@@ -275,7 +275,7 @@
     font-family: "Tilt Neon", sans-serif;
 }
 
-/* Responsive adjustments for screens up to 768px (for dashboard layout) */
+
 @media (max-width: 768px) {
     .dashboardBox {
         padding: 30px 20px;
@@ -291,15 +291,15 @@
 
     .studentInfo {
         width: 100%;
-        gap: 8px; /* Slightly less gap on mobile */
+        gap: 8px;
     }
 
     .identityIcon {
-        font-size: 2.4em; /* Slightly smaller icon on mobile */
+        font-size: 2.4em;
     }
 
     .studentText {
-        /* No specific changes needed here for mobile, flex-direction column on parent handles it */
+
     }
 
     .totalPoints {
@@ -355,7 +355,7 @@
     .dashboardSubtitle {
         font-size: 1em;
     }
-    
+
     .actionButton {
         font-size: 1.1em;
     }

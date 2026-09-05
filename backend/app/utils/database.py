@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 class Database:
     '''
-    A class to manage the connection to a MongoDB 
+    A class to manage the connection to a MongoDB
     Atlas database using PyMongo.
     '''
     def __init__(self, connection_string: str, db_name: str):
@@ -30,20 +30,8 @@ class Database:
         self.__connect()
 
     def __connect(self) -> None:
-        '''
-        Establishes a connection to the MongoDB Atlas cluster.
-        It has appropriate error handling to reduce the effect
-        of credential / authentication issues
-
-        Input args:
-        - None
-
-        Return:
-        - None
-        '''
         try:
-        
-            # Creating the client
+
             self.client = pymongo.MongoClient(
                 self.connection_string,
                 serverSelectionTimeoutMS    = 30000,
@@ -53,27 +41,24 @@ class Database:
 
             self.client.admin.command('ping')
 
-        
+
             self.db = self.client[self.db_name]
 
-        # Exception 1:
         except pymongo.errors.ConnectionFailure as e:
             logger.error("MongoDB connection failed: %s", e)
 
             self.client = None
             self.db     = None
-        
-        #Exception 2: 
+
         except pymongo.errors.OperationFailure as e:
             logger.error("MongoDB operation failed: %s", e)
 
             self.client = None
             self.db     = None
-        
-        # Exception 3: 
+
         except Exception as e:
             logger.exception("MongoDB connection failed")
-            
+
             self.client = None
             self.db     = None
 
@@ -90,15 +75,6 @@ class Database:
         return self.db
 
     def close_connection(self) -> None:
-        '''
-        Closes the MongoDB connection.
-        
-        Input args:
-        - None
-
-        Return:
-        - None
-        '''
         if self.client:
 
             self.client.close()
@@ -118,7 +94,7 @@ class Database:
         '''
         if self.db is None:
             return None
-        
+
         return self.db[collection_name]
 
     def add_record(self, collection_name: str, record: dict) -> int:
@@ -140,16 +116,15 @@ class Database:
         try:
             result = collection.insert_one(record)
             return result.inserted_id
-        
+
         except pymongo.errors.PyMongoError as e:
             logger.error("Could not add record to %s: %s", collection_name, e)
             return None
 
-        # Error 2 
         except Exception as e:
             logger.exception("Could not add record to %s", collection_name)
             return None
-        
+
     def add_records(self, collection_name: str, records: list, batch_size: int = 100) -> list:
         '''
         Efficiently adds a list of records (documents) to a specified collection, with optional client-side batching.
@@ -181,20 +156,20 @@ class Database:
 
 
         total_records        = len(records)
-        effective_batch_size = batch_size if batch_size > 0 else total_records # Use total_records if batch_size is 0 or less
+        effective_batch_size = batch_size if batch_size > 0 else total_records
 
         num_batches = math.ceil(total_records / effective_batch_size)
-       
+
 
         for i in range(0, total_records, effective_batch_size):
 
             batch = records[i:i + effective_batch_size]
 
             try:
-                result = collection.insert_many(batch, ordered = False) 
+                result = collection.insert_many(batch, ordered = False)
 
                 all_inserted_ids.extend(result.inserted_ids)
-            
+
             except pymongo.errors.BulkWriteError as bwe:
                 logger.error("Batch write failed for %s: %s", collection_name, bwe.details)
 
@@ -204,7 +179,6 @@ class Database:
             except Exception as e:
                 logger.exception("Batch starting at %s failed for %s", i, collection_name)
 
-        # Returning record
         return all_inserted_ids
 
     def get_record(self, collection_name: str, query: dict) -> dict:
@@ -218,27 +192,24 @@ class Database:
         Returns:
             Optional[Dict[str, Any]]: The found document as a dictionary, or None if not found or an error occurs.
         '''
-        # Retrieving the collection
         collection = self._get_collection(collection_name)
 
-        # Checking if the collection is valid
         if collection is None:
             return None
 
-        # Attempting to retrieve a record
         try:
 
             record = collection.find_one(query)
 
             if record is None:
                 logger.debug("No record found in %s", collection_name)
-            
+
             return record
-        
+
         except pymongo.errors.PyMongoError as e:
             logger.error("Could not read from %s: %s", collection_name, e)
             return None
-        
+
         except Exception as e:
             logger.exception("Could not read from %s", collection_name)
             return None
@@ -271,7 +242,7 @@ class Database:
 
         try:
             cursor = collection.find(query, projection)
-            
+
             if sort:
                 cursor = cursor.sort(sort)
 
@@ -279,12 +250,12 @@ class Database:
                 cursor = cursor.limit(limit)
 
             return list(cursor)
-        
+
         except pymongo.errors.PyMongoError as e:
             logger.error("Could not read records from %s: %s", collection_name, e)
             return []
-        
+
         except Exception as e:
             logger.exception("Could not read records from %s", collection_name)
             return []
-        
+

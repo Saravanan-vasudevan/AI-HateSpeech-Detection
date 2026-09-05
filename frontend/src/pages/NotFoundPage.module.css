@@ -1,28 +1,28 @@
-/* Color Variables based on your theme */
+
 :root {
-    /* Main Page Colors (Light Theme Default) */
+
     --page-bg: #E8E8E8;
     --page-text: #030303;
 
-    /* Content Box Colors (Dark Card on Light Page) */
+
     --box-bg: #030303;
     --box-text: #E8E8E8;
 
-    /* Accent Colors */
+
     --accent-orange: #FC8337;
     --accent-cyan: #1FBFCF;
     --accent-lime: #c2e812;
 
-    /* Derived/Subtle Colors */
+
     --border-subtle: rgba(232, 232, 232, 0.2);
     --shadow-color: rgba(0, 0, 0, 0.4);
 
-    /* Specific colors for NotFoundPage, mapped to our palette */
-    --button-secondary-border: var(--border-subtle); /* Border for secondary button */
-    --button-suggestion-bg: rgba(232, 232, 232, 0.05); /* Light transparent background */
+
+    --button-secondary-border: var(--border-subtle);
+    --button-suggestion-bg: rgba(232, 232, 232, 0.05);
 }
 
-/* Base styles for the page container */
+
 .notFoundPageContainer {
     display: flex;
     justify-content: center;
@@ -30,13 +30,13 @@
     min-height: 100vh;
     min-height: 100dvh;
     color: var(--page-text);
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
     background-color: var(--page-bg);
     padding: 20px;
     box-sizing: border-box;
 }
 
-/* Style for the main content box */
+
 .notFoundBox {
     background-color: var(--box-bg);
     color: var(--box-text);
@@ -70,8 +70,8 @@
     font-size: 4em;
     color: var(--accent-orange);
     font-weight: 900;
-    font-family: "Red Hat Display", sans-serif; /* Apply Red Hat Display */
-    text-shadow: 0 0 20px rgba(252, 131, 55, 0.3); /* Use accent-orange for shadow */
+    font-family: "Red Hat Display", sans-serif;
+    text-shadow: 0 0 20px rgba(252, 131, 55, 0.3);
     animation: pulse 2s infinite;
 }
 
@@ -90,14 +90,14 @@
     margin-bottom: 15px;
     font-weight: 700;
     letter-spacing: -0.03em;
-    font-family: "Red Hat Display", sans-serif; /* Apply Red Hat Display */
+    font-family: "Red Hat Display", sans-serif;
 }
 
 .subtitle {
     font-size: 1.1em;
     color: var(--box-text);
     margin-bottom: 10px;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .pathCode {
@@ -105,7 +105,7 @@
     color: var(--accent-orange);
     padding: 2px 8px;
     border-radius: 4px;
-    font-family: 'Courier New', monospace; /* Monospace font for code */
+    font-family: 'Courier New', monospace;
     font-size: 0.9em;
     border: 1px solid rgba(252, 131, 55, 0.2);
 }
@@ -115,12 +115,12 @@
     color: rgba(232, 232, 232, 0.8);
     margin-bottom: 25px;
     line-height: 1.5;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .autoRedirectBox {
-    background-color: rgba(31, 191, 207, 0.1); /* Use accent-cyan */
-    border: 1px solid rgba(31, 191, 207, 0.3); /* Use accent-cyan */
+    background-color: rgba(31, 191, 207, 0.1);
+    border: 1px solid rgba(31, 191, 207, 0.3);
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 25px;
@@ -142,7 +142,7 @@
     margin: 0 0 10px 0;
     color: var(--accent-cyan);
     font-size: 0.95em;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .countdown {
@@ -160,7 +160,7 @@
     cursor: pointer;
     font-size: 0.9em;
     transition: all 0.3s ease;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .cancelButton:hover {
@@ -177,19 +177,19 @@
 }
 
 .primaryButton {
-    /* This class defines the base look of the primary button */
+
     padding: 15px 30px;
     font-size: 1.1em;
-    background: linear-gradient(135deg, var(--accent-orange), rgba(252, 131, 55, 0.8)); /* Using our orange, slightly faded for shine effect */
-    color: var(--box-text); /* White text on orange button */
+    background: linear-gradient(135deg, var(--accent-orange), rgba(252, 131, 55, 0.8));
+    color: var(--box-text);
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
     min-width: 160px;
-    
-    /* Animation handled by AnimatedButton.module.css, but base transitions are good here too */
+
+
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -199,11 +199,11 @@
     font-size: 1.1em;
     background: transparent;
     color: var(--box-text);
-    border: 2px solid var(--button-secondary-border); /* Use border-subtle derived for consistency */
+    border: 2px solid var(--button-secondary-border);
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
     transition: all 0.3s ease;
     min-width: 160px;
 }
@@ -222,7 +222,7 @@
     font-size: 1.1em;
     color: var(--box-text);
     margin-bottom: 15px;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .suggestionsList {
@@ -233,20 +233,20 @@
 }
 
 .suggestionButton {
-    background: var(--button-suggestion-bg); /* Use light transparent background */
+    background: var(--button-suggestion-bg);
     border: 1px solid var(--border-subtle);
     color: var(--box-text);
     padding: 12px 20px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.95em;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
     transition: all 0.3s ease;
     min-width: 200px;
 }
 
 .suggestionButton:hover {
-    background-color: rgba(31, 191, 207, 0.15); /* Use accent-cyan */
+    background-color: rgba(31, 191, 207, 0.15);
     border-color: var(--accent-cyan);
     color: var(--accent-cyan);
 }
@@ -262,10 +262,10 @@
     color: rgba(232, 232, 232, 0.6);
     margin: 0;
     font-style: italic;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .notFoundBox {
         padding: 30px 20px;

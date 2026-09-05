@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './rootpage.module.css'; // Using our CSS Module
-import logo from '../assets/favicon.svg'; // Assuming logo is in assets
-import HeroSection from '../components/HeroSection'; // Assuming these components exist
-import RSSCards from '../components/RSSCards'; // Assuming these components exist
+import styles from './rootpage.module.css';
+import logo from '../assets/favicon.svg';
+import HeroSection from '../components/HeroSection';
+import RSSCards from '../components/RSSCards';
 import { FaArrowRight } from 'react-icons/fa';
 
 const RootPage = () => {

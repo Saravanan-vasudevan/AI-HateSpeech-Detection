@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './MultiModelPrediction.module.css';
 import config from '../config';
-import animatedButtonStyles from '../styles/AnimatedButton.module.css';
+import animatedButtonStyles from '../Styles/AnimatedButton.module.css';
 import { FaChartBar, FaBrain, FaMagic, FaRobot, FaQuestion, FaExclamationTriangle, FaCheck, FaArrowLeft } from 'react-icons/fa';
 
 const MultiModelPrediction = () => {
@@ -12,16 +12,14 @@ const MultiModelPrediction = () => {
     );
     const [userClassification, setUserClassification] = useState(null);
     const [userReasoning, setUserReasoning] = useState('');
-    const [selectedAIModel, setSelectedAIModel] = useState('all'); // State for AI model selection ('all' or specific ID)
+    const [selectedAIModel, setSelectedAIModel] = useState('all');
     const [isLoading, setIsLoading] = useState(false);
     const [showResults, setShowResults] = useState(false);
-    const [modelPredictions, setModelPredictions] = useState([]); // Stores results from backend
-    const [selectedModel, setSelectedModel] = useState(null); // The AI model the user prefers
+    const [modelPredictions, setModelPredictions] = useState([]);
+    const [selectedModel, setSelectedModel] = useState(null);
     const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(''); // To display API errors
+    const [errorMessage, setErrorMessage] = useState('');
 
-    // Define available AI models and their corresponding backend paths/display info
-    // Colors and icons are defined here, styles map these to CSS classes
     const aiModels = [
         {
             id: 'sklearn',
@@ -29,7 +27,7 @@ const MultiModelPrediction = () => {
             description: 'Fast, traditional ML model',
             endpoint: '/sklearn/predict',
             icon: FaChartBar,
-            className: styles.modelColorSklearn // CSS class for specific model color
+            className: styles.modelColorSklearn
         },
         {
             id: 'hf_generative',
@@ -37,7 +35,7 @@ const MultiModelPrediction = () => {
             description: 'Contextual analysis from HuggingFace',
             endpoint: '/hf_generative/predict',
             icon: FaBrain,
-            className: styles.modelColorHF // CSS class for specific model color
+            className: styles.modelColorHF
         },
         {
             id: 'gemini',
@@ -45,7 +43,7 @@ const MultiModelPrediction = () => {
             description: 'Google\'s advanced generative AI',
             endpoint: '/gemini/predict',
             icon: FaMagic,
-            className: styles.modelColorGemini // CSS class for specific model color
+            className: styles.modelColorGemini
         },
         {
             id: 'ollama',
@@ -53,7 +51,7 @@ const MultiModelPrediction = () => {
             description: 'Local large language model',
             endpoint: '/ollama/predict',
             icon: FaRobot,
-            className: styles.modelColorOllama // CSS class for specific model color
+            className: styles.modelColorOllama
         }
     ];
 
@@ -67,7 +65,7 @@ const MultiModelPrediction = () => {
             return;
         }
 
-        setErrorMessage(''); // Clear previous errors
+        setErrorMessage('');
         setIsLoading(true);
         setShowResults(false);
         setModelPredictions([]);
@@ -96,7 +94,6 @@ const MultiModelPrediction = () => {
                 }
             }
 
-            // Create an array of promises for concurrent API calls
             const predictionPromises = modelsToAnalyze.map(async (model) => {
                 const startTime = performance.now();
                 try {
@@ -104,13 +101,13 @@ const MultiModelPrediction = () => {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${accessToken}` // Add Authorization header
+                            'Authorization': `Bearer ${accessToken}`
                         },
                         body: JSON.stringify({ text: inputText })
                     });
 
                     const data = await response.json();
-                    
+
                     if (!response.ok) {
                         throw new Error(data.detail || `Model '${model.name}' failed with status ${response.status}`);
                     }
@@ -118,7 +115,7 @@ const MultiModelPrediction = () => {
                     return {
                         modelId: model.id,
                         isHateSpeech: data.is_hate_speech,
-                        confidence: Math.round(data.hate_speech_probability * 100), // Assuming probability is 0-1
+                        confidence: Math.round(data.hate_speech_probability * 100),
                         explanation: data.explanation,
                         processingTime: endTime - startTime
                     };
@@ -127,7 +124,7 @@ const MultiModelPrediction = () => {
                     return {
                         modelId: model.id,
                         error: error.message || 'Analysis failed',
-                        isHateSpeech: false, // Default for error display
+                        isHateSpeech: false,
                         confidence: 0,
                         explanation: 'Failed to get prediction for this model.',
                         processingTime: performance.now() - startTime
@@ -135,15 +132,12 @@ const MultiModelPrediction = () => {
                 }
             });
 
-            // Use Promise.allSettled to wait for all requests to complete, even if some fail
             const results = await Promise.allSettled(predictionPromises);
 
-            // Extract fulfilled values or reasons, filtering out reasons (errors) for successful predictions
             const successfulPredictions = results
                 .filter(result => result.status === 'fulfilled')
                 .map(result => result.value);
-            
-            // Log errors from rejected promises separately if needed, or display a general error summary
+
             const rejectedReasons = results
                 .filter(result => result.status === 'rejected')
                 .map(result => result.reason);
@@ -153,7 +147,7 @@ const MultiModelPrediction = () => {
             } else if (rejectedReasons.length > 0) {
                 setErrorMessage(`Some models failed: ${rejectedReasons.map(r => r.message || r).join('; ')}`);
             }
-            
+
             setModelPredictions(successfulPredictions);
             setShowResults(true);
 
@@ -167,7 +161,7 @@ const MultiModelPrediction = () => {
 
     const handleModelSelection = (modelId) => {
         setSelectedModel(modelId);
-        setFeedbackSubmitted(false); // Reset feedback status when new model selected
+        setFeedbackSubmitted(false);
     };
 
     const handleSubmitFeedback = async () => {
@@ -192,10 +186,9 @@ const MultiModelPrediction = () => {
                 throw new Error("Selected model prediction data not found for feedback submission.");
             }
 
-            // --- Log prediction to history (backend /history/ endpoint) ---
             const logResponse = await fetch(`${config.API_BASE_URL}/history/`, {
                 method: 'POST',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
                 },
@@ -205,7 +198,7 @@ const MultiModelPrediction = () => {
                     ai_prediction: selectedPrediction.isHateSpeech,
                     human_explanation: userReasoning,
                     ai_explanation: selectedPrediction.explanation,
-                    probability: selectedPrediction.confidence / 100 // Convert percentage back to float (0-1)
+                    probability: selectedPrediction.confidence / 100
                 })
             });
 
@@ -239,21 +232,18 @@ const MultiModelPrediction = () => {
         navigate('/dashboard');
     };
 
-    // Helper function to find model details by ID (used for display)
     const getModelById = (id) => aiModels.find(m => m.id === id);
 
-    // Function to determine if we should show single model results (original hate speech detector style)
     const shouldShowSingleModelResults = () => {
         return selectedAIModel !== 'all' && modelPredictions.length === 1 && !modelPredictions[0].error;
     };
 
-    // Generate feedback message for single model results (reusing logic from HateSpeechIdentifier)
     const generateFeedbackMessage = () => {
-        if (!shouldShowSingleModelResults() || modelPredictions.length === 0) return ''; // Only for single valid results
+        if (!shouldShowSingleModelResults() || modelPredictions.length === 0) return '';
 
         const aiPrediction = modelPredictions[0];
         const userPredictionBool = userClassification === 'yes';
-        
+
         if (userPredictionBool === aiPrediction.isHateSpeech) {
             let message = "Excellent! Your understanding aligns with the AI's analysis.";
             if (aiPrediction.isHateSpeech) {
@@ -292,7 +282,7 @@ const MultiModelPrediction = () => {
                         <div className={styles.userAnalysisSection}>
                             <h3 className={styles.resultTitle}>Your Analysis:</h3>
                             <div className={styles.userAnalysisContent}>
-                                <p><strong>Classification:</strong> 
+                                <p><strong>Classification:</strong>
                                     <span className={userClassification === 'yes' ? styles.hateSpeechClass : styles.notHateSpeechClass}>
                                         {userClassification === 'yes' ? 'Yes, it is hate speech' : 'No, it is not hate speech'}
                                     </span>
@@ -307,7 +297,7 @@ const MultiModelPrediction = () => {
                                 <div className={styles.comparisonGrid}>
                                     <div className={styles.studentColumn}>
                                         <h3>Your Analysis:</h3>
-                                        <p><strong>Classification:</strong> 
+                                        <p><strong>Classification:</strong>
                                             <span className={userClassification === 'yes' ? styles.hateSpeechClass : styles.notHateSpeechClass}>
                                                 {userClassification === 'yes' ? 'Yes, it is hate speech' : 'No, it is not hate speech'}
                                             </span>
@@ -318,7 +308,7 @@ const MultiModelPrediction = () => {
 
                                     <div className={styles.aiColumn}>
                                         <h3>AI's Analysis:</h3>
-                                        <p><strong>Classification:</strong> 
+                                        <p><strong>Classification:</strong>
                                             <span className={modelPredictions[0].isHateSpeech ? styles.hateSpeechClass : styles.notHateSpeechClass}>
                                                 {modelPredictions[0].isHateSpeech ? 'Yes, it is hate speech' : 'No, it is not hate speech'}
                                             </span>
@@ -327,7 +317,7 @@ const MultiModelPrediction = () => {
                                         <p className={styles.reasoningText}>{modelPredictions[0].explanation}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className={styles.feedbackSection}>
                                     <h3 className={styles.resultTitle}>Feedback:</h3>
                                     <p className={styles.feedbackMessage}>{generateFeedbackMessage()}</p>
@@ -338,7 +328,6 @@ const MultiModelPrediction = () => {
                                 <h3 className={styles.resultTitle}>AI Model Predictions:</h3>
                                 <div className={styles.modelsGrid}>
                                     {modelPredictions.map(prediction => {
-                                        // Handle errors from Promise.allSettled (rejected promises)
                                         if (prediction && prediction.error) {
                                             const model = aiModels.find(m => prediction.modelId === m.id) || { name: 'Unknown Model', icon: FaQuestion };
                                             return (
@@ -359,11 +348,11 @@ const MultiModelPrediction = () => {
 
                                         const model = getModelById(prediction.modelId);
                                         const isSelected = selectedModel === prediction.modelId;
-                                        
+
                                         return (
-                                            <div 
+                                            <div
                                                 key={prediction.modelId}
-                                                className={`${styles.modelCard} ${isSelected ? styles.selected : ''} ${model.className}`} // Apply model-specific color class
+                                                className={`${styles.modelCard} ${isSelected ? styles.selected : ''} ${model.className}`}
                                                 onClick={() => handleModelSelection(prediction.modelId)}
                                             >
                                                 <div className={styles.modelHeader}>
@@ -376,7 +365,7 @@ const MultiModelPrediction = () => {
                                                         {prediction.confidence}%
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div className={styles.modelPrediction}>
                                                     <p className={styles.predictionResult}>
                                                         <strong>Classification:</strong>
@@ -391,7 +380,7 @@ const MultiModelPrediction = () => {
                                                         Processing time: {Math.round(prediction.processingTime)}ms
                                                     </p>
                                                 </div>
-                                                
+
                                                 {isSelected && (
                                                     <div className={styles.selectionIndicator}>
                                                         <span><FaCheck /> Selected as preferred prediction</span>
@@ -408,7 +397,7 @@ const MultiModelPrediction = () => {
                                         <p className={styles.feedbackMessage}>
                                             You've selected <strong>{getModelById(selectedModel).name}</strong> as the most accurate prediction.
                                         </p>
-                                        <button 
+                                        <button
                                             className={`${styles.submitFeedbackButton} ${animatedButtonStyles.animatedButton}`}
                                             onClick={handleSubmitFeedback}
                                             disabled={isLoading}
@@ -428,14 +417,14 @@ const MultiModelPrediction = () => {
                         )}
 
                         <div className={styles.actionButtons}>
-                            <button 
+                            <button
                                 className={`${styles.analyzeAnotherButton} ${animatedButtonStyles.animatedButton}`}
                                 onClick={handleAnalyzeAnother}
                             >
                                 Analyze Another Text
                             </button>
-                            <button 
-                                className={`${styles.backButton} ${animatedButtonStyles.animatedButton}`} 
+                            <button
+                                className={`${styles.backButton} ${animatedButtonStyles.animatedButton}`}
                                 onClick={handleGoBack}
                             >
                                 <FaArrowLeft /> Back to Dashboard
@@ -516,14 +505,14 @@ const MultiModelPrediction = () => {
                             </div>
                         </div>
 
-                        <button 
+                        <button
                             className={`${styles.submitButton} ${animatedButtonStyles.animatedButton}`}
                             onClick={handleSubmit}
                         >
                             {selectedAIModel === 'all' ? 'Analyze with Multiple Models' : 'Analyze with Selected Model'}
                         </button>
-                        <button 
-                            className={`${styles.backButton} ${animatedButtonStyles.animatedButton}`} 
+                        <button
+                            className={`${styles.backButton} ${animatedButtonStyles.animatedButton}`}
                             onClick={handleGoBack}
                         >
                             <FaArrowLeft /> Back to Dashboard

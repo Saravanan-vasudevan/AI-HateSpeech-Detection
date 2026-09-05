@@ -1,4 +1,4 @@
-/* Color Variables based on your theme */
+
 :root {
     --page-bg: #E8E8E8;
     --page-text: #030303;
@@ -17,7 +17,7 @@
     min-height: 100vh;
     min-height: 100dvh;
     color: var(--page-text);
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
     padding: 20px;
     box-sizing: border-sizing;
 }
@@ -29,7 +29,7 @@
     border-radius: 12px;
     box-shadow: 0 10px 30px var(--shadow-color);
     text-align: center;
-    max-width: 900px; /* Wider box for overall dashboard content */
+    max-width: 900px;
     width: 100%;
     border: 1px solid var(--border-subtle);
     box-sizing: border-box;
@@ -44,19 +44,19 @@
     margin-bottom: 10px;
     font-weight: 700;
     letter-spacing: -0.03em;
-    font-family: "Red Hat Display", sans-serif; /* Apply Red Hat Display */
+    font-family: "Red Hat Display", sans-serif;
 }
 
 .pageSubtitle {
     font-size: 1.1em;
     color: var(--box-text);
-    margin-bottom: 40px; /* Space below subtitle before form */
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    margin-bottom: 40px;
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .registrationSection {
-    width: 100%; /* Allow registration form to take full width */
-    margin-bottom: 40px; /* Space below the form before back button */
+    width: 100%;
+    margin-bottom: 40px;
 }
 
 .backButton {
@@ -68,15 +68,15 @@
     cursor: pointer;
     text-decoration: underline;
     transition: color 0.2s ease;
-    align-self: center; /* Center the button */
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    align-self: center;
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .backButton:hover {
     color: var(--accent-orange);
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .teacherDashboardBox {
         padding: 30px 20px;

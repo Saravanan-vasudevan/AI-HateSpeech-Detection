@@ -1,14 +1,13 @@
-import React, { useState } from 'react'; 
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './GamifiedQuiz.module.css';
-import animatedButtonStyles from '../styles/AnimatedButton.module.css';
+import animatedButtonStyles from '../Styles/AnimatedButton.module.css';
 import config from '../config';
 import { FaArrowLeft } from 'react-icons/fa';
 
 const GamifiedQuiz = () => {
     const navigate = useNavigate();
 
-    // Game state
     const [quizStarted, setQuizStarted] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState(null);
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
@@ -18,9 +17,8 @@ const GamifiedQuiz = () => {
     const [quizEnded, setQuizEnded] = useState(false);
     const [finalScore, setFinalScore] = useState(0);
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
-    const [difficulty, setDifficulty] = useState(0); // State for difficulty, defaults to Easy (0)
+    const [difficulty, setDifficulty] = useState(0);
 
-    // Configuration
     const username = localStorage.getItem('access_token') || 'test_student';
     const numQuestions = 10;
     const QUIZ_API_BASE_URL = config.API_BASE_URL + '/quiz';
@@ -186,7 +184,7 @@ const GamifiedQuiz = () => {
 
     const handleAnswerAndAdvance = async () => {
         if (selectedAnswerIndex === null) return;
-        
+
         await submitAnswer();
         setTimeout(async () => {
             const hasMore = await checkHasQuestion();
@@ -195,13 +193,12 @@ const GamifiedQuiz = () => {
             } else {
                 fetchScore();
             }
-        }, 1500); // Increased delay to see feedback
+        }, 1500);
     };
 
     const handlePlayAgain = () => {
         setQuizStarted(false);
         setQuizEnded(false);
-        // ... (reset all other states)
     };
 
     const handleGoToDashboard = () => navigate('/dashboard');

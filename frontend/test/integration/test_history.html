@@ -25,8 +25,8 @@
 
         <fieldset>
             <legend>1. Login</legend>
-            <input type="text" id="login_username" placeholder="Username (e.g., peterpan)">
-            <input type="password" id="login_password" placeholder="Password (e.g., PeterPan1234!)">
+            <input type="text" id="login_username" placeholder="Username">
+            <input type="password" id="login_password" placeholder="Password">
             <button onclick="loginUser()">Login</button>
         </fieldset>
 
@@ -48,7 +48,7 @@
             <input type="number" id="log_prob" placeholder="AI Probability (e.g., 0.95)" min="0" max="1" step="0.01">
             <button onclick="logPrediction()">Log Prediction</button>
         </fieldset>
-        
+
         <fieldset>
             <legend>3. Retrieve History (GET /history)</legend>
             <input type="number" id="get_limit" placeholder="Limit (e.g., 10)">
@@ -67,7 +67,6 @@
             document.getElementById('results').textContent = JSON.stringify(data, null, 2);
         }
 
-        // --- Authentication ---
         async function loginUser() {
             const username = document.getElementById('login_username').value;
             const password = document.getElementById('login_password').value;
@@ -93,7 +92,6 @@
             }
         }
 
-        // --- History Endpoints ---
         async function logPrediction() {
             if (!accessToken) {
                 alert('You must be logged in to log a prediction.');
@@ -127,7 +125,7 @@
                 alert('You must be logged in to get your history.');
                 return;
             }
-            
+
             const limit = document.getElementById('get_limit').value;
             const url = limit ? `${API_BASE_URL}/history/?limit=${limit}` : `${API_BASE_URL}/history/`;
 

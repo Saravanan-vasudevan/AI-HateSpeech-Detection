@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage'; // Now AuthLoginPage conceptually
+import LoginPage from './pages/LoginPage';
 import StudentDashboard from './pages/StudentDashboard';
 import HateSpeechIdentifier from './pages/HateSpeechIdentifier';
 import GamifiedQuiz from './pages/GamifiedQuiz';
-import TeacherDashboard from './pages/TeacherDashboard'; // Now Registration Page
+import TeacherDashboard from './pages/TeacherDashboard';
 import NotFoundPage from './pages/NotFoundPage';
-import StudentPointsHistory from './pages/studentpointshistory'; // Student's own history (or specific user's history)
-import SplashScreen from './components/SplashScreen';
-import TeacherLogin from './pages/TeacherLogin'; // Dedicated Teacher Login
-import TeacherMenu from './pages/TeacherMenu'; // Main Teacher Portal
-import MultiModelPrediction from './pages/MultiModelPrediction'; // Multi-model comparison page
-import RootPage from './pages/RootPage'; // The very first landing page
-import TeacherStudentList from './pages/TeacherStudentList'; // Teacher's list of all students
+import StudentPointsHistory from './pages/studentpointshistory';
+import SplashScreen from './components/splashscreen';
+import TeacherLogin from './pages/TeacherLogin';
+import TeacherMenu from './pages/TeacherMenu';
+import MultiModelPrediction from './pages/MultiModelPrediction';
+import RootPage from './pages/rootpage';
+import TeacherStudentList from './pages/TeacherStudentList';
 import './App.css';
 
 function App() {
@@ -29,9 +29,9 @@ function App() {
         let mouse = { x: null, y: null, radius: 100 };
 
         const colors = [
-            '#FC8337', // Orange
-            '#1FBFCF', // Cyan
-            '#c2e812'  // Lime Green
+            '#FC8337',
+            '#1FBFCF',
+            '#c2e812'
         ];
 
         const setCanvasDimensions = () => {
@@ -152,7 +152,7 @@ function App() {
     return (
         <div className="App">
             {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
-            <canvas ref={canvasRef} id="globalCanvas" className="global-canvas"></canvas> 
+            <canvas ref={canvasRef} id="globalCanvas" className="global-canvas"></canvas>
 
             {!showSplash && (
                 <Routes>
@@ -164,10 +164,10 @@ function App() {
                     <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
                     <Route path="/teacher-login" element={<TeacherLogin />} />
                     <Route path="/teacher-menu" element={<TeacherMenu />} />
-                    <Route path="/teacher-students" element={<TeacherStudentList />} /> {/* Teacher's list of all students */}
+                    <Route path="/teacher-students" element={<TeacherStudentList />} />
                     <Route path="/multi-model-comparison" element={<MultiModelPrediction />} />
-                    <Route path="/history" element={<StudentPointsHistory />} /> {/* <--- Student's own history */}
-                    <Route path="/history/:username" element={<StudentPointsHistory />} /> {/* <--- NEW ROUTE: Specific user's history for teachers */}
+                    <Route path="/history" element={<StudentPointsHistory />} />
+                    <Route path="/history/:username" element={<StudentPointsHistory />} />
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             )}

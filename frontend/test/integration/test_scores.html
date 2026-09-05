@@ -24,10 +24,10 @@
             <p>Click the button to get the full, sorted leaderboard.</p>
             <button onclick="getLeaderboard()">Get Leaderboard</button>
         </fieldset>
-        
+
         <fieldset>
             <legend>2. Retrieve a User's Score (GET /v1/scores/users/{username}/score)</legend>
-            <input type="text" id="username_input" placeholder="Enter username (e.g., peterpan)">
+            <input type="text" id="username_input" placeholder="Enter username">
             <button onclick="getUserScore()">Get User Score</button>
         </fieldset>
 
@@ -36,56 +36,45 @@
     </div>
 
     <script>
-        // Define the base URL for your API, including the prefix.
         const API_BASE_URL = 'http://127.0.0.1:8000/scores';
 
-        // Helper function to display JSON data in the results panel.
         function displayResults(data) {
             document.getElementById('results').textContent = JSON.stringify(data, null, 2);
         }
 
-        // --- Scores & Leaderboard Endpoints ---
 
         async function getLeaderboard() {
-            // Clear previous results.
             document.getElementById('results').textContent = 'Fetching leaderboard...';
-            
+
             try {
-                // Make the GET request to the /leaderboard endpoint.
                 const response = await fetch(`${API_BASE_URL}/leaderboard`);
                 const data = await response.json();
-                
-                // If the response is not OK, throw an error to be caught below.
+
                 if (!response.ok) throw new Error(data.detail || 'Failed to fetch leaderboard');
-                
-                // Display the successful response.
+
                 displayResults(data);
 
             } catch (error) {
-                // Display any errors that occurred during the fetch.
                 displayResults({ error: error.toString() });
             }
         }
 
         async function getUserScore() {
             const username = document.getElementById('username_input').value;
-            
-            // Basic validation to ensure a username was entered.
+
             if (!username) {
                 alert('Please enter a username.');
                 return;
             }
-            
-            // Clear previous results.
+
             document.getElementById('results').textContent = `Fetching score for '${username}'...`;
 
             try {
-                // Make the GET request to the /users/{username}/score endpoint.
                 const response = await fetch(`${API_BASE_URL}/users/${username}/score`);
                 const data = await response.json();
-                
+
                 if (!response.ok) throw new Error(data.detail || `Failed to fetch score for ${username}`);
-                
+
                 displayResults(data);
 
             } catch (error) {

@@ -59,7 +59,6 @@ Generate one or two guiding questions now.""".strip()
             print(f"Feedback generation error: {e}")
             return "Sorry, I was unable to generate feedback at this time."
 
-    # Not used directly -- part of the BaseModel contract.
     def preprocess(self, text):   pass
     def predict(self, inp):       pass
     def predict_text(self, inp):  pass

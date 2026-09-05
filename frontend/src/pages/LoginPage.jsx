@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
-import animatedButtonStyles from '../styles/AnimatedButton.module.css';
+import animatedButtonStyles from '../Styles/AnimatedButton.module.css';
 import config from '../config';
 import { FaArrowLeft } from 'react-icons/fa';
 
@@ -35,13 +35,11 @@ const LoginPage = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Login successful:', data);
                 localStorage.setItem('access_token', data.access_token);
                 localStorage.setItem('token_type', data.token_type);
 
                 alert('Login Successful! Navigating to dashboard.');
-                // For student login, always go to student dashboard for now
-                navigate('/dashboard'); 
+                navigate('/dashboard');
             } else {
                 const errorData = await response.json();
                 console.error('Login failed:', errorData);
@@ -61,9 +59,8 @@ const LoginPage = () => {
         setErrorMessage('');
     };
 
-    // --- UPDATED: Teacher Login now goes to a dedicated TeacherLogin page ---
     const handleTeacherLoginClick = () => {
-        navigate('/teacher-login'); // <--- CHANGE: Navigate to the specific teacher login page
+        navigate('/teacher-login');
     };
 
     return (
@@ -74,14 +71,14 @@ const LoginPage = () => {
 
                 {loginMode === 'initial' ? (
                     <div className={styles.roleSelection}>
-                        <button 
-                            className={`${styles.roleButton} ${animatedButtonStyles.animatedButton}`} 
+                        <button
+                            className={`${styles.roleButton} ${animatedButtonStyles.animatedButton}`}
                             onClick={handleStudentLoginClick}
                         >
                             Student Login
                         </button>
-                        <button 
-                            className={`${styles.roleButton} ${animatedButtonStyles.animatedButton}`} 
+                        <button
+                            className={`${styles.roleButton} ${animatedButtonStyles.animatedButton}`}
                             onClick={handleTeacherLoginClick}
                         >
                             Teacher Login
@@ -92,9 +89,9 @@ const LoginPage = () => {
                         <p className={styles.formInstruction}>
                             Please enter your credentials as a {loginMode}:
                         </p>
-                        
+
                         {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-                        
+
                         <div className={styles.inputGroup}>
                             <label htmlFor="username">Username:</label>
                             <input
@@ -119,20 +116,20 @@ const LoginPage = () => {
                                 disabled={isLoading}
                             />
                         </div>
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className={`${styles.submitButton} ${animatedButtonStyles.animatedButton}`}
                             disabled={isLoading}
                         >
                             {isLoading ? 'Logging In...' : 'Login'}
                         </button>
-                        <button 
-                            type="button" 
-                            className={styles.backButton} 
-                            onClick={() => { 
-                                setLoginMode('initial'); 
-                                setUsername(''); 
-                                setPassword(''); 
+                        <button
+                            type="button"
+                            className={styles.backButton}
+                            onClick={() => {
+                                setLoginMode('initial');
+                                setUsername('');
+                                setPassword('');
                                 setErrorMessage('');
                             }}
                             disabled={isLoading}

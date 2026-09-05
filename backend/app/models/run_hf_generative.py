@@ -1,11 +1,8 @@
-# your_application.py
 
 from app.models.hf_generative import HuggingFaceGenerative
 
 if __name__ == "__main__":
     print("Initializing Hate Speech Detector...")
-    # This will load the models (can take time and resources)
-    # You can specify a smaller generative model here if needed, e.g., generative_model_name="distilgpt2"
     detector = HuggingFaceGenerative()
     print("Hate Speech Detector initialized.")
 

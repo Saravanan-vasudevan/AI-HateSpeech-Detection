@@ -1,4 +1,4 @@
-/* All font-family properties have been updated to Red Hat Text */
+
 .pageContainer {
   font-family: 'Red Hat Text', sans-serif;
 }
@@ -36,7 +36,7 @@
   font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
-  font-family: 'Red Hat Text', sans-serif; /* Changed Font */
+  font-family: 'Red Hat Text', sans-serif;
 }
 
 .navLinks button:hover {
@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Red Hat Display', sans-serif; /* Changed Font */
+  font-family: 'Red Hat Display', sans-serif;
 }
 
 .loginBtn:hover {
@@ -70,7 +70,7 @@
   box-shadow: 0 8px 20px var(--shadow-color);
 }
 
-/* Responsive styles for the navbar */
+
 @media (max-width: 900px) {
   .navbar {
     flex-direction: column;

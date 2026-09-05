@@ -1,4 +1,4 @@
-/* Color Variables based on your theme */
+
 :root {
     --page-bg: #E8E8E8;
     --page-text: #030303;
@@ -32,7 +32,7 @@
     font-size: 1.8em;
     color: var(--accent-orange);
     margin-bottom: 25px;
-    font-family: "Red Hat Display", sans-serif; /* Apply Red Hat Display */
+    font-family: "Red Hat Display", sans-serif;
     text-align: center;
 }
 
@@ -52,7 +52,7 @@
     color: var(--box-text);
     margin-bottom: 8px;
     font-weight: 500;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .inputField {
@@ -63,7 +63,7 @@
     background-color: rgba(232, 232, 232, 0.05);
     color: var(--box-text);
     font-size: 1em;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -101,8 +101,7 @@
 }
 
 .checkboxGroup input[type="checkbox"]::before {
-    /* Drawn with a rotated border rather than a unicode glyph, so it scales
-       cleanly with the checkbox size instead of depending on font metrics. */
+
     content: '';
     width: 0.35em;
     height: 0.65em;
@@ -126,7 +125,7 @@
     font-size: 1em;
     color: var(--box-text);
     cursor: pointer;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .submitButton {
@@ -150,7 +149,7 @@
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 20px;
-    font-family: "Red Hat Text", sans-serif; /* Apply Red Hat Text */
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .message.success {
@@ -166,23 +165,23 @@
 }
 
 
-/* --- Admin Confirmation Modal Styles --- */
+
 .modalOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent overlay */
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000; /* Ensure it's on top of everything */
+    z-index: 1000;
     animation: fadeIn 0.3s ease-out;
 }
 
 .modalContent {
-    background-color: var(--box-bg); /* Dark background for modal content */
+    background-color: var(--box-bg);
     color: var(--box-text);
     padding: 30px;
     border-radius: 12px;
@@ -191,7 +190,7 @@
     width: 90%;
     text-align: center;
     border: 1px solid var(--border-subtle);
-    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Pop-in animation */
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     font-family: "Red Hat Text", sans-serif;
 }
 
@@ -224,11 +223,11 @@
 }
 
 .modalConfirmButton {
-    /* Will inherit animatedButtonStyles.animatedButton */
+
     padding: 10px 20px;
     font-size: 1em;
-    background: linear-gradient(135deg, var(--accent-lime), rgba(194, 232, 18, 0.8)); /* Lime for confirm */
-    color: var(--page-text); /* Dark text */
+    background: linear-gradient(135deg, var(--accent-lime), rgba(194, 232, 18, 0.8));
+    color: var(--page-text);
     border-radius: 8px;
 }
 
@@ -238,7 +237,7 @@
 
 .modalCancelButton {
     background: none;
-    border: 1px solid var(--accent-orange); /* Orange for cancel button */
+    border: 1px solid var(--accent-orange);
     color: var(--accent-orange);
     padding: 10px 20px;
     border-radius: 8px;
@@ -250,10 +249,10 @@
 
 .modalCancelButton:hover {
     background-color: var(--accent-orange);
-    color: var(--box-bg); /* Dark background on hover */
+    color: var(--box-bg);
 }
 
-/* Animations for modal */
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -263,7 +262,7 @@
     to { transform: scale(1); opacity: 1; }
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 600px) {
     .modalContent {
         padding: 20px;

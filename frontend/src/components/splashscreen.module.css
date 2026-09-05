@@ -1,11 +1,11 @@
-/* frontend/src/components/SplashScreen.module.css */
 
-/* Color Variables (from your project's palette) */
+
+
 :root {
     --page-bg: #E8E8E8;
-    --page-text: #030303; /* Used for dark text */
-    --box-bg: #030303; /* Used for dark elements */
-    --box-text: #E8E8E8; /* Used for light text */
+    --page-text: #030303;
+    --box-bg: #030303;
+    --box-text: #E8E8E8;
     --accent-orange: #FC8337;
     --accent-cyan: #1FBFCF;
     --accent-lime: #c2e812;
@@ -23,21 +23,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
-    /* Background using your dark/light theme colors, not the hardcoded blue/yellow */
+
+
     background: --box-bg;
-    /* You might want to fine-tune this gradient to better match the old one's feel but with your colors */
-    
-    transition: opacity 0.7s ease-out; /* Use ease-out for a smoother fade */
-    opacity: 1; /* Initial opacity */
-    pointer-events: auto; /* Allow clicks initially */
-    animation: splashFadeIn 0.8s ease-out; /* Custom splash fade-in animation */
-    font-family: "Red Hat Text", sans-serif; /* Default font for the splash screen */
+
+
+    transition: opacity 0.7s ease-out;
+    opacity: 1;
+    pointer-events: auto;
+    animation: splashFadeIn 0.8s ease-out;
+    font-family: "Red Hat Text", sans-serif;
 }
 
 .splashScreenContainer.fade {
     opacity: 0;
-    pointer-events: none; /* Disable interaction when fading out */
+    pointer-events: none;
 }
 
 .avatarGroup {
@@ -50,20 +50,20 @@
     width: 54px;
     height: 54px;
     border-radius: 50%;
-    border: 2.5px solid var(--accent-lime); /* Border color from palette */
-    background: var(--box-text); /* Light background for avatars */
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4); /* Shadow from palette */
+    border: 2.5px solid var(--accent-lime);
+    background: var(--box-text);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
     object-fit: cover;
     transition: transform 0.2s;
-    filter: drop-shadow(0 0 8px rgba(194, 232, 18, 0.6)); /* Glow from palette */
+    filter: drop-shadow(0 0 8px rgba(194, 232, 18, 0.6));
 }
 
 .logoOrb {
-    /* Radial gradient using your palette colors */
+
     background: radial-gradient(circle at 50% 50%, var(--box-text) 50%);
     border-radius: 50%;
     padding: 32px;
-    /* Box shadow using your palette colors for glow */
+
     box-shadow: 0 0 60px 10px rgba(0, 17, 255, 0.6), 0 0 0 8px var(--box-text);
     margin-bottom: 32px;
     animation: glowPulse 1.5s infinite alternate;
@@ -72,39 +72,39 @@
 .appLogo {
     width: 100px;
     height: 100px;
-    /* Drop shadow using your palette colors */
-    /*filter: drop-shadow(0 0 16px var(--accent-lime)) drop-shadow(0 0 32px var(--box-bg));*/
+
+
     animation: spin 2.5s linear infinite;
 }
 
 .mainTitle {
     font-weight: 800;
     font-size: 40px;
-    color: var(--box-bg); /* Light text from palette */
+    color: var(--box-bg);
     letter-spacing: 2px;
     margin: 0;
-    font-family: "Red Hat Display", sans-serif; /* Apply Red Hat Display */
-    text-shadow: 0 2px 12px var(--box-bg); /* Shadows from palette */
+    font-family: "Red Hat Display", sans-serif;
+    text-shadow: 0 2px 12px var(--box-bg);
 }
 
 .subtitle {
-    color: var(--accent-lime); /* Accent color from palette */
+    color: var(--accent-lime);
     font-weight: 600;
     font-size: 22px;
     margin-top: 18px;
-    font-family: "Red Hat Display", sans-serif; /* Apply Red Hat Display */
+    font-family: "Red Hat Display", sans-serif;
     letter-spacing: 1px;
-    text-shadow: 0 1px 8px var(--box-bg); /* Shadow from palette */
+    text-shadow: 0 1px 8px var(--box-bg);
 }
 
-/* Animations */
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 @keyframes glowPulse {
   0% { box-shadow: 0 0 60px 10px rgb(193, 232, 18), 0 0 0 8px var(--box-text); }
-  100% { box-shadow: 0 0 80px 20px rgba(194, 232, 18, 0.8), 0 0 0 16px var(--box-text); } /* Increased glow on pulse */
+  100% { box-shadow: 0 0 80px 20px rgba(194, 232, 18, 0.8), 0 0 0 16px var(--box-text); }
 }
 @keyframes splashFadeIn {
   from { opacity: 0; }

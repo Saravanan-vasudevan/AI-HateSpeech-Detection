@@ -1,4 +1,3 @@
-# Install the project requirements before running this script.
 
 import pandas as pd
 import torch

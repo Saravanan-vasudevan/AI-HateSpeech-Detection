@@ -30,7 +30,6 @@ class HuggingFaceGenerative(BaseModel):
 
         self._load_models()
 
-    # -- internal helpers --
 
     def _get_model_path(self, kind: str) -> str:
         """Return local path if it exists, otherwise fall back to the Hub name."""
@@ -67,7 +66,6 @@ class HuggingFaceGenerative(BaseModel):
             print(f"Could not load generative model ({generative_path}): {e}")
             self.generative_pipeline = None
 
-    # -- BaseModel interface --
 
     def preprocess(self, text: str) -> str:
         if not isinstance(text, str):

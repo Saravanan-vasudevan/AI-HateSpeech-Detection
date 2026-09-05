@@ -1,26 +1,26 @@
-/* Color Variables based on your theme */
+
 :root {
-    /* Main Page Colors (Light Theme Default) */
+
     --page-bg: #E8E8E8;
     --page-text: #030303;
 
-    /* Login Box Colors (Dark Card on Light Page) */
+
     --box-bg: #030303;
     --box-text: #E8E8E8;
 
-    /* Accent Colors */
+
     --accent-orange: #FC8337;
     --accent-cyan: #1FBFCF;
     --accent-lime: #c2e812;
 
-    /* Derived/Subtle Colors (using palette colors for consistency) */
+
     --border-subtle: rgba(232, 232, 232, 0.2);
     --shadow-color: rgba(0, 0, 0, 0.4);
-    --input-border-focus: var(--accent-cyan); /* New variable for input focus */
-    --error-color: #FF6347; /* A subtle red for error messages */
+    --input-border-focus: var(--accent-cyan);
+    --error-color: #FF6347;
 }
 
-/* Base styles for the page container */
+
 .loginPageContainer {
     display: flex;
     justify-content: center;
@@ -32,7 +32,7 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Style for the main login box/card */
+
 .loginBox {
     background-color: var(--box-bg);
     color: var(--box-text);
@@ -83,14 +83,14 @@
     font-family: "Tilt Neon", sans-serif;
 }
 
-/* Styles for the Username/Password Form */
+
 .loginForm {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between input groups */
-    margin-top: 10px; /* Space above the form */
-    text-align: left; /* Align labels/inputs to the left */
-    width: 100%; /* Ensure form takes full width */
+    gap: 15px;
+    margin-top: 10px;
+    text-align: left;
+    width: 100%;
 }
 
 .formInstruction {
@@ -118,12 +118,12 @@
     padding: 12px 15px;
     border: 1px solid var(--border-subtle);
     border-radius: 8px;
-    background-color: rgba(232, 232, 232, 0.05); /* Slightly lighter background inside dark box */
+    background-color: rgba(232, 232, 232, 0.05);
     color: var(--box-text);
     font-size: 1em;
     font-family: "Tilt Neon", sans-serif;
     outline: none;
-    box-sizing: border-box; /* Include padding in width */
+    box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -143,7 +143,7 @@
     font-size: 1.2em;
     width: auto;
     margin-top: 15px;
-    align-self: center; /* Center the button in the column */
+    align-self: center;
 }
 
 .submitButton:disabled {
@@ -175,14 +175,14 @@
 }
 
 .errorMessage {
-    color: var(--error-color); /* Red for error messages */
+    color: var(--error-color);
     font-size: 0.9em;
     margin-bottom: 10px;
     text-align: center;
     font-weight: 500;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 600px) {
     .loginBox {
         padding: 30px 20px;
@@ -204,7 +204,7 @@
     }
 
     .loginForm {
-        padding: 0 10px; /* Add some internal padding for mobile form */
+        padding: 0 10px;
     }
 
     .submitButton, .backButton {

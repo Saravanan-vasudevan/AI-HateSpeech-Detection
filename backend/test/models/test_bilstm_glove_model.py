@@ -1,5 +1,5 @@
 import unittest
-from backend.models.bilstm_glove_model import BiLSTMGloveModel
+from app.models.bilstm_glove_model import BiLSTMGloveModel
 
 class TestBiLSTMGloveModel(unittest.TestCase):
 

@@ -7,38 +7,31 @@ from sklearn.metrics import classification_report
 from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, Trainer, TrainingArguments, EarlyStoppingCallback
 from datasets import Dataset
 
-# Config
 CSV_PATH = "davidson_cleaned.csv"
 TAG = "davidson"
 NUM_LABELS = 3
 LABEL_NAMES = ["safe", "offensive", "hate"]
 
-# Load dataset
 df = pd.read_csv(CSV_PATH)
 df = df[["text", "label"]].dropna()
 df["label"] = df["label"].astype(int)
 
-# Split data
 train_texts, val_texts, train_labels, val_labels = train_test_split(
     df["text"], df["label"], test_size=0.2, stratify=df["label"], random_state=42
 )
 
-# Tokenization
 tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased")
 train_encodings = tokenizer(list(train_texts), truncation=True, padding=True, max_length=128)
 val_encodings = tokenizer(list(val_texts), truncation=True, padding=True, max_length=128)
 
-# Dataset formatting
 train_dataset = Dataset.from_dict({**train_encodings, "label": list(train_labels)})
 val_dataset = Dataset.from_dict({**val_encodings, "label": list(val_labels)})
 
-# Model setup
 model = DistilBertForSequenceClassification.from_pretrained(
     "distilbert-base-uncased",
     num_labels=NUM_LABELS
 )
 
-# Training args
 training_args = TrainingArguments(
     output_dir=f"./results_{TAG}",
     evaluation_strategy="epoch",
@@ -57,7 +50,6 @@ training_args = TrainingArguments(
     report_to="none"
 )
 
-# Compute metrics
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
     preds = np.argmax(logits, axis=-1)
@@ -70,7 +62,6 @@ def compute_metrics(eval_pred):
         "f1": report["weighted avg"]["f1-score"]
     }
 
-# Trainer setup
 trainer = Trainer(
     model=model,
     args=training_args,
@@ -80,7 +71,6 @@ trainer = Trainer(
     callbacks=[EarlyStoppingCallback(early_stopping_patience=2)]
 )
 
-# Train and save
 trainer.train()
 model.save_pretrained(f"./model_{TAG}")
 tokenizer.save_pretrained(f"./model_{TAG}")
